@@ -16,6 +16,7 @@ const App = () => {
   return (
     <Router>
       <ThemeProvider theme={darkTheme}>
+        
         <NavBar />
         <Switch>
           <Route path="/login" component={Login} />

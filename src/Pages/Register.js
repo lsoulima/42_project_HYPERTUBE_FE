@@ -1,14 +1,12 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const ButtonAuth = styled.button`
   width: 100%;
@@ -223,8 +221,8 @@ export default function Login() {
                     width: "100%",
                   }}
                 >
-                  <Link href="#" variant="body2" style={{ color: "#fff" }}>
-                    {"Sign In"}
+                  <Link to="/login" style={{ color: "#fff" }}>
+                    Sign In
                   </Link>
                 </Grid>
               </Grid>

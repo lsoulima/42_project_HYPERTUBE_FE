@@ -83,6 +83,12 @@ const Wrapper = styled.div`
     margin: theme.spacing(3, 0, 2);
     background: red;
   }
+
+  @media (max-width: 768px) {
+    & {
+      height: auto;
+    }
+  }
 `;
 
 const useStyles = makeStyles((theme) => ({
@@ -97,7 +103,7 @@ export default function EditProfile() {
 
   return (
     <Wrapper>
-      <div className="contaoner">
+      <div className="container">
         <Container component="main" maxWidth="sm">
           <div className="paper">
             <Typography

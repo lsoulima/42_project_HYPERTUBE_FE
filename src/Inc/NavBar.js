@@ -13,9 +13,39 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import FaceIcon from "@material-ui/icons/Face";
-import Link from "@material-ui/core/Link";
+import { Link } from "react-router-dom";
 import { withNamespaces } from "react-i18next";
+import { FlagIcon } from "react-flag-kit";
+import styled from "styled-components";
+
 import i18n from "../i18n";
+
+const IconBtn = styled(IconButton)`
+  margin-right: 10px;
+  :hover {
+    background-color: rgba(255, 0, 0, 0.3);
+  }
+`;
+
+const NavButton = styled.div`
+  vertical-align: "middle";
+  border-radius: 15px;
+  text-align: center;
+  width: 150px;
+  padding: 10px;
+  margin-right: 10px;
+  :hover {
+    cursor: pointer;
+    background-color: rgba(255, 0, 0, 0.9);
+  }
+  .link {
+    color: #333;
+    font-size: 18px;
+    :hover {
+      text-decoration: none;
+    }
+  }
+`;
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -34,16 +64,7 @@ const useStyles = makeStyles((theme) => ({
       color: "red",
     },
   },
-  link: {
-    color: "#333",
-    fontSize: "18px",
-    marginRight: "10px",
-    width: "90px",
-    height: "30px",
-    textAlign: "center",
-    verticalAlign: "middle",
-    borderRadius: "10px",
-  },
+
   search: {
     position: "relative",
     borderRadius: theme.shape.borderRadius,
@@ -132,20 +153,26 @@ function PrimarySearchAppBar({ t }) {
   let history = useHistory();
 
   const menuId = "primary-search-account-menu";
-  // const renderMenu = (
-  //   <Menu
-  //     anchorEl={anchorEl}
-  //     anchorOrigin={{ vertical: "top", horizontal: "right" }}
-  //     id={menuId}
-  //     keepMounted
-  //     transformOrigin={{ vertical: "top", horizontal: "right" }}
-  //     open={isMenuOpen}
-  //     onClose={handleMenuClose}
-  //   >
-  //     <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-  //     <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-  //   </Menu>
-  // );
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={handleMenuClose}>
+        {" "}
+        <Link to="/edit">Profile</Link>
+      </MenuItem>
+      <MenuItem onClick={handleMenuClose}>
+        {" "}
+        <Link to="/login">Logout</Link>
+      </MenuItem>
+    </Menu>
+  );
 
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
@@ -158,32 +185,23 @@ function PrimarySearchAppBar({ t }) {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem
-        onClick={() => {
-          history.push("/register");
-        }}
-      >
+      <MenuItem>
         <IconButton aria-label="show 4 new mails" color="inherit">
           <AccountBoxIcon />
         </IconButton>
-        <p>Register</p>
+        <Link className="link" to="/register">
+          Register
+        </Link>
       </MenuItem>
-      <MenuItem
-        onClick={() => {
-          history.push("/login");
-        }}
-      >
+      <MenuItem>
         <IconButton aria-label="show 11 new notifications" color="inherit">
           <AccountBoxIcon />
         </IconButton>
-        <p>Login</p>
+        <Link className="link" to="/login">
+          Login
+        </Link>
       </MenuItem>
-      <MenuItem
-        onClick={handleProfileMenuOpen}
-        onClick={() => {
-          history.push("/edit");
-        }}
-      >
+      <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           aria-label="account of current user"
           aria-controls="primary-search-account-menu"
@@ -191,7 +209,9 @@ function PrimarySearchAppBar({ t }) {
         >
           <FaceIcon />
         </IconButton>
-        <p>Profile</p>
+        <Link className="link" to="/edit">
+          Profile
+        </Link>
       </MenuItem>
     </Menu>
   );
@@ -200,21 +220,8 @@ function PrimarySearchAppBar({ t }) {
     <div className={classes.grow}>
       <AppBar position="static" className={classes.appbar}>
         <Toolbar>
-          <img
-            src="./img/logo.png"
-            className={classes.logo}
-            onClick={() => {
-              history.push("/");
-            }}
-          />
-          <Typography
-            className={classes.title}
-            variant="h6"
-            noWrap
-            onClick={() => {
-              history.push("/");
-            }}
-          >
+          <img src="./img/logo.png" className={classes.logo} />
+          <Typography className={classes.title} variant="h6" noWrap>
             yperTube
           </Typography>
           <div className={classes.search}>
@@ -232,26 +239,25 @@ function PrimarySearchAppBar({ t }) {
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <button onClick={() => changeLanguage("fr")}>de</button>
-            <button onClick={() => changeLanguage("en")}>en</button>
-            <Link
-              className={classes.link}
-              onClick={preventDefault}
-              onClick={() => {
-                history.push("/login");
-              }}
-            >
-              {t("loginTr")}
-            </Link>
-            <Link
-              className={classes.link}
-              onClick={preventDefault}
-              onClick={() => {
-                history.push("/register");
-              }}
-            >
-              Register
-            </Link>
+            {localStorage.getItem("i18nextLng") === "en" ? (
+              <IconBtn onClick={() => changeLanguage("fr")}>
+                <FlagIcon code="FR" size={25} />
+              </IconBtn>
+            ) : (
+              <IconBtn onClick={() => changeLanguage("en")}>
+                <FlagIcon code="US" size={25} />
+              </IconBtn>
+            )}
+            <NavButton>
+              <Link className="link" to="/login">
+                {t("loginTr")}
+              </Link>
+            </NavButton>
+            <NavButton>
+              <Link className="link" to="/register">
+                {t("registerTr")}
+              </Link>
+            </NavButton>
             <IconButton
               edge="end"
               aria-label="account of current user"
@@ -280,7 +286,7 @@ function PrimarySearchAppBar({ t }) {
         </Toolbar>
       </AppBar>
       {renderMobileMenu}
-      {/* {renderMenu} */}
+      {renderMenu}
     </div>
   );
 }

@@ -1,15 +1,13 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
+import { useHistory } from "react-router-dom";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import styled from "styled-components";
-import Divider from "@material-ui/core/Divider";
 
 const ButtonAuth = styled.button`
   width: 100%;
@@ -26,6 +24,17 @@ const ButtonAuth = styled.button`
     left: 20px;
     font-size: 20px;
     margin: auto;
+  }
+  @media (max-width: 425px) {
+    span {
+      display: none;
+    }
+    i {
+      font-size: 20px;
+      position: absolute;
+      left: 45%;
+      top: 15%;
+    }
   }
 `;
 
@@ -101,6 +110,7 @@ const useStyles = makeStyles((theme) => ({}));
 
 export default function Login() {
   const classes = useStyles();
+  let history = useHistory();
 
   return (
     <Wrapper>
@@ -162,22 +172,39 @@ export default function Login() {
                 OR
               </h4>
               <ButtonAuth>
-                <i class="lab la-google-plus-g"></i>Continue With Goolge
+                <i className="lab la-google-plus-g"></i>
+                <span>Continue With Goolge</span>
               </ButtonAuth>
               <ButtonAuth>
-                <i class="lab la-github"></i>Continue With Github
+                <i className="lab la-github"></i>
+                <span>Continue With Github</span>
               </ButtonAuth>
               <ButtonAuth>
-                <i>42</i>Continue With Goolge
+                <i>42</i>
+                <span>Continue With Intra</span>
               </ButtonAuth>
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2" style={{ color: "#fff" }}>
+                  <Link
+                    href="#"
+                    variant="body2"
+                    style={{ color: "#fff" }}
+                    onClick={() => {
+                      history.push("/forgotpswd");
+                    }}
+                  >
                     Forgot password?
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2" style={{ color: "#fff" }}>
+                  <Link
+                    href="#"
+                    variant="body2"
+                    style={{ color: "#fff" }}
+                    onClick={() => {
+                      history.push("/register");
+                    }}
+                  >
                     {"Sign Up"}
                   </Link>
                 </Grid>
