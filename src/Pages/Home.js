@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
-  height: 100%;
+  /* height: 100%; */
   background: url("./img/net.jpg") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;

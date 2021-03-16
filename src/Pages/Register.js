@@ -67,9 +67,14 @@ const WhiteBorderTextField = styled(TextField)`
 
 const Wrapper = styled.div`
   & {
-    background-image: url("./img/net.jpg");
-    background-repeat: no-repeat;
-    background-position: center;
+    background: url("./img/net.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+
+    /* Set up proportionate scaling */
+    width: 100%;
   }
   .container {
     padding-top: 100px;
@@ -122,108 +127,126 @@ export default function Login() {
               Sign in
             </Typography>
             <form className="form" noValidate>
-              <WhiteBorderTextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="firstname"
-                label="First Name"
-                name="firstname"
-                autoComplete="firstname"
-                autoFocus
-              />
-              <WhiteBorderTextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="lastname"
-                label="Last Name"
-                name="lastname"
-              />
-              <WhiteBorderTextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="username"
-                label="User Name"
-                name="username"
-              />
-              <WhiteBorderTextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-              />
-              <WhiteBorderTextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-              />
-              <WhiteBorderTextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                name="checkpassword"
-                label="Retype Password"
-                type="password"
-                id="password"
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className="submit"
-              >
-                Sign Up
-              </Button>
-              <h4
-                style={{
-                  color: "#fff",
-                  textAlign: "center",
-                  marginTop: "20px",
-                  marginBottom: "20px",
-                }}
-              >
-                OR
-              </h4>
-              <ButtonAuth>
-                <i class="lab la-google-plus-g"></i>
-                <span>Continue With Goolge</span>
-              </ButtonAuth>
-              <ButtonAuth>
-                <i class="lab la-github"></i>
-                <span>Continue With Github</span>
-              </ButtonAuth>
-              <ButtonAuth>
-                <i>42</i>
-                <span>Continue With Intra</span>
-              </ButtonAuth>
-              <Grid container>
-                <Grid
-                  item
-                  style={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    width: "100%",
-                  }}
-                >
-                  <Link to="/login" style={{ color: "#fff" }}>
-                    Sign In
-                  </Link>
+              <Grid container spacing={1}>
+                <Grid item xs={12} md={6}>
+                  <WhiteBorderTextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="firstname"
+                    label="First Name"
+                    name="firstname"
+                    autoComplete="firstname"
+                    autoFocus
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <WhiteBorderTextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="lastname"
+                    label="Last Name"
+                    name="lastname"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <WhiteBorderTextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="username"
+                    label="User Name"
+                    name="username"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <WhiteBorderTextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="email"
+                    label="Email Address"
+                    name="email"
+                    autoComplete="email"
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <WhiteBorderTextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="password"
+                    label="Password"
+                    type="password"
+                    id="password"
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <WhiteBorderTextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="checkpassword"
+                    label="Retype Password"
+                    type="password"
+                    id="password"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className="submit"
+                  >
+                    Sign Up
+                  </Button>
+                </Grid>
+                <Grid item xs={12}>
+                  <h4
+                    style={{
+                      color: "#fff",
+                      textAlign: "center",
+                      marginTop: "20px",
+                      marginBottom: "20px",
+                    }}
+                  >
+                    OR
+                  </h4>
+                </Grid>
+                <ButtonAuth>
+                  <i class="lab la-google-plus-g"></i>
+                  <span>Continue With Goolge</span>
+                </ButtonAuth>
+                <ButtonAuth>
+                  <i class="lab la-github"></i>
+                  <span>Continue With Github</span>
+                </ButtonAuth>
+                <ButtonAuth>
+                  <i>42</i>
+                  <span>Continue With Intra</span>
+                </ButtonAuth>
+                <Grid container>
+                  <Grid
+                    item
+                    style={{
+                      display: "flex",
+                      justifyContent: "flex-end",
+                      width: "100%",
+                    }}
+                  >
+                    <Link to="/login" style={{ color: "#fff" }}>
+                      Sign In
+                    </Link>
+                  </Grid>
                 </Grid>
               </Grid>
             </form>

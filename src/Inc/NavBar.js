@@ -121,7 +121,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function PrimarySearchAppBar({ t }) {
+function NavBar({ t }) {
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
   };
@@ -164,11 +164,9 @@ function PrimarySearchAppBar({ t }) {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>
-        {" "}
         <Link to="/edit">Profile</Link>
       </MenuItem>
       <MenuItem onClick={handleMenuClose}>
-        {" "}
         <Link to="/login">Logout</Link>
       </MenuItem>
     </Menu>
@@ -194,7 +192,7 @@ function PrimarySearchAppBar({ t }) {
         </Link>
       </MenuItem>
       <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
+        <IconButton color="inherit">
           <AccountBoxIcon />
         </IconButton>
         <Link className="link" to="/login">
@@ -202,11 +200,7 @@ function PrimarySearchAppBar({ t }) {
         </Link>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-        >
+        <IconButton>
           <FaceIcon />
         </IconButton>
         <Link className="link" to="/edit">
@@ -220,10 +214,17 @@ function PrimarySearchAppBar({ t }) {
     <div className={classes.grow}>
       <AppBar position="static" className={classes.appbar}>
         <Toolbar>
-          <img src="./img/logo.png" className={classes.logo} />
-          <Typography className={classes.title} variant="h6" noWrap>
-            yperTube
-          </Typography>
+          <div
+            onClick={() => {
+              history.push("/");
+            }}
+            style={{ display: "flex", cursor: "pointer" }}
+          >
+            <img src="./img/logo.png" className={classes.logo} />
+            <Typography className={classes.title} variant="h4" noWrap>
+              yperTube
+            </Typography>
+          </div>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
@@ -265,9 +266,6 @@ function PrimarySearchAppBar({ t }) {
               aria-haspopup="true"
               onClick={handleProfileMenuOpen}
               style={{ background: "rgba(255,0,0,0.7)" }}
-              onClick={() => {
-                history.push("/edit");
-              }}
             >
               <AccountCircle style={{ color: "#fff" }} />
             </IconButton>
@@ -291,4 +289,4 @@ function PrimarySearchAppBar({ t }) {
   );
 }
 
-export default withNamespaces()(PrimarySearchAppBar);
+export default withNamespaces()(NavBar);

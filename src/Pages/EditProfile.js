@@ -52,14 +52,20 @@ const WhiteBorderTextField = styled(TextField)`
 
 const Wrapper = styled.div`
   & {
+    background: url("./img/net.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+
+    /* Set up proportionate scaling */
+    width: 100%;
     height: 100%;
-    background-image: url("./img/net.jpg");
-    background-repeat: no-repeat;
-    background-position: center;
   }
   .container {
     padding-top: 100px;
     height: 100%;
+    min-height: 100%;
     width: 100%;
     background: rgba(51, 51, 51, 0.5);
     padding-bottom: 100px;
