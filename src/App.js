@@ -9,19 +9,19 @@ import { GlobalStyles } from "./global";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import Footer from "./Inc/Footer";
-
 import EditProfile from "./Pages/EditProfile";
+import Library from "./Pages/Library";
 
 const App = () => {
   return (
     <Router>
       <ThemeProvider theme={darkTheme}>
-        
         <NavBar />
         <Switch>
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <Route path="/edit" component={EditProfile} />
+          <Route path="/library" component={Library} />
           <Route path="/" component={Home} />
         </Switch>
         <Footer />
