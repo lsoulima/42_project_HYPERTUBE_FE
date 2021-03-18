@@ -74,7 +74,11 @@ const Wrapper = styled.div`
     background-size: cover;
 
     /* Set up proportionate scaling */
+    height: 100%;
     width: 100%;
+    @media (max-width: 768px) {
+      height: auto;
+    }
   }
   .container {
     padding-top: 100px;
@@ -124,7 +128,7 @@ export default function Login() {
                 color: "#fff",
               }}
             >
-              Sign in
+              Sign Up
             </Typography>
             <form className="form" noValidate>
               <Grid container spacing={1}>
