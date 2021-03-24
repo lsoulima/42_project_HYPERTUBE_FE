@@ -1,13 +1,19 @@
-export const lightTheme = {
-  body: "#E2E2E2",
-  text: "#363537",
-  toggleBorder: "#FFF",
-  gradient: "linear-gradient(#39598A, #79D7ED)",
+import React from "react";
+import { ThemeProvider } from "styled-components";
+
+const themeCheck = localStorage.getItem("theme");
+
+// dark light
+const theme = {
+  colors: {
+    background: themeCheck === "dark" ? "#202026" : "#fff",
+    background_grey_2: "hsla(0,0%,100%,0.2)",
+    background_grey_5: "hsla(0,0%,100%,0.5)",
+  },
 };
 
-export const darkTheme = {
-  body: "#363537",
-  text: "#FAFAFA",
-  toggleBorder: "#6B8096",
-  gradient: "linear-gradient(#091236, #1E215D)",
-};
+const Theme = ({ children }) => (
+  <ThemeProvider theme={theme}>{children}</ThemeProvider>
+);
+
+export default Theme;

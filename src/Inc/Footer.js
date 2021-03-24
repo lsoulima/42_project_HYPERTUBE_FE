@@ -4,12 +4,17 @@ import Link from "@material-ui/core/Link";
 import styled from "styled-components";
 
 const Container = styled.div`
-  height: 50px;
+  height: 100px;
+  background: #202026;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 export default function Footer() {
   return (
     <Container>
-      <Typography variant="body2" color="textSecondary" align="center">
+      <Typography variant="body2" color="" align="center">
         {"Copyright © "}
         <Link color="inherit" href="https://material-ui.com/">
           Your Website

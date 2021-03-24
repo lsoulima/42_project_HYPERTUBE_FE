@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -11,41 +11,13 @@ import Menu from "@material-ui/core/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MoreIcon from "@material-ui/icons/MoreVert";
-import AccountBoxIcon from "@material-ui/icons/AccountBox";
-import FaceIcon from "@material-ui/icons/Face";
 import { Link } from "react-router-dom";
 import { withNamespaces } from "react-i18next";
 import { FlagIcon } from "react-flag-kit";
 import styled from "styled-components";
+// import moonSvg from "./img/moon.svg";
 
 import i18n from "../i18n";
-
-const IconBtn = styled(IconButton)`
-  margin-right: 10px;
-  :hover {
-    background-color: rgba(255, 0, 0, 0.3);
-  }
-`;
-
-const NavButton = styled.div`
-  vertical-align: "middle";
-  border-radius: 15px;
-  text-align: center;
-  width: 150px;
-  padding: 10px;
-  margin-right: 10px;
-  :hover {
-    cursor: pointer;
-    background-color: rgba(255, 0, 0, 0.9);
-  }
-  .link {
-    color: #333;
-    font-size: 18px;
-    :hover {
-      text-decoration: none;
-    }
-  }
-`;
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -55,13 +27,15 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   appbar: {
-    background: "rgba(255,255,255,0.5)",
+    background: "#202026",
   },
   title: {
     display: "none",
+
     [theme.breakpoints.up("sm")]: {
-      display: "block",
+      display: "inline",
       color: "red",
+      cursor: "pointer",
     },
   },
 
@@ -93,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    color: "#333",
+    color: "#fff",
   },
   inputRoot: {},
   inputInput: {
@@ -101,6 +75,7 @@ const useStyles = makeStyles((theme) => ({
     // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
     transition: theme.transitions.create("width"),
+    color: "#fff",
     width: "100%",
     [theme.breakpoints.up("md")]: {
       width: "20ch",
@@ -120,8 +95,105 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+const IconBtn = styled(IconButton)`
+  margin-right: 10px;
+  :hover {
+    background-color: hsla(0, 0%, 100%, 0.2);
+  }
+`;
 
-function NavBar({ t }) {
+const NavButton = styled.div`
+  vertical-align: "middle";
+  border-radius: 15px;
+  text-align: center;
+  padding: 10px 15px;
+  margin-right: 10px;
+  :hover {
+    cursor: pointer;
+    background-color: hsla(0, 0%, 100%, 0.2);
+  }
+  .link {
+    color: #fff;
+    font-size: 18px;
+    :hover {
+      text-decoration: none;
+    }
+  }
+`;
+
+const ToggleTheme = styled.div`
+  height: 15px;
+  width: 45px;
+  border: 1px solid white;
+  border-radius: 50px;
+  position: relative;
+  .monWraper {
+    position: absolute;
+    display: block;
+    width: 26px;
+    height: 26px;
+    background: white;
+    border-radius: 50%;
+    bottom: -45%;
+    right: -39%;
+    transition: all 0.3s linear;
+  }
+  img {
+    position: absolute;
+    width: 13px;
+    height: 15px;
+    top: 5px;
+    right: 6px;
+  }
+`;
+
+const MobileMenu = styled(Menu)`
+  .MuiPaper-root {
+    background: hsla(0, 0%, 100%, 0.2) !important;
+  }
+  a {
+    color: #fff;
+  }
+  svg {
+    color: #fff;
+  }
+`;
+const DesktopMenu = styled(Menu)`
+  .MuiPaper-root {
+    background: hsla(0, 0%, 100%, 0.2);
+    top: 40px !important;
+  }
+`;
+
+function NavBar({ t, mytheme, settheme }) {
+  const changeTheme = () => {
+    const themeCheck = localStorage.getItem("theme");
+    if (themeCheck === "light") {
+      settheme({
+        ...mytheme,
+        background: "#202026",
+        text: "#fff",
+        background_btn: "#fff",
+        text_background: "black",
+        background_grey_2: "hsla(0,0%,100%,0.2)",
+        background_grey_5: "hsla(0,0%,100%,0.5)",
+        cards: "hsla(0,0%,100%,0.13)",
+      });
+      localStorage.setItem("theme", "dark");
+    } else {
+      settheme({
+        ...mytheme,
+        background: "linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);",
+        text: "#333",
+        background_btn: "black",
+        text_background: "#fff",
+        background_grey_2: "black",
+        background_grey_5: "black",
+        cards: "#fff",
+      });
+      localStorage.setItem("theme", "light");
+    }
+  };
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
   };
@@ -154,7 +226,7 @@ function NavBar({ t }) {
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
-    <Menu
+    <DesktopMenu
       anchorEl={anchorEl}
       anchorOrigin={{ vertical: "top", horizontal: "right" }}
       id={menuId}
@@ -163,18 +235,18 @@ function NavBar({ t }) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>
-        <Link to="/edit">Profile</Link>
-      </MenuItem>
-      <MenuItem onClick={handleMenuClose}>
-        <Link to="/login">Logout</Link>
-      </MenuItem>
-    </Menu>
+      <Link to="/edit" style={{ color: "#fff" }}>
+        <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      </Link>
+      <Link to="/login" style={{ color: "#fff" }}>
+        <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+      </Link>
+    </DesktopMenu>
   );
 
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
-    <Menu
+    <MobileMenu
       anchorEl={mobileMoreAnchorEl}
       anchorOrigin={{ vertical: "top", horizontal: "right" }}
       id={mobileMenuId}
@@ -183,42 +255,33 @@ function NavBar({ t }) {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <AccountBoxIcon />
-        </IconButton>
-        <Link className="link" to="/register">
-          Register
-        </Link>
-      </MenuItem>
-      <MenuItem>
-        <IconButton color="inherit">
-          <AccountBoxIcon />
-        </IconButton>
-        <Link className="link" to="/login">
-          Login
-        </Link>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton>
-          <FaceIcon />
-        </IconButton>
-        <Link className="link" to="/edit">
-          Profile
-        </Link>
-      </MenuItem>
-    </Menu>
+      <Link className="link" to="/register">
+        <MenuItem>Register</MenuItem>
+      </Link>
+      <Link className="link" to="/login">
+        <MenuItem>Login</MenuItem>
+      </Link>
+      <Link className="link" to="/edit">
+        <MenuItem onClick={handleProfileMenuOpen}>Profile</MenuItem>
+      </Link>
+    </MobileMenu>
   );
+
+  const [theme, setTheme] = useState(false);
+  const handlePosition = () => {
+    setTheme((current) => !current);
+    console.log(theme);
+  };
 
   return (
     <div className={classes.grow}>
       <AppBar position="static" className={classes.appbar}>
         <Toolbar>
           <div
+            className={classes.title}
             onClick={() => {
               history.push("/");
             }}
-            style={{ display: "flex", cursor: "pointer" }}
           >
             <img src="./img/logo.png" className={classes.logo} />
             <Typography className={classes.title} variant="h4" noWrap>
@@ -249,6 +312,33 @@ function NavBar({ t }) {
                 <FlagIcon code="US" size={25} />
               </IconBtn>
             )}
+
+            {/* check dark theme */}
+            <ToggleTheme
+              onClick={() => handlePosition()}
+              style={
+                theme
+                  ? { border: "1px solid white" }
+                  : { border: "1px solid gray" }
+              }
+            >
+              <span
+                onClick={() => changeTheme()}
+                className="monWraper"
+                style={
+                  theme
+                    ? { transform: "translateX(-15px)", background: "white" }
+                    : { transform: "translateX(-40px)", background: "gray" }
+                }
+              >
+                <img
+                  src="./img/moon.svg"
+                  alt="moon"
+                  style={theme ? { color: "white" } : { color: "yellow" }}
+                />
+              </span>
+            </ToggleTheme>
+
             <NavButton>
               <Link className="link" to="/login">
                 {t("loginTr")}
@@ -265,7 +355,7 @@ function NavBar({ t }) {
               aria-controls={menuId}
               aria-haspopup="true"
               onClick={handleProfileMenuOpen}
-              style={{ background: "rgba(255,0,0,0.7)" }}
+              style={{ background: "red" }}
             >
               <AccountCircle style={{ color: "#fff" }} />
             </IconButton>

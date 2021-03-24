@@ -6,16 +6,14 @@
   list-style-type: none;
   text-decoration: none;
   font-family: "Poppins", sans-serif;
-  
 }
 
 html,
 body,
 #root {
   height: 100%;
-  
 }
-#root{
+/* #root{
   background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
 
-}
+} */
