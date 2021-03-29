@@ -197,7 +197,7 @@ function NavBar({ t, mytheme, settheme }) {
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
   };
-  const preventDefault = (event) => event.preventDefault();
+  // const preventDefault = (event) => event.preventDefault();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -283,7 +283,7 @@ function NavBar({ t, mytheme, settheme }) {
               history.push("/");
             }}
           >
-            <img src="./img/logo.png" className={classes.logo} />
+            <img src="./img/logo.png" className={classes.logo} alt="logo" />
             <Typography className={classes.title} variant="h4" noWrap>
               yperTube
             </Typography>

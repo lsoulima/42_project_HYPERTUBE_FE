@@ -2,122 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import ReactPlayer from "react-player";
 
-// const movies = [
-//   {
-//     Name: "Nature Unleashed: Avalanche",
-//     Year: "2004",
-//     Cover:
-//       "https://img.yts.mx/assets/images/movies/nature_unleashed_avalanche_2004/large-cover.jpg",
-//     isWatched: true,
-//     imdbRating: "3.7",
-//     imdbCode: "tt0363448",
-//   },
-//   {
-//     Name: "Summer Daydream",
-//     Year: "2018",
-//     Cover:
-//       "https://yts.mx/assets/images/movies/summer_daydream_2018/large-cover.jpg",
-//     isWatched: true,
-//     imdbRating: "8.1",
-//     imdbCode: "tt4940526",
-//   },
-//   {
-//     Name: "Children of the Tsunami",
-//     Year: "2012",
-//     Cover:
-//       "https://yts.mx/assets/images/movies/children_of_the_tsunami_2012/large-cover.jpg",
-//     isWatched: false,
-//     imdbRating: "5.6",
-//     imdbCode: "tt2368687",
-//   },
-//   {
-//     Name: "7 ore per farti innamorare",
-//     Year: "2020",
-//     Cover:
-//       "https://yts.mx/assets/images/movies/7_ore_per_farti_innamorare_2020/large-cover.jpg",
-//     isWatched: true,
-//     imdbRating: "5.9",
-//     imdbCode: "tt10814876",
-//   },
-//   {
-//     Name: "Back to the 90s",
-//     Year: "2015",
-//     Cover:
-//       "https://yts.mx/assets/images/movies/back_to_the_90s_2015/large-cover.jpg",
-//     isWatched: true,
-//     imdbRating: "6.5",
-//     imdbCode: "tt4556700",
-//   },
-//   {
-//     Name: "U2's Beautiful Day",
-//     Year: "2002",
-//     Cover:
-//       "https://yts.mx/assets/images/movies/u2s_beautiful_day_2002/large-cover.jpg",
-//     isWatched: false,
-//     imdbRating: "8.7",
-//     imdbCode: "tt0339832",
-//   },
-//   ,
-//   {
-//     Name: "The Poker House",
-//     Year: "2008",
-//     Cover:
-//       "https://yts.mx/assets/images/movies/the_poker_house_2008/large-cover.jpg",
-//     isWatched: false,
-//     imdbRating: "6.4",
-//     imdbCode: "tt1014806",
-//   },
-//   ,
-//   {
-//     Name: "TFW NO GF",
-//     Year: "2020",
-//     Cover: "https://yts.mx/assets/images/movies/tfw_no_gf_2020/large-cover.jpg",
-//     isWatched: false,
-//     imdbRating: "5.9",
-//     imdbCode: "tt11602648",
-//   },
-//   ,
-//   {
-//     Name: "Alone in the Dark",
-//     Year: "1982",
-//     Cover:
-//       "https://yts.mx/assets/images/movies/alone_in_the_dark_1982/large-cover.jpg",
-//     isWatched: false,
-//     imdbRating: "6.1",
-//     imdbCode: "tt0083542",
-//   },
-//   ,
-//   {
-//     Name: "Cabras da Peste",
-//     Year: "2021",
-//     Cover:
-//       "https://yts.mx/assets/images/movies/cabras_da_peste_2021/large-cover.jpg",
-//     isWatched: false,
-//     imdbRating: "0",
-//     imdbCode: "tt14111726",
-//   },
-//   ,
-//   {
-//     Name: "Deadly Illusions",
-//     Year: "2021",
-//     Cover:
-//       "https://yts.mx/assets/images/movies/deadly_illusions_2021/large-cover.jpg",
-//     isWatched: false,
-//     imdbRating: "8.9",
-//     imdbCode: "tt7897330",
-//   },
-//   ,
-//   {
-//     Name: "Friendly Monsters: A Monster Holiday",
-//     Year: "1994",
-//     Cover:
-//       "https://yts.mx/assets/images/movies/friendly_monsters_a_monster_holiday_1994/large-cover.jpg",
-//     isWatched: true,
-//     imdbRating: "7.4",
-//     imdbCode: "tt2833106",
-//   },
-// ];
-
 const Container = styled.div`
   padding-top: 100px;
   display: flex;
@@ -423,7 +307,10 @@ export default function Stream() {
         <MovieDetailes>
           <div className="movie_section">
             <div>
-              <img src="https://yts.mx/assets/images/movies/deadly_illusions_2021/large-cover.jpg" />
+              <img
+                src="https://yts.mx/assets/images/movies/deadly_illusions_2021/large-cover.jpg"
+                alt="cover"
+              />
             </div>
             <div>Add to Favorie</div>
           </div>
@@ -474,6 +361,7 @@ export default function Stream() {
                   <img
                     class="cover"
                     src="https://yts.mx/assets/images/movies/deadly_illusions_2021/large-cover.jpg"
+                    alt="cover"
                   />
                   <h1>The Poker House</h1>
                   <h4>2017, David Ayer</h4>

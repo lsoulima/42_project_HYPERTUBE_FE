@@ -2,7 +2,6 @@ import React from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import styled from "styled-components";
 import Grid from "@material-ui/core/Grid";
@@ -97,16 +96,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const useStyles = makeStyles((theme) => ({
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
-  },
-}));
-
 export default function EditProfile() {
-  const classes = useStyles();
-
   return (
     <Wrapper>
       <div className="container">
@@ -131,7 +121,7 @@ export default function EditProfile() {
                   style={{ margin: "20px 0 20px 0", textAlign: "center" }}
                 >
                   <LabelImage type="file">
-                    <img src="./img/avatar.jpeg" />
+                    <img src="./img/avatar.jpeg" alt="avatar" />
                     <input type="file" />
                   </LabelImage>
                 </Grid>
