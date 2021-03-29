@@ -226,7 +226,7 @@ export default function Profile() {
             pagination={false}
             // showArrows={false}
             enableMouseSwipe
-            // enableAutoPlay
+            enableAutoPlay
             autoPlaySpeed={1500}
           >
             {movies.map((movie) => (
