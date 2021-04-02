@@ -1,36 +1,52 @@
 import axios from "axios";
 
 const API_URL = "http://localhost:3001/api/users/";
-
-const register = (username, email, password) => {
-  return axios.post(API_URL + "register", {
-    username,
-    email,
-    password,
-  });
+//* GET DATA PROFILE
+const getProfile = (token) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  return axios.get(API_URL + "profile", { config });
+};
+//* GET DATA OTHERS PROFILE BY ID
+const findProfileById = (token, id) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  return axios.get(API_URL + "find/" + id, { config });
+};
+//* GET DATA OTHERS PROFILE BY USERNAME
+const findProfileByUsername = (token, username) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  return axios.get(API_URL + "find/" + username, { config });
 };
 
-const login = (username, password) => {
-  return axios
-    .post(API_URL + "login", {
-      username,
-      password,
-    })
-    .then((response) => {
-      if (response.data.accessToken) {
-        localStorage.setItem("user", JSON.stringify(response.data));
-      }
+//EDIT USER PROFILE
 
-      return response.data;
-    });
-};
-
-const logout = () => {
-  localStorage.removeItem("user");
+const settings = (data) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  return axios.patch(API_URL + "edit/informations", data, { config });
 };
 
 export default {
-  register,
-  login,
-  logout,
+  getProfile,
+  findProfileByUsername,
+  findProfileById,
+  settings,
 };
