@@ -15,10 +15,8 @@ import { Link } from "react-router-dom";
 import { withNamespaces } from "react-i18next";
 import { FlagIcon } from "react-flag-kit";
 import styled from "styled-components";
-// import moonSvg from "./img/moon.svg";
 
 import i18n from "../i18n";
-import { light } from "@material-ui/core/styles/createPalette";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -235,12 +233,11 @@ function NavBar({ t, mytheme, settheme }) {
       keepMounted
       transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <Link to="/edit" style={{ color: "#fff" }}>
+      onClose={handleMenuClose}>
+      <Link to='/edit' style={{ color: "#fff" }}>
         <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       </Link>
-      <Link to="/login" style={{ color: "#fff" }}>
+      <Link to='/login' style={{ color: "#fff" }}>
         <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
       </Link>
     </DesktopMenu>
@@ -255,15 +252,14 @@ function NavBar({ t, mytheme, settheme }) {
       keepMounted
       transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      <Link className="link" to="/register">
+      onClose={handleMobileMenuClose}>
+      <Link className='link' to='/register'>
         <MenuItem>Register</MenuItem>
       </Link>
-      <Link className="link" to="/login">
+      <Link className='link' to='/login'>
         <MenuItem>Login</MenuItem>
       </Link>
-      <Link className="link" to="/edit">
+      <Link className='link' to='/edit'>
         <MenuItem onClick={handleProfileMenuOpen}>Profile</MenuItem>
       </Link>
     </MobileMenu>
@@ -285,16 +281,15 @@ function NavBar({ t, mytheme, settheme }) {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="static" className={classes.appbar}>
+      <AppBar position='static' className={classes.appbar}>
         <Toolbar>
           <div
             className={classes.title}
             onClick={() => {
               history.push("/");
-            }}
-          >
-            <img src="./img/logo.png" className={classes.logo} alt="logo" />
-            <Typography className={classes.title} variant="h4" noWrap>
+            }}>
+            <img src='./img/logo.png' className={classes.logo} alt='logo' />
+            <Typography className={classes.title} variant='h4' noWrap>
               yperTube
             </Typography>
           </div>
@@ -303,7 +298,7 @@ function NavBar({ t, mytheme, settheme }) {
               <SearchIcon />
             </div>
             <InputBase
-              placeholder="Search…"
+              placeholder='Search…'
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
@@ -315,11 +310,11 @@ function NavBar({ t, mytheme, settheme }) {
           <div className={classes.sectionDesktop}>
             {localStorage.getItem("i18nextLng") === "en" ? (
               <IconBtn onClick={() => changeLanguage("fr")}>
-                <FlagIcon code="FR" size={25} />
+                <FlagIcon code='FR' size={25} />
               </IconBtn>
             ) : (
               <IconBtn onClick={() => changeLanguage("en")}>
-                <FlagIcon code="US" size={25} />
+                <FlagIcon code='US' size={25} />
               </IconBtn>
             )}
 
@@ -330,53 +325,49 @@ function NavBar({ t, mytheme, settheme }) {
                 theme
                   ? { border: "1px solid white" }
                   : { border: "1px solid gray" }
-              }
-            >
+              }>
               <span
-                className="monWraper"
+                className='monWraper'
                 style={
                   theme
                     ? { transform: "translateX(-15px)", background: "white" }
                     : { transform: "translateX(-40px)", background: "gray" }
-                }
-              >
+                }>
                 <img
-                  src="./img/moon.svg"
-                  alt="moon"
+                  src='./img/moon.svg'
+                  alt='moon'
                   style={theme ? { color: "white" } : { color: "yellow" }}
                 />
               </span>
             </ToggleTheme>
 
             <NavButton>
-              <Link className="link" to="/login">
+              <Link className='link' to='/login'>
                 {t("loginTr")}
               </Link>
             </NavButton>
             <NavButton>
-              <Link className="link" to="/register">
+              <Link className='link' to='/register'>
                 {t("registerTr")}
               </Link>
             </NavButton>
             <IconButton
-              edge="end"
-              aria-label="account of current user"
+              edge='end'
+              aria-label='account of current user'
               aria-controls={menuId}
-              aria-haspopup="true"
+              aria-haspopup='true'
               onClick={handleProfileMenuOpen}
-              style={{ background: "red" }}
-            >
+              style={{ background: "red" }}>
               <AccountCircle style={{ color: "#fff" }} />
             </IconButton>
           </div>
           <div className={classes.sectionMobile}>
             <IconButton
-              aria-label="show more"
+              aria-label='show more'
               aria-controls={mobileMenuId}
-              aria-haspopup="true"
+              aria-haspopup='true'
               onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
+              color='inherit'>
               <MoreIcon style={{ color: "red" }} />
             </IconButton>
           </div>

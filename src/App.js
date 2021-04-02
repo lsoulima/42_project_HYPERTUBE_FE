@@ -9,7 +9,6 @@ import Footer from "./Inc/Footer";
 import EditProfile from "./Pages/EditProfile";
 import Library from "./Pages/Library";
 import Stream from "./Pages/Stream";
-import { ThemeProvider } from "styled-components";
 import { useState } from "react";
 import Profile from "./Pages/Profile";
 
@@ -40,19 +39,17 @@ const App = () => {
 
   return (
     <Router>
-      <ThemeProvider theme={theme}>
-        <NavBar mytheme={theme} settheme={setTheme} />
-        <Switch>
-          <Route path="/login" component={Login} />
-          <Route path="/register" component={Register} />
-          <Route path="/edit" component={EditProfile} />
-          <Route path="/library" component={Library} />
-          <Route path="/stream" component={Stream} />
-          <Route path="/profile" component={Profile} />
-          <Route path="/" component={Home} />
-        </Switch>
-        <Footer />
-      </ThemeProvider>
+      <NavBar mytheme={theme} settheme={setTheme} />
+      <Switch>
+        <Route path='/login' component={Login} />
+        <Route path='/register' component={Register} />
+        <Route path='/edit' component={EditProfile} />
+        <Route path='/library' component={Library} />
+        <Route path='/stream' component={Stream} />
+        <Route path='/profile' component={Profile} />
+        <Route path='/' component={Home} />
+      </Switch>
+      <Footer />
     </Router>
   );
 };
