@@ -18,6 +18,7 @@ import styled from "styled-components";
 // import moonSvg from "./img/moon.svg";
 
 import i18n from "../i18n";
+import { light } from "@material-ui/core/styles/createPalette";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -167,6 +168,7 @@ const DesktopMenu = styled(Menu)`
 
 function NavBar({ t, mytheme, settheme }) {
   const changeTheme = () => {
+    console.log("second fucntion handle position");
     const themeCheck = localStorage.getItem("theme");
     if (themeCheck === "light") {
       settheme({
@@ -267,10 +269,18 @@ function NavBar({ t, mytheme, settheme }) {
     </MobileMenu>
   );
 
-  const [theme, setTheme] = useState(false);
+  const [theme, setTheme] = useState(
+    localStorage.getItem("theme") === "dark"
+      ? false
+      : localStorage.getItem("theme") === "light"
+      ? true
+      : false
+  );
+  console.log(theme);
   const handlePosition = () => {
     setTheme((current) => !current);
-    console.log(theme);
+    console.log("first fucntion handle position");
+    changeTheme();
   };
 
   return (
@@ -323,7 +333,6 @@ function NavBar({ t, mytheme, settheme }) {
               }
             >
               <span
-                onClick={() => changeTheme()}
                 className="monWraper"
                 style={
                   theme
