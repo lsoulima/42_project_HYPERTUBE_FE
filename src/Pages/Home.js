@@ -124,6 +124,7 @@ export default function Home() {
       <div className="container-tran">
         <div className="website-desc">
           <div>
+            <audio src="../../public/hyper.mp3"></audio>
             <h1 className="animate__animated animate__backInDown">
               Unlimited movies, TV shows, and more.
             </h1>

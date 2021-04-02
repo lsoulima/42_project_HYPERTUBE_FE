@@ -1,43 +1,12 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import { useHistory } from "react-router-dom";
-import Link from "@material-ui/core/Link";
-import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import styled from "styled-components";
 
-const ButtonAuth = styled.button`
-  width: 100%;
-  height: 36px;
-  padding: 6px 16px 6px 16px;
-  position: relative;
-  margin-bottom: 20px;
-  :hover {
-    cursor: pointer;
-  }
-
-  i {
-    position: absolute;
-    left: 20px;
-    font-size: 20px;
-    margin: auto;
-  }
-  @media (max-width: 425px) {
-    span {
-      display: none;
-    }
-    i {
-      font-size: 20px;
-      position: absolute;
-      left: 45%;
-      top: 15%;
-    }
-  }
-`;
-
 const WhiteBorderTextField = styled(TextField)`
+  margin-bottom: 50px;
   & .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
     border-color: #fff !important;
   }
@@ -100,7 +69,7 @@ const Wrapper = styled.div`
     background-color: red;
   }
   .form {
-    width: 100%; // Fix IE 11 issue.
+    width: 100%;
   }
   .submit {
     margin: theme.spacing(3, 0, 2);
@@ -108,9 +77,7 @@ const Wrapper = styled.div`
   }
 `;
 
-export default function Login() {
-  let history = useHistory();
-
+export default function ForgetPwd() {
   return (
     <Wrapper>
       <div className="container">
@@ -121,12 +88,13 @@ export default function Login() {
               variant="h5"
               style={{
                 alignSelf: "start",
-                fontSize: "40px",
+                fontSize: "30px",
                 fontWeight: 600,
                 color: "#fff",
+                marginBottom: "20px",
               }}
             >
-              Sign in
+              Reset Password
             </Typography>
             <form className="form" noValidate>
               <WhiteBorderTextField
@@ -140,17 +108,6 @@ export default function Login() {
                 autoComplete="email"
                 autoFocus
               />
-              <WhiteBorderTextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
               <Button
                 type="submit"
                 fullWidth
@@ -158,56 +115,8 @@ export default function Login() {
                 color="primary"
                 className="submit"
               >
-                Sign In
+                Reset Password
               </Button>
-              <h4
-                style={{
-                  color: "#fff",
-                  textAlign: "center",
-                  marginTop: "20px",
-                  marginBottom: "20px",
-                }}
-              >
-                OR
-              </h4>
-              <ButtonAuth>
-                <i className="lab la-google-plus-g"></i>
-                <span>Continue With Goolge</span>
-              </ButtonAuth>
-              <ButtonAuth>
-                <i className="lab la-github"></i>
-                <span>Continue With Github</span>
-              </ButtonAuth>
-              <ButtonAuth>
-                <i>42</i>
-                <span>Continue With Intra</span>
-              </ButtonAuth>
-              <Grid container>
-                <Grid item xs>
-                  <Link
-                    href="#"
-                    variant="body2"
-                    style={{ color: "#fff" }}
-                    onClick={() => {
-                      history.push("/forgetpwd");
-                    }}
-                  >
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link
-                    href="#"
-                    variant="body2"
-                    style={{ color: "#fff" }}
-                    onClick={() => {
-                      history.push("/register");
-                    }}
-                  >
-                    {"Sign Up"}
-                  </Link>
-                </Grid>
-              </Grid>
             </form>
           </div>
         </Container>

@@ -73,12 +73,11 @@ const Wrapper = styled.div`
     background-size: cover;
 
     /* Set up proportionate scaling */
-    height: auto;
-    /* height: 100%; */
+    height: 100%;
     width: 100%;
-    /* @media (max-width: 768px) {
+    @media (max-width: 768px) {
       height: auto;
-    } */
+    }
   }
   .container {
     padding-top: 100px;

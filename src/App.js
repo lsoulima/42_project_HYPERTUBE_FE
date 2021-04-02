@@ -12,6 +12,7 @@ import Stream from "./Pages/Stream";
 import { ThemeProvider } from "styled-components";
 import { useState } from "react";
 import Profile from "./Pages/Profile";
+import ForgetPwd from "./Pages/ForgetPwd";
 
 const App = () => {
   const [theme, setTheme] = useState({
@@ -49,6 +50,8 @@ const App = () => {
           <Route path="/library" component={Library} />
           <Route path="/stream" component={Stream} />
           <Route path="/profile" component={Profile} />
+          <Route path="/forgetpwd" component={ForgetPwd} />
+
           <Route path="/" component={Home} />
         </Switch>
         <Footer />

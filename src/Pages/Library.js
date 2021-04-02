@@ -318,7 +318,11 @@ export default function Library() {
           </div>
         </div>
       </Container>
-      <CardContainer>
+      <CardContainer
+        onScroll={() => {
+          console.log("lo");
+        }}
+      >
         {movies?.map((movie) => (
           <MyCard
             onMouseEnter={() => toggleHover(true)}

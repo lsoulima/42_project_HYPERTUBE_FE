@@ -18,7 +18,6 @@ import styled from "styled-components";
 // import moonSvg from "./img/moon.svg";
 
 import i18n from "../i18n";
-import { light } from "@material-ui/core/styles/createPalette";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -238,7 +237,7 @@ function NavBar({ t, mytheme, settheme }) {
       onClose={handleMenuClose}
     >
       <Link to="/edit" style={{ color: "#fff" }}>
-        <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+        <MenuItem onClick={handleMenuClose}>Settings</MenuItem>
       </Link>
       <Link to="/login" style={{ color: "#fff" }}>
         <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
