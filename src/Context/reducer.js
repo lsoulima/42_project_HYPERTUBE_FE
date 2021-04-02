@@ -6,7 +6,7 @@ export const Initialstate = {
   success: false,
 };
 
-export const HyperReducer = (state = InitialState, action) => {
+export const HyperReducer = (state = Initialstate, action) => {
   const { type, payload } = action;
 
   switch (type) {
@@ -30,5 +30,7 @@ export const HyperReducer = (state = InitialState, action) => {
         isAuth: payload.success,
         token: payload.token,
       };
+    default:
+      return {};
   }
 };

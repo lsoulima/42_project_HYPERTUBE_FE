@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
@@ -6,7 +6,6 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-
 const ButtonAuth = styled.button`
   width: 100%;
   height: 36px;
@@ -35,7 +34,6 @@ const ButtonAuth = styled.button`
     }
   }
 `;
-
 const WhiteBorderTextField = styled(TextField)`
   & .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
     border-color: #fff !important;
@@ -63,7 +61,6 @@ const WhiteBorderTextField = styled(TextField)`
     color: #fff;
   }
 `;
-
 const Wrapper = styled.div`
   & {
     background: url("./img/net.jpg") no-repeat center center fixed;
@@ -107,7 +104,15 @@ const Wrapper = styled.div`
   }
 `;
 
-export default function Login() {
+export default function Register() {
+  const [registerUser, setRegisterUser] = useState({
+    email: "",
+    firstname: "",
+    lastname: "",
+    username: "",
+    password: "",
+  });
+
   return (
     <Wrapper>
       <div className="container">
