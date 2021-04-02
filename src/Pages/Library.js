@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
@@ -9,123 +9,7 @@ import Slider from "@material-ui/core/Slider";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-import FormHelperText from "@material-ui/core/FormHelperText";
-
-const movies = [
-  {
-    Name: "Nature Unleashed: Avalanche",
-    Year: "2004",
-    Cover:
-      "https://img.yts.mx/assets/images/movies/nature_unleashed_avalanche_2004/large-cover.jpg",
-    isWatched: true,
-    imdbRating: "3.7",
-    imdbCode: "tt0363448",
-  },
-  {
-    Name: "Summer Daydream",
-    Year: "2018",
-    Cover:
-      "https://yts.mx/assets/images/movies/summer_daydream_2018/large-cover.jpg",
-    isWatched: true,
-    imdbRating: "8.1",
-    imdbCode: "tt4940526",
-  },
-  {
-    Name: "Children of the Tsunami",
-    Year: "2012",
-    Cover:
-      "https://yts.mx/assets/images/movies/children_of_the_tsunami_2012/large-cover.jpg",
-    isWatched: false,
-    imdbRating: "5.6",
-    imdbCode: "tt2368687",
-  },
-  {
-    Name: "7 ore per farti innamorare",
-    Year: "2020",
-    Cover:
-      "https://yts.mx/assets/images/movies/7_ore_per_farti_innamorare_2020/large-cover.jpg",
-    isWatched: true,
-    imdbRating: "5.9",
-    imdbCode: "tt10814876",
-  },
-  {
-    Name: "Back to the 90s",
-    Year: "2015",
-    Cover:
-      "https://yts.mx/assets/images/movies/back_to_the_90s_2015/large-cover.jpg",
-    isWatched: true,
-    imdbRating: "6.5",
-    imdbCode: "tt4556700",
-  },
-  {
-    Name: "U2's Beautiful Day",
-    Year: "2002",
-    Cover:
-      "https://yts.mx/assets/images/movies/u2s_beautiful_day_2002/large-cover.jpg",
-    isWatched: false,
-    imdbRating: "8.7",
-    imdbCode: "tt0339832",
-  },
-  ,
-  {
-    Name: "The Poker House",
-    Year: "2008",
-    Cover:
-      "https://yts.mx/assets/images/movies/the_poker_house_2008/large-cover.jpg",
-    isWatched: false,
-    imdbRating: "6.4",
-    imdbCode: "tt1014806",
-  },
-  ,
-  {
-    Name: "TFW NO GF",
-    Year: "2020",
-    Cover: "https://yts.mx/assets/images/movies/tfw_no_gf_2020/large-cover.jpg",
-    isWatched: false,
-    imdbRating: "5.9",
-    imdbCode: "tt11602648",
-  },
-  ,
-  {
-    Name: "Alone in the Dark",
-    Year: "1982",
-    Cover:
-      "https://yts.mx/assets/images/movies/alone_in_the_dark_1982/large-cover.jpg",
-    isWatched: false,
-    imdbRating: "6.1",
-    imdbCode: "tt0083542",
-  },
-  ,
-  {
-    Name: "Cabras da Peste",
-    Year: "2021",
-    Cover:
-      "https://yts.mx/assets/images/movies/cabras_da_peste_2021/large-cover.jpg",
-    isWatched: false,
-    imdbRating: "0",
-    imdbCode: "tt14111726",
-  },
-  ,
-  {
-    Name: "Deadly Illusions",
-    Year: "2021",
-    Cover:
-      "https://yts.mx/assets/images/movies/deadly_illusions_2021/large-cover.jpg",
-    isWatched: false,
-    imdbRating: "8.9",
-    imdbCode: "tt7897330",
-  },
-  ,
-  {
-    Name: "Friendly Monsters: A Monster Holiday",
-    Year: "1994",
-    Cover:
-      "https://yts.mx/assets/images/movies/friendly_monsters_a_monster_holiday_1994/large-cover.jpg",
-    isWatched: true,
-    imdbRating: "7.4",
-    imdbCode: "tt2833106",
-  },
-];
+import axios from "axios";
 
 const Container = styled.div`
   margin: 0 20px 20px 20px;
@@ -310,14 +194,14 @@ const FormControlMdf = styled(FormControl)`
     color: ${(props) => props.theme.text};
   }
 `;
-const CardHover = styled.div`
-  position: relative;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
+// const CardHover = styled.div`
+//   position: relative;
+//   width: 100%;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   justify-content: center;
+// `;
 const CardContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -347,7 +231,7 @@ export default function Library() {
   const [age, setAge] = React.useState("");
   const [hovered, setHovered] = useState(false);
   const toggleHover = (value) => setHovered(value);
-
+  const [movies, setmovies] = useState([]);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -358,6 +242,17 @@ export default function Library() {
   const handleGenreChange = (event) => {
     setAge(event.target.value);
   };
+
+  useEffect(() => {
+    async function fetchMovies() {
+      const res = await axios.get(
+        `https://api.apiumadomain.com/list?sort=popularity&short=1&cb=&quality=720p,1080p,3d&page=1`
+      );
+      console.log(res.data.MovieList);
+      setmovies(res.data.MovieList);
+    }
+    fetchMovies();
+  }, []);
 
   return (
     <MainContainer>
@@ -424,12 +319,17 @@ export default function Library() {
         </div>
       </Container>
       <CardContainer>
-        {movies.map((movie) => (
+        {movies?.map((movie) => (
           <MyCard
             onMouseEnter={() => toggleHover(true)}
             onMouseLeave={() => toggleHover(false)}
           >
-            <img src={movie.Cover} width="100%" height="100%" />
+            <img
+              src={movie.poster_big}
+              width="100%"
+              height="100%"
+              alt="cover"
+            />
             {movie.isWatched ? (
               <div className="eye ">
                 <i className="las la-eye"></i>
@@ -440,7 +340,7 @@ export default function Library() {
 
             <div className="backHover">
               <div className="imdbPlace">
-                <h6>{movie.imdbRating}</h6>
+                <h6>{movie.rating}</h6>
               </div>
               <div className="watch">
                 <div
@@ -468,8 +368,8 @@ export default function Library() {
                 ></div>
               </div>
               <div className="mvName">
-                <h4>{movie.Name}</h4>
-                <h6>{movie.Year}</h6>
+                <h4>{movie.title}</h4>
+                <h6>{movie.year}</h6>
               </div>
             </div>
           </MyCard>
