@@ -11,7 +11,7 @@ import Library from "./Pages/Library";
 import Stream from "./Pages/Stream";
 import { useState } from "react";
 import Profile from "./Pages/Profile";
-
+import HyperContext from "./Context/context";
 const App = () => {
   const [theme, setTheme] = useState({
     background:
@@ -38,19 +38,21 @@ const App = () => {
   });
 
   return (
-    <Router>
-      <NavBar mytheme={theme} settheme={setTheme} />
-      <Switch>
-        <Route path='/login' component={Login} />
-        <Route path='/register' component={Register} />
-        <Route path='/edit' component={EditProfile} />
-        <Route path='/library' component={Library} />
-        <Route path='/stream' component={Stream} />
-        <Route path='/profile' component={Profile} />
-        <Route path='/' component={Home} />
-      </Switch>
-      <Footer />
-    </Router>
+    <HyperContext>
+      <Router>
+        <NavBar mytheme={theme} settheme={setTheme} />
+        <Switch>
+          <Route path='/login' component={Login} />
+          <Route path='/register' component={Register} />
+          <Route path='/edit' component={EditProfile} />
+          <Route path='/library' component={Library} />
+          <Route path='/stream' component={Stream} />
+          <Route path='/profile' component={Profile} />
+          <Route path='/' component={Home} />
+        </Switch>
+        <Footer />
+      </Router>
+    </HyperContext>
   );
 };
 
