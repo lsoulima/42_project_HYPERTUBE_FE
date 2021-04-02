@@ -14,6 +14,7 @@ import Profile from "./Pages/Profile";
 import ForgetPwd from "./Pages/ForgetPwd";
 import { ThemeProvider } from "styled-components";
 
+import HyperContext from "./Context/context";
 const App = () => {
   const [theme, setTheme] = useState({
     background:
