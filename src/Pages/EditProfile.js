@@ -60,6 +60,11 @@ const Wrapper = styled.div`
     /* Set up proportionate scaling */
     width: 100%;
     height: 100%;
+    @media (max-width: 768px) {
+      & {
+        height: auto;
+      }
+    }
   }
   .container {
     padding-top: 100px;
@@ -87,12 +92,6 @@ const Wrapper = styled.div`
   .submit {
     margin: theme.spacing(3, 0, 2);
     background: red;
-  }
-
-  @media (max-width: 768px) {
-    & {
-      height: auto;
-    }
   }
 `;
 

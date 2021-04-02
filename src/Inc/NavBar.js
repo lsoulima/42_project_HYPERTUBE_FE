@@ -15,7 +15,6 @@ import { Link } from "react-router-dom";
 import { withNamespaces } from "react-i18next";
 import { FlagIcon } from "react-flag-kit";
 import styled from "styled-components";
-// import moonSvg from "./img/moon.svg";
 
 import i18n from "../i18n";
 
@@ -46,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       backgroundColor: fade(theme.palette.common.white, 0.25),
     },
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(8),
     marginLeft: 0,
     width: "100%",
     [theme.breakpoints.up("sm")]: {
@@ -127,6 +126,7 @@ const ToggleTheme = styled.div`
   border: 1px solid white;
   border-radius: 50px;
   position: relative;
+  margin-right: 20px;
   .monWraper {
     position: absolute;
     display: block;
@@ -149,10 +149,10 @@ const ToggleTheme = styled.div`
 
 const MobileMenu = styled(Menu)`
   .MuiPaper-root {
-    background: hsla(0, 0%, 100%, 0.2) !important;
+    background: ${(props) => props.theme.cards};
   }
   a {
-    color: #fff;
+    color: ${(props) => props.theme.text} !important;
   }
   svg {
     color: #fff;
@@ -160,8 +160,16 @@ const MobileMenu = styled(Menu)`
 `;
 const DesktopMenu = styled(Menu)`
   .MuiPaper-root {
-    background: hsla(0, 0%, 100%, 0.2);
-    top: 40px !important;
+    background: ${(props) => props.theme.cards};
+    top: 55px !important;
+  }
+  a {
+    color: ${(props) => props.theme.text} !important;
+  }
+`;
+const Shadow = styled.div`
+  .MuiToolbar-root.MuiToolbar-regular.MuiToolbar-gutters {
+    box-shadow: 0px 0px 50px -25px rgba(190, 186, 186, 0.56);
   }
 `;
 
@@ -263,7 +271,7 @@ function NavBar({ t, mytheme, settheme }) {
         <MenuItem>Login</MenuItem>
       </Link>
       <Link className="link" to="/edit">
-        <MenuItem onClick={handleProfileMenuOpen}>Profile</MenuItem>
+        <MenuItem onClick={handleProfileMenuOpen}>Settings</MenuItem>
       </Link>
     </MobileMenu>
   );
@@ -284,105 +292,107 @@ function NavBar({ t, mytheme, settheme }) {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="static" className={classes.appbar}>
-        <Toolbar>
-          <div
-            className={classes.title}
-            onClick={() => {
-              history.push("/");
-            }}
-          >
-            <img src="./img/logo.png" className={classes.logo} alt="logo" />
-            <Typography className={classes.title} variant="h4" noWrap>
-              yperTube
-            </Typography>
-          </div>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
+      <Shadow>
+        <AppBar position="static" className={classes.appbar}>
+          <Toolbar>
+            <div
+              className={classes.title}
+              onClick={() => {
+                history.push("/");
               }}
-              inputProps={{ "aria-label": "search" }}
-            />
-          </div>
-          <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
-            {localStorage.getItem("i18nextLng") === "en" ? (
-              <IconBtn onClick={() => changeLanguage("fr")}>
-                <FlagIcon code="FR" size={25} />
-              </IconBtn>
-            ) : (
-              <IconBtn onClick={() => changeLanguage("en")}>
-                <FlagIcon code="US" size={25} />
-              </IconBtn>
-            )}
-
-            {/* check dark theme */}
-            <ToggleTheme
-              onClick={() => handlePosition()}
-              style={
-                theme
-                  ? { border: "1px solid white" }
-                  : { border: "1px solid gray" }
-              }
             >
-              <span
-                className="monWraper"
+              <img src="./img/logo.png" className={classes.logo} alt="logo" />
+              <Typography className={classes.title} variant="h4" noWrap>
+                yperTube
+              </Typography>
+            </div>
+            <div className={classes.search}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <InputBase
+                placeholder="Search…"
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                inputProps={{ "aria-label": "search" }}
+              />
+            </div>
+            <div className={classes.grow} />
+            <div className={classes.sectionDesktop}>
+              <NavButton>
+                <Link className="link" to="/login">
+                  {t("loginTr")}
+                </Link>
+              </NavButton>
+              <NavButton>
+                <Link className="link" to="/register">
+                  {t("registerTr")}
+                </Link>
+              </NavButton>
+              {localStorage.getItem("i18nextLng") === "en" ? (
+                <IconBtn onClick={() => changeLanguage("fr")}>
+                  <FlagIcon code="FR" size={25} />
+                </IconBtn>
+              ) : (
+                <IconBtn onClick={() => changeLanguage("en")}>
+                  <FlagIcon code="US" size={25} />
+                </IconBtn>
+              )}
+
+              {/* check dark theme */}
+              <ToggleTheme
+                onClick={() => handlePosition()}
                 style={
                   theme
-                    ? { transform: "translateX(-15px)", background: "white" }
-                    : { transform: "translateX(-40px)", background: "gray" }
+                    ? { border: "1px solid white" }
+                    : { border: "1px solid gray" }
                 }
               >
-                <img
-                  src="./img/moon.svg"
-                  alt="moon"
-                  style={theme ? { color: "white" } : { color: "yellow" }}
-                />
-              </span>
-            </ToggleTheme>
+                <span
+                  className="monWraper"
+                  style={
+                    theme
+                      ? { transform: "translateX(-15px)", background: "white" }
+                      : { transform: "translateX(-40px)", background: "gray" }
+                  }
+                >
+                  <img
+                    src="./img/moon.svg"
+                    alt="moon"
+                    style={theme ? { color: "white" } : { color: "yellow" }}
+                  />
+                </span>
+              </ToggleTheme>
 
-            <NavButton>
-              <Link className="link" to="/login">
-                {t("loginTr")}
-              </Link>
-            </NavButton>
-            <NavButton>
-              <Link className="link" to="/register">
-                {t("registerTr")}
-              </Link>
-            </NavButton>
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              style={{ background: "red" }}
-            >
-              <AccountCircle style={{ color: "#fff" }} />
-            </IconButton>
-          </div>
-          <div className={classes.sectionMobile}>
-            <IconButton
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon style={{ color: "red" }} />
-            </IconButton>
-          </div>
-        </Toolbar>
-      </AppBar>
-      {renderMobileMenu}
-      {renderMenu}
+              <IconButton
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+                style={{ background: "red" }}
+              >
+                <AccountCircle style={{ color: "#fff" }} />
+              </IconButton>
+            </div>
+            <div className={classes.sectionMobile}>
+              <IconButton
+                aria-label="show more"
+                aria-controls={mobileMenuId}
+                aria-haspopup="true"
+                onClick={handleMobileMenuOpen}
+                color="inherit"
+              >
+                <MoreIcon style={{ color: "red" }} />
+              </IconButton>
+            </div>
+          </Toolbar>
+        </AppBar>
+        {renderMobileMenu}
+        {renderMenu}
+      </Shadow>
     </div>
   );
 }

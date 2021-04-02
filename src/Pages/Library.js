@@ -13,7 +13,7 @@ import axios from "axios";
 
 const Container = styled.div`
   margin: 0 20px 20px 20px;
-  padding-top: 20px;
+  padding-top: 50px;
   display: flex;
   justify-content: space-between;
 
@@ -221,20 +221,12 @@ const MainContainer = styled.div`
   background: ${(props) => props.theme.background}; ;
 `;
 
-function valuetext(value) {
-  return `${value}°C`;
-}
-
 export default function Library() {
-  const [value, setValue] = React.useState([20, 37]);
   const [radioValue, setRadioValue] = React.useState("female");
   const [age, setAge] = React.useState("");
   const [hovered, setHovered] = useState(false);
   const toggleHover = (value) => setHovered(value);
   const [movies, setmovies] = useState([]);
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
 
   const handleChangeRadio = (event) => {
     setRadioValue(event.target.value);
@@ -253,6 +245,11 @@ export default function Library() {
     }
     fetchMovies();
   }, []);
+
+  const [imdb, setImdb] = React.useState(10);
+  const handleImdbChange = (event, newValue) => {
+    setImdb(newValue);
+  };
 
   return (
     <MainContainer>
@@ -291,11 +288,14 @@ export default function Library() {
               Imdb Rating
             </Typography>
             <MySlider
-              value={value}
-              onChange={handleChange}
+              value={imdb}
+              onChange={handleImdbChange}
+              aria-labelledby="continuous-slider"
               valueLabelDisplay="auto"
-              aria-labelledby="range-slider"
-              getAriaValueText={valuetext}
+              // step={1}
+              // marks
+              min={0}
+              max={10}
             />
           </div>
           <div>

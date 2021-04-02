@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
+import Link from "@material-ui/core/Link";
 
 const Container = styled.div`
   height: 100%;
@@ -95,11 +97,11 @@ const Container = styled.div`
       align-items: center;
       flex-direction: column;
       width: 300px;
-      & div:first-of-type {
+      /* & div:first-of-type {
         color: red;
         margin-bottom: 20px;
         width: 100%;
-      }
+      } */
       div:last-of-type {
         width: 150px;
         height: 60px;
@@ -119,12 +121,14 @@ const Container = styled.div`
 `;
 
 export default function Home() {
+  let history = useHistory();
+  let audio = new Audio("/hyper.mp3");
+  audio.play();
   return (
     <Container>
       <div className="container-tran">
         <div className="website-desc">
           <div>
-            <audio src="../../public/hyper.mp3"></audio>
             <h1 className="animate__animated animate__backInDown">
               Unlimited movies, TV shows, and more.
             </h1>
@@ -135,13 +139,19 @@ export default function Home() {
             </h3>
           </div>
           <div className="input-home animate__animated animate__backInUp">
-            <div>
+            {/* <div>
               <input type="email" placeholder="Email address" />
-            </div>
+            </div> */}
             <div>
-              <button>
-                Get Started <i className="las la-angle-right"></i>
-              </button>
+              <Link
+                onClick={() => {
+                  history.push("/register");
+                }}
+              >
+                <button>
+                  Get Started <i className="las la-angle-right"></i>
+                </button>
+              </Link>
             </div>
           </div>
         </div>

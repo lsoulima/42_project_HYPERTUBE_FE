@@ -9,10 +9,10 @@ import Footer from "./Inc/Footer";
 import EditProfile from "./Pages/EditProfile";
 import Library from "./Pages/Library";
 import Stream from "./Pages/Stream";
-import { ThemeProvider } from "styled-components";
 import { useState } from "react";
 import Profile from "./Pages/Profile";
 import ForgetPwd from "./Pages/ForgetPwd";
+import { ThemeProvider } from "styled-components";
 
 const App = () => {
   const [theme, setTheme] = useState({
