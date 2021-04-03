@@ -10,6 +10,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import axios from "axios";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const Container = styled.div`
   margin: 0 20px 20px 20px;
@@ -222,12 +223,12 @@ const MainContainer = styled.div`
 `;
 
 export default function Library() {
-  const [radioValue, setRadioValue] = React.useState("female");
-  const [age, setAge] = React.useState("");
+  const [radioValue, setRadioValue] = useState("female");
+  const [age, setAge] = useState("");
   const [hovered, setHovered] = useState(false);
   const toggleHover = (value) => setHovered(value);
   const [movies, setmovies] = useState([]);
-
+  const [page, setPage] = useState(1);
   const handleChangeRadio = (event) => {
     setRadioValue(event.target.value);
   };
@@ -238,13 +239,15 @@ export default function Library() {
   useEffect(() => {
     async function fetchMovies() {
       const res = await axios.get(
-        `https://api.apiumadomain.com/list?sort=popularity&short=1&cb=&quality=720p,1080p,3d&page=1`
+        `https://api.apiumadomain.com/list?sort=popularity&short=1&cb=&quality=720p,1080p,3d&page=${page}`
       );
-      console.log(res.data.MovieList);
-      setmovies(res.data.MovieList);
+      let mydata = movies.concat(res.data.MovieList);
+      setmovies(mydata);
     }
+
     fetchMovies();
-  }, []);
+  }, [page]);
+  console.log("movies ", movies);
 
   const [imdb, setImdb] = React.useState(10);
   const handleImdbChange = (event, newValue) => {
@@ -318,67 +321,70 @@ export default function Library() {
           </div>
         </div>
       </Container>
-      <CardContainer
-        onScroll={() => {
-          console.log("lo");
-        }}
+      <InfiniteScroll
+        dataLength={movies.length} //This is important field to render the next data
+        next={() => setPage(page + 1)}
+        hasMore={true}
+        loader={<h4>Loading...</h4>}
       >
-        {movies?.map((movie) => (
-          <MyCard
-            onMouseEnter={() => toggleHover(true)}
-            onMouseLeave={() => toggleHover(false)}
-          >
-            <img
-              src={movie.poster_big}
-              width="100%"
-              height="100%"
-              alt="cover"
-            />
-            {movie.isWatched ? (
-              <div className="eye ">
-                <i className="las la-eye"></i>
-              </div>
-            ) : (
-              ""
-            )}
-
-            <div className="backHover">
-              <div className="imdbPlace">
-                <h6>{movie.rating}</h6>
-              </div>
-              <div className="watch">
-                <div
-                  className={
-                    hovered
-                      ? "watchBtn animate__animated  animate__backInDown animate__faster"
-                      : "watchBtn"
-                  }
-                >
-                  Watch
+        <CardContainer>
+          {movies.map((movie) => (
+            <MyCard
+              onMouseEnter={() => toggleHover(true)}
+              onMouseLeave={() => toggleHover(false)}
+            >
+              <img
+                src={movie.poster_big}
+                width="100%"
+                height="100%"
+                alt="cover"
+              />
+              {movie.isWatched ? (
+                <div className="eye ">
+                  <i className="las la-eye"></i>
                 </div>
-                <div
-                  className={
-                    hovered
-                      ? "test1 animate__animated  animate__backInLeft animate__faster"
-                      : "test1"
-                  }
-                ></div>
-                <div
-                  className={
-                    hovered
-                      ? "test2 animate__animated  animate__backInRight animate__faster"
-                      : "test2"
-                  }
-                ></div>
+              ) : (
+                ""
+              )}
+
+              <div className="backHover">
+                <div className="imdbPlace">
+                  <h6>{movie.rating}</h6>
+                </div>
+                <div className="watch">
+                  <div
+                    className={
+                      hovered
+                        ? "watchBtn animate__animated  animate__backInDown animate__faster"
+                        : "watchBtn"
+                    }
+                  >
+                    Watch
+                  </div>
+                  <div
+                    className={
+                      hovered
+                        ? "test1 animate__animated  animate__backInLeft animate__faster"
+                        : "test1"
+                    }
+                  ></div>
+                  <div
+                    className={
+                      hovered
+                        ? "test2 animate__animated  animate__backInRight animate__faster"
+                        : "test2"
+                    }
+                  ></div>
+                </div>
+                <div className="mvName">
+                  <h4>{movie.title}</h4>
+                  <h6>{movie.year}</h6>
+                </div>
               </div>
-              <div className="mvName">
-                <h4>{movie.title}</h4>
-                <h6>{movie.year}</h6>
-              </div>
-            </div>
-          </MyCard>
-        ))}
-      </CardContainer>
+            </MyCard>
+          ))}
+        </CardContainer>
+      </InfiniteScroll>
     </MainContainer>
   );
 }

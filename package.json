@@ -16,6 +16,8 @@
     "react-elastic-carousel": "^0.11.2",
     "react-flag-kit": "^0.3.1",
     "react-i18next": "^9.0.10",
+    "react-image": "^4.0.3",
+    "react-infinite-scroll-component": "^6.0.0",
     "react-player": "^2.9.0",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
