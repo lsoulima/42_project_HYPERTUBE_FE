@@ -86,7 +86,7 @@ const MyCard = styled.div`
   width: 240px;
   height: 382px;
   position: relative;
-  border: 5px solid #fff;
+  /* border: 5px solid #fff; */
   transition: all 0.8s;
   .backHover {
     height: 100%;
@@ -97,12 +97,12 @@ const MyCard = styled.div`
   }
   &:hover .backHover {
     background: rgba(54, 54, 54, 0.7);
-    box-shadow: 0px 0px 50px -25px rgba(255, 0, 0, 0.5);
+    box-shadow: 0px 0px 50px -25px rgba(255, 0, 0, 0.8);
   }
   &:hover {
     transform: scale(1.05);
     transition: all 0.7s;
-    border: 5px solid #ffffff;
+    /* border: 5px solid #ffffff; */
   }
   &:hover .backHover {
     opacity: 1;
@@ -338,6 +338,10 @@ export default function Library() {
                 width="100%"
                 height="100%"
                 alt="cover"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = "https://t.ly/teEM";
+                }}
               />
               {movie.isWatched ? (
                 <div className="eye ">
