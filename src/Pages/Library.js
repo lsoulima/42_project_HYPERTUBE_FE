@@ -88,7 +88,13 @@ const MyCard = styled.div`
   position: relative;
   /* border: 5px solid #fff; */
   transition: all 0.8s;
+  border-radius: 10px;
+  box-shadow: 0px 4px 15px ${(props) => props.theme.background_grey_2};
+  img {
+    border-radius: 10px;
+  }
   .backHover {
+    border-radius: 10px;
     height: 100%;
     width: 100%;
     position: absolute;
@@ -122,6 +128,7 @@ const MyCard = styled.div`
       color: #fff;
       padding: 10px;
       text-align: center;
+      border-radius: 10px;
       background: url("./img/mask-title.png");
       h4,
       h6 {
@@ -223,25 +230,17 @@ const MainContainer = styled.div`
 `;
 
 export default function Library() {
-  const [radioValue, setRadioValue] = useState("female");
-  const [age, setAge] = useState("");
   const [hovered, setHovered] = useState(false);
   const toggleHover = (value) => setHovered(value);
   const [movies, setmovies] = useState([]);
   const [page, setPage] = useState(1);
-  const handleChangeRadio = (event) => {
-    setRadioValue(event.target.value);
-  };
-  const handleGenreChange = (event) => {
-    setAge(event.target.value);
-  };
 
+  const API_ONE = `https://api.apiumadomain.com/list?sort=popularity&short=1&cb=&quality=720p,1080p,3d&page=${page}`;
+  const API_TWO = `https://yts.mx/api/v2/list_movies.json?sort=popularity&limit=50&page=${page}`;
   useEffect(() => {
     async function fetchMovies() {
-      const res = await axios.get(
-        `https://api.apiumadomain.com/list?sort=popularity&short=1&cb=&quality=720p,1080p,3d&page=${page}`
-      );
-      let mydata = movies.concat(res.data.MovieList);
+      const res = await axios.get(API_TWO);
+      let mydata = movies.concat(res.data.data.movies);
       setmovies(mydata);
     }
 
@@ -254,6 +253,15 @@ export default function Library() {
     setImdb(newValue);
   };
 
+  const [radioValue, setRadioValue] = useState("female");
+  const handleChangeRadio = (event) => {
+    setRadioValue(event.target.value);
+  };
+
+  const [genre, setGenre] = useState("");
+  const handleGenreChange = (event) => {
+    setGenre(event.target.value);
+  };
   return (
     <MainContainer>
       <Container>
@@ -309,7 +317,7 @@ export default function Library() {
               <Select
                 labelId="demo-simple-select-helper-label"
                 id="demo-simple-select-helper"
-                value={age}
+                value={genre}
                 onChange={handleGenreChange}
               >
                 <MenuItem value="">Romantic</MenuItem>
@@ -334,7 +342,7 @@ export default function Library() {
               onMouseLeave={() => toggleHover(false)}
             >
               <img
-                src={movie.poster_big}
+                src={movie.large_cover_image} //poster_big}
                 width="100%"
                 height="100%"
                 alt="cover"
