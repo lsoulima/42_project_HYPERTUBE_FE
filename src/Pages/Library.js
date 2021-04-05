@@ -88,13 +88,13 @@ const MyCard = styled.div`
   position: relative;
   /* border: 5px solid #fff; */
   transition: all 0.8s;
-  border-radius: 10px;
+  border-radius: 7px;
   box-shadow: 0px 4px 15px ${(props) => props.theme.background_grey_2};
   img {
-    border-radius: 10px;
+    border-radius: 7px;
   }
   .backHover {
-    border-radius: 10px;
+    border-radius: 7px;
     height: 100%;
     width: 100%;
     position: absolute;
@@ -128,7 +128,7 @@ const MyCard = styled.div`
       color: #fff;
       padding: 10px;
       text-align: center;
-      border-radius: 10px;
+      border-radius: 7px;
       background: url("./img/mask-title.png");
       h4,
       h6 {
@@ -141,7 +141,7 @@ const MyCard = styled.div`
       height: 30px;
       background: red;
       align-self: flex-start;
-      border-radius: 10px;
+      border-radius: 7px;
       text-align: center;
       display: flex;
       align-items: center;
@@ -226,7 +226,35 @@ const FilterCard = styled.div`
   }
 `;
 const MainContainer = styled.div`
-  background: ${(props) => props.theme.background}; ;
+  background: ${(props) => props.theme.background};
+`;
+const SearchCard = styled.div`
+  background: transparent;
+  display: flex;
+  padding-top: 40px;
+  justify-content: center;
+
+  .search {
+    background: ${(props) => props.theme.cards};
+    border: 2px solid ${(props) => props.theme.border};
+    width: 400px;
+    border-radius: 50px;
+    color: ${(props) => props.theme.background};
+    font-family: inherit;
+    font-size: 1.2rem;
+    padding: 0.6rem 1.6rem;
+
+    @media (max-width: 768px) {
+      width: auto;
+      font-size: 0.8rem;
+    }
+  }
+  .search:focus {
+    outline: none;
+  }
+  input.search {
+    color: ${(props) => props.theme.text};
+  }
 `;
 
 export default function Library() {
@@ -235,20 +263,26 @@ export default function Library() {
   const [movies, setmovies] = useState([]);
   const [page, setPage] = useState(1);
 
-  const API_ONE = `https://api.apiumadomain.com/list?sort=popularity&short=1&cb=&quality=720p,1080p,3d&page=${page}`;
+  // const API_ONE = `https://api.apiumadomain.com/list?sort=popularity&short=1&cb=&quality=720p,1080p,3d&page=${page}`;
   const API_TWO = `https://yts.mx/api/v2/list_movies.json?sort=popularity&limit=50&page=${page}`;
+
+  // const fetchMovies = async (API) => {
+  //   const res = await axios.get(API);
+  //   let mydata = movies.concat(res.data.MovieList); //res.data.data.movies
+  //   setmovies(mydata);
+  // };
+
+  const fetchYtsMovies = async (API) => {
+    const res = await axios.get(API);
+    let mydata = movies.concat(res.data.data.movies);
+    setmovies(mydata);
+  };
   useEffect(() => {
-    async function fetchMovies() {
-      const res = await axios.get(API_TWO);
-      let mydata = movies.concat(res.data.data.movies);
-      setmovies(mydata);
-    }
-
-    fetchMovies();
+    fetchYtsMovies(API_TWO);
+    // eslint-disable-next-line
   }, [page]);
-  console.log("movies ", movies);
 
-  const [imdb, setImdb] = React.useState(10);
+  const [imdb, setImdb] = useState(10);
   const handleImdbChange = (event, newValue) => {
     setImdb(newValue);
   };
@@ -262,8 +296,30 @@ export default function Library() {
   const handleGenreChange = (event) => {
     setGenre(event.target.value);
   };
+  const [searchTerm, setSearchTerm] = useState("");
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
+    console.log("c'est ce que vous recherche " + searchTerm);
+    //how get all films with the title === searchTerm
+    setSearchTerm("");
+  };
+
+  const handleOnChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
   return (
     <MainContainer>
+      <SearchCard>
+        <form onSubmit={handleOnSubmit}>
+          <input
+            className="search"
+            type="search"
+            placeholder="Search ..."
+            value={searchTerm}
+            onChange={handleOnChange}
+          />
+        </form>
+      </SearchCard>
       <Container>
         <div className="first_card">
           <FilterCard style={{ width: "100%" }}>
@@ -336,8 +392,9 @@ export default function Library() {
         loader={<h4>Loading...</h4>}
       >
         <CardContainer>
-          {movies.map((movie) => (
+          {movies.map((movie, id) => (
             <MyCard
+              key={id}
               onMouseEnter={() => toggleHover(true)}
               onMouseLeave={() => toggleHover(false)}
             >

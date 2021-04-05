@@ -4,11 +4,9 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import InputBase from "@material-ui/core/InputBase";
 import { useHistory } from "react-router-dom";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import { Link } from "react-router-dom";
@@ -58,16 +56,7 @@ const useStyles = makeStyles((theme) => ({
     height: "40px",
     marginRight: "8px",
   },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    color: "#fff",
-  },
+
   inputRoot: {},
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
@@ -174,39 +163,6 @@ const Shadow = styled.div`
 `;
 
 function NavBar({ t, mytheme, settheme }) {
-  const changeTheme = () => {
-    console.log("second fucntion handle position");
-    const themeCheck = localStorage.getItem("theme");
-    if (themeCheck === "light") {
-      settheme({
-        ...mytheme,
-        background: "#202026",
-        text: "#fff",
-        background_btn: "#fff",
-        text_background: "black",
-        background_grey_2: "hsla(0,0%,100%,0.2)",
-        background_grey_5: "hsla(0,0%,100%,0.5)",
-        cards: "hsla(0,0%,100%,0.13)",
-      });
-      localStorage.setItem("theme", "dark");
-    } else {
-      settheme({
-        ...mytheme,
-        background: "linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);",
-        text: "#333",
-        background_btn: "black",
-        text_background: "#fff",
-        background_grey_2: "black",
-        background_grey_5: "black",
-        cards: "#fff",
-      });
-      localStorage.setItem("theme", "light");
-    }
-  };
-  const changeLanguage = (lng) => {
-    i18n.changeLanguage(lng);
-  };
-  // const preventDefault = (event) => event.preventDefault();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -276,6 +232,36 @@ function NavBar({ t, mytheme, settheme }) {
     </MobileMenu>
   );
 
+  const changeTheme = () => {
+    const themeCheck = localStorage.getItem("theme");
+    if (themeCheck === "light") {
+      settheme({
+        ...mytheme,
+        background: "#202026",
+        text: "#fff",
+        background_btn: "#fff",
+        text_background: "black",
+        background_grey_2: "hsla(0,0%,100%,0.2)",
+        background_grey_5: "hsla(0,0%,100%,0.5)",
+        cards: "hsla(0,0%,100%,0.13)",
+        border: "hsla(0,0%,100%,0.5)",
+      });
+      localStorage.setItem("theme", "dark");
+    } else {
+      settheme({
+        ...mytheme,
+        background: "linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);",
+        text: "#333",
+        background_btn: "black",
+        text_background: "#fff",
+        background_grey_2: "black",
+        background_grey_5: "black",
+        cards: "#fff",
+        border: "#cdcdcd",
+      });
+      localStorage.setItem("theme", "light");
+    }
+  };
   const [theme, setTheme] = useState(
     localStorage.getItem("theme") === "dark"
       ? false
@@ -283,11 +269,13 @@ function NavBar({ t, mytheme, settheme }) {
       ? true
       : false
   );
-  console.log(theme);
   const handlePosition = () => {
     setTheme((current) => !current);
-    console.log("first fucntion handle position");
     changeTheme();
+  };
+
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
   };
 
   return (
@@ -305,19 +293,6 @@ function NavBar({ t, mytheme, settheme }) {
               <Typography className={classes.title} variant="h4" noWrap>
                 yperTube
               </Typography>
-            </div>
-            <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
-              <InputBase
-                placeholder="Search…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                inputProps={{ "aria-label": "search" }}
-              />
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>

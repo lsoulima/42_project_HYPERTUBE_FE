@@ -38,6 +38,10 @@ const App = () => {
       localStorage.getItem("theme") === "light"
         ? "#fff"
         : "hsla(0,0%,100%,0.13)",
+    border:
+      localStorage.getItem("theme") === "light"
+        ? "#cdcdcd"
+        : "hsla(0,0%,100%,0.5)",
   });
 
   return (
