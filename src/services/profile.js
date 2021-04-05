@@ -11,6 +11,7 @@ const getProfile = (token) => {
   };
   return axios.get(API_URL + "profile", { config });
 };
+
 //* GET DATA OTHERS PROFILE BY ID
 const findProfileById = (token, id) => {
   const config = {
@@ -32,7 +33,7 @@ const findProfileByUsername = (token, username) => {
   return axios.get(API_URL + "find/" + username, { config });
 };
 
-//EDIT USER PROFILE
+//*EDIT USER PROFILE
 
 const settings = (data) => {
   const config = {

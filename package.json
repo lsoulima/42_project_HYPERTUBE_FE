@@ -15,6 +15,7 @@
     "react-dom": "^17.0.1",
     "react-elastic-carousel": "^0.11.2",
     "react-flag-kit": "^0.3.1",
+    "react-hook-form": "^6.15.1",
     "react-i18next": "^9.0.10",
     "react-player": "^2.9.0",
     "react-router": "^5.2.0",

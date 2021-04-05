@@ -3,14 +3,15 @@ import axios from "axios";
 const API_URL = "http://localhost:3001/api/users/";
 
 //* REGISTER USER
-const register = (firstname, lastname, username, email, password) => {
-  return axios.post(API_URL + "register", {
-    lastname,
-    firstname,
-    username,
-    email,
-    password,
-  });
+const registerAction = (data) => {
+  console.log("dataregsuter", data);
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  return axios.post(API_URL + "register", { config }, data);
 };
 
 //* LOGIN USER
@@ -77,7 +78,7 @@ const newPwd = (data) => {
 };
 
 export default {
-  register,
+  registerAction,
   login,
   logout,
   verifyToken,
