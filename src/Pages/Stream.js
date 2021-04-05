@@ -160,7 +160,7 @@ const MainContainer = styled.div`
   background: ${(props) => props.theme.background};
   .movie_section {
     height: 100%;
-    flex-basis: 18%;
+    flex-basis: 11%;
     min-width: 250px;
     div:first-of-type {
       height: 300px;
@@ -298,10 +298,27 @@ export default function Stream() {
       <Container>
         <MyVideo>
           <ReactPlayer
-            url="https://www.youtube.com/watch?v=OABSI3eYOk0"
+            url={[{ src: "movie.mp4" }, { src: "foo.mkv", type: "video/mkv" }]}
             controls={true}
             width="100%"
             height="100%"
+            config={{
+              file: {
+                tracks: [
+                  {
+                    kind: "subtitles",
+                    src: "subs/subtitles.en.vtt",
+                    srcLang: "en",
+                    default: true,
+                  },
+                  {
+                    kind: "subtitles",
+                    src: "subs/subtitles.fr.vtt",
+                    srcLang: "fr",
+                  },
+                ],
+              },
+            }}
           />
         </MyVideo>
         <MovieDetailes>
@@ -312,7 +329,7 @@ export default function Stream() {
                 alt="cover"
               />
             </div>
-            <div>Add to Favorie</div>
+            <div>Add to Favorites</div>
           </div>
           <div className="detail_section">
             <div className="divider detail_section_name">

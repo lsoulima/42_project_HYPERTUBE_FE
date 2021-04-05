@@ -14,13 +14,12 @@ const Container = styled.div`
 export default function Footer() {
   return (
     <Container>
-      <Typography variant="body2" color="" align="center">
+      <Typography variant="body2" align="center">
         {"Copyright © "}
-        <Link color="inherit" href="https://material-ui.com/">
-          Your Website
-        </Link>{" "}
+        <Link color="inherit" href="https://localhost:3000/">
+          HyperTube
+        </Link>
         {new Date().getFullYear()}
-        {"."}
       </Typography>
     </Container>
   );

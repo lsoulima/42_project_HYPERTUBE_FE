@@ -121,7 +121,7 @@ const UserProfile = styled.div`
   flex-direction: column;
   text-align: center;
   background: ${(props) => props.theme.cards};
-  height: 75%;
+  height: 60%;
   flex-basis: 18%;
   min-width: 150px;
   border-radius: 30px;
@@ -145,14 +145,14 @@ const MovieList = styled.div`
   flex-basis: 70%;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   /* margin: 40px; */
   .watchedList,
   .favouriteList {
     background: ${(props) => props.theme.cards};
     width: 100%;
-    height: 400px;
+    height: 450px;
     margin: 20px;
     display: flex;
     align-items: center;
@@ -179,6 +179,17 @@ const MovieList = styled.div`
       outline: none;
       border-radius: 0;
     }
+  }
+  .suggestions_like {
+    margin: 0;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 64px;
+    letter-spacing: -1px;
+    color: ${(props) => props.theme.text};
+    margin-top: 50px;
+    text-align: center;
+    position: relative;
   }
 `;
 const Avatar = styled.img`
@@ -220,6 +231,7 @@ export default function Profile() {
         </div>
       </UserProfile>
       <MovieList>
+        <div className="suggestions_like">Watched List</div>
         <div className="watchedList">
           <Carousel
             breakPoints={breakPoints}
@@ -282,6 +294,7 @@ export default function Profile() {
             ))}
           </Carousel>
         </div>
+        <div className="suggestions_like">Favourite List</div>
         <div className="favouriteList">
           <Carousel
             breakPoints={breakPoints}

@@ -10,6 +10,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import axios from "axios";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const Container = styled.div`
   margin: 0 20px 20px 20px;
@@ -85,9 +86,15 @@ const MyCard = styled.div`
   width: 240px;
   height: 382px;
   position: relative;
-  border: 5px solid #fff;
+  /* border: 5px solid #fff; */
   transition: all 0.8s;
+  border-radius: 7px;
+  box-shadow: 0px 4px 15px ${(props) => props.theme.background_grey_2};
+  img {
+    border-radius: 7px;
+  }
   .backHover {
+    border-radius: 7px;
     height: 100%;
     width: 100%;
     position: absolute;
@@ -96,12 +103,12 @@ const MyCard = styled.div`
   }
   &:hover .backHover {
     background: rgba(54, 54, 54, 0.7);
-    box-shadow: 0px 0px 50px -25px rgba(255, 0, 0, 0.5);
+    box-shadow: 0px 0px 50px -25px rgba(255, 0, 0, 0.8);
   }
   &:hover {
     transform: scale(1.05);
     transition: all 0.7s;
-    border: 5px solid #ffffff;
+    /* border: 5px solid #ffffff; */
   }
   &:hover .backHover {
     opacity: 1;
@@ -121,6 +128,7 @@ const MyCard = styled.div`
       color: #fff;
       padding: 10px;
       text-align: center;
+      border-radius: 7px;
       background: url("./img/mask-title.png");
       h4,
       h6 {
@@ -133,7 +141,7 @@ const MyCard = styled.div`
       height: 30px;
       background: red;
       align-self: flex-start;
-      border-radius: 10px;
+      border-radius: 7px;
       text-align: center;
       display: flex;
       align-items: center;
@@ -218,41 +226,100 @@ const FilterCard = styled.div`
   }
 `;
 const MainContainer = styled.div`
-  background: ${(props) => props.theme.background}; ;
+  background: ${(props) => props.theme.background};
+`;
+const SearchCard = styled.div`
+  background: transparent;
+  display: flex;
+  padding-top: 40px;
+  justify-content: center;
+
+  .search {
+    background: ${(props) => props.theme.cards};
+    border: 2px solid ${(props) => props.theme.border};
+    width: 400px;
+    border-radius: 50px;
+    color: ${(props) => props.theme.background};
+    font-family: inherit;
+    font-size: 1.2rem;
+    padding: 0.6rem 1.6rem;
+
+    @media (max-width: 768px) {
+      width: auto;
+      font-size: 0.8rem;
+    }
+  }
+  .search:focus {
+    outline: none;
+  }
+  input.search {
+    color: ${(props) => props.theme.text};
+  }
 `;
 
 export default function Library() {
-  const [radioValue, setRadioValue] = React.useState("female");
-  const [age, setAge] = React.useState("");
   const [hovered, setHovered] = useState(false);
   const toggleHover = (value) => setHovered(value);
   const [movies, setmovies] = useState([]);
+  const [page, setPage] = useState(1);
 
-  const handleChangeRadio = (event) => {
-    setRadioValue(event.target.value);
-  };
-  const handleGenreChange = (event) => {
-    setAge(event.target.value);
-  };
+  // const API_ONE = `https://api.apiumadomain.com/list?sort=popularity&short=1&cb=&quality=720p,1080p,3d&page=${page}`;
+  const API_TWO = `https://yts.mx/api/v2/list_movies.json?sort=popularity&limit=50&page=${page}`;
 
+  // const fetchMovies = async (API) => {
+  //   const res = await axios.get(API);
+  //   let mydata = movies.concat(res.data.MovieList); //res.data.data.movies
+  //   setmovies(mydata);
+  // };
+
+  const fetchYtsMovies = async (API) => {
+    const res = await axios.get(API);
+    let mydata = movies.concat(res.data.data.movies);
+    setmovies(mydata);
+  };
   useEffect(() => {
-    async function fetchMovies() {
-      const res = await axios.get(
-        `https://api.apiumadomain.com/list?sort=popularity&short=1&cb=&quality=720p,1080p,3d&page=1`
-      );
-      console.log(res.data.MovieList);
-      setmovies(res.data.MovieList);
-    }
-    fetchMovies();
-  }, []);
+    fetchYtsMovies(API_TWO);
+    // eslint-disable-next-line
+  }, [page]);
 
-  const [imdb, setImdb] = React.useState(10);
+  const [imdb, setImdb] = useState(10);
   const handleImdbChange = (event, newValue) => {
     setImdb(newValue);
   };
 
+  const [radioValue, setRadioValue] = useState("female");
+  const handleChangeRadio = (event) => {
+    setRadioValue(event.target.value);
+  };
+
+  const [genre, setGenre] = useState("");
+  const handleGenreChange = (event) => {
+    setGenre(event.target.value);
+  };
+  const [searchTerm, setSearchTerm] = useState("");
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
+    console.log("c'est ce que vous recherche " + searchTerm);
+    //how get all films with the title === searchTerm
+    setSearchTerm("");
+  };
+
+  const handleOnChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
   return (
     <MainContainer>
+      <SearchCard>
+        <form onSubmit={handleOnSubmit}>
+          <input
+            className="search"
+            type="search"
+            placeholder="Search ..."
+            value={searchTerm}
+            onChange={handleOnChange}
+          />
+        </form>
+      </SearchCard>
       <Container>
         <div className="first_card">
           <FilterCard style={{ width: "100%" }}>
@@ -306,7 +373,7 @@ export default function Library() {
               <Select
                 labelId="demo-simple-select-helper-label"
                 id="demo-simple-select-helper"
-                value={age}
+                value={genre}
                 onChange={handleGenreChange}
               >
                 <MenuItem value="">Romantic</MenuItem>
@@ -318,67 +385,75 @@ export default function Library() {
           </div>
         </div>
       </Container>
-      <CardContainer
-        onScroll={() => {
-          console.log("lo");
-        }}
+      <InfiniteScroll
+        dataLength={movies.length} //This is important field to render the next data
+        next={() => setPage(page + 1)}
+        hasMore={true}
+        loader={<h4>Loading...</h4>}
       >
-        {movies?.map((movie) => (
-          <MyCard
-            onMouseEnter={() => toggleHover(true)}
-            onMouseLeave={() => toggleHover(false)}
-          >
-            <img
-              src={movie.poster_big}
-              width="100%"
-              height="100%"
-              alt="cover"
-            />
-            {movie.isWatched ? (
-              <div className="eye ">
-                <i className="las la-eye"></i>
-              </div>
-            ) : (
-              ""
-            )}
-
-            <div className="backHover">
-              <div className="imdbPlace">
-                <h6>{movie.rating}</h6>
-              </div>
-              <div className="watch">
-                <div
-                  className={
-                    hovered
-                      ? "watchBtn animate__animated  animate__backInDown animate__faster"
-                      : "watchBtn"
-                  }
-                >
-                  Watch
+        <CardContainer>
+          {movies.map((movie, id) => (
+            <MyCard
+              key={id}
+              onMouseEnter={() => toggleHover(true)}
+              onMouseLeave={() => toggleHover(false)}
+            >
+              <img
+                src={movie.large_cover_image} //poster_big}
+                width="100%"
+                height="100%"
+                alt="cover"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = "https://t.ly/teEM";
+                }}
+              />
+              {movie.isWatched ? (
+                <div className="eye ">
+                  <i className="las la-eye"></i>
                 </div>
-                <div
-                  className={
-                    hovered
-                      ? "test1 animate__animated  animate__backInLeft animate__faster"
-                      : "test1"
-                  }
-                ></div>
-                <div
-                  className={
-                    hovered
-                      ? "test2 animate__animated  animate__backInRight animate__faster"
-                      : "test2"
-                  }
-                ></div>
+              ) : (
+                ""
+              )}
+
+              <div className="backHover">
+                <div className="imdbPlace">
+                  <h6>{movie.rating}</h6>
+                </div>
+                <div className="watch">
+                  <div
+                    className={
+                      hovered
+                        ? "watchBtn animate__animated  animate__backInDown animate__faster"
+                        : "watchBtn"
+                    }
+                  >
+                    Watch
+                  </div>
+                  <div
+                    className={
+                      hovered
+                        ? "test1 animate__animated  animate__backInLeft animate__faster"
+                        : "test1"
+                    }
+                  ></div>
+                  <div
+                    className={
+                      hovered
+                        ? "test2 animate__animated  animate__backInRight animate__faster"
+                        : "test2"
+                    }
+                  ></div>
+                </div>
+                <div className="mvName">
+                  <h4>{movie.title}</h4>
+                  <h6>{movie.year}</h6>
+                </div>
               </div>
-              <div className="mvName">
-                <h4>{movie.title}</h4>
-                <h6>{movie.year}</h6>
-              </div>
-            </div>
-          </MyCard>
-        ))}
-      </CardContainer>
+            </MyCard>
+          ))}
+        </CardContainer>
+      </InfiniteScroll>
     </MainContainer>
   );
 }
