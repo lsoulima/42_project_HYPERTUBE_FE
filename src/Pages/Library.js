@@ -264,7 +264,7 @@ export default function Library() {
   const [page, setPage] = useState(1);
 
   // const API_ONE = `https://api.apiumadomain.com/list?sort=popularity&short=1&cb=&quality=720p&page=${page}`;
-  const API_SEARCH = `https://yts.mx/api/v2/list_movies.json?query_term=${searchTerm}`;
+  // const API_SEARCH = `https://yts.mx/api/v2/list_movies.json?query_term=${searchTerm}`;
   const API_TWO = `https://yts.mx/api/v2/list_movies.json?sort_by=like_count&quality=720p&limit=50&page=${page}`;
 
   // const res = axios.get(API_ONE);
