@@ -78,7 +78,7 @@ const Wrapper = styled.div`
     width: 100%; // Fix IE 11 issue.
   }
   .submit {
-    margin: theme.spacing(3, 0, 2);
+    margin: 25px 0px;
     background: red;
   }
 `;
@@ -103,52 +103,58 @@ export default function NewPassword() {
     const responce = await newPwd(data, aToken);
     Setstate(responce);
     setOpen(true);
+    if (responce.success === true) {
+      history.push("/login");
+    }
   };
 
   return (
     <Wrapper>
-      <div className='container'>
-        <Container component='main' maxWidth='xs'>
-          <div className='paper'>
+      <div className="container">
+        <Container component="main" maxWidth="xs">
+          <div className="paper">
             <Typography
-              component='h1'
-              variant='h5'
+              component="h1"
+              variant="h5"
               style={{
                 alignSelf: "start",
                 fontSize: "40px",
                 fontWeight: 600,
                 color: "#fff",
-              }}>
+              }}
+            >
               New Password
             </Typography>
             <Snackbar
               anchorOrigin={{ vertical: "top", horizontal: "center" }}
               open={open}
               autoHideDuration={3000}
-              onClose={handleClose}>
+              onClose={handleClose}
+            >
               {state.success === true ? (
                 <Alert
                   onClose={handleClose}
-                  severity='success'
-                  variant='filled'>
+                  severity="success"
+                  variant="filled"
+                >
                   {state.message}
                 </Alert>
               ) : (
-                <Alert onClose={handleClose} severity='error' variant='filled'>
+                <Alert onClose={handleClose} severity="error" variant="filled">
                   {state.error}
                 </Alert>
               )}
             </Snackbar>
-            <form className='form' onSubmit={handleSubmit(onSubmit)}>
+            <form className="form" onSubmit={handleSubmit(onSubmit)}>
               <WhiteBorderTextField
-                variant='outlined'
-                margin='normal'
+                variant="outlined"
+                margin="normal"
                 fullWidth
-                name='newpassword'
-                label='NewPassword'
-                type='password'
-                id='newpassword'
-                autoComplete='current-password'
+                name="newpassword"
+                label="NewPassword"
+                type="password"
+                id="newpassword"
+                autoComplete="current-password"
                 inputRef={register({
                   required: "You must provide your Password!",
                   pattern: {
@@ -159,70 +165,38 @@ export default function NewPassword() {
                 })}
               />
               {errors.newpassword && (
-                <Box variant='filled' color='red' style={{ fontSize: "12px" }}>
+                <Box variant="filled" color="red" style={{ fontSize: "12px" }}>
                   {errors.newpassword.message}
                 </Box>
               )}
               <WhiteBorderTextField
-                variant='outlined'
-                margin='normal'
+                variant="outlined"
+                margin="normal"
                 fullWidth
-                name='confirmpassword'
-                label='Confirm_Password'
-                type='password'
-                id='confirmpassword'
-                autoComplete='current-password'
+                name="confirmpassword"
+                label="Confirm_Password"
+                type="password"
+                id="confirmpassword"
+                autoComplete="current-password"
                 inputRef={register({
                   required: "You must Confirm your Password!",
                 })}
               />
               {errors.confirmpassword && (
-                <Box variant='filled' color='red' style={{ fontSize: "12px" }}>
+                <Box variant="filled" color="red" style={{ fontSize: "12px" }}>
                   {errors.confirmpassword.message}
                 </Box>
               )}
 
               <Button
-                type='submit'
+                type="submit"
                 fullWidth
-                variant='contained'
-                color='primary'
-                className='submit'>
+                variant="contained"
+                color="primary"
+                className="submit"
+              >
                 Confirm
               </Button>
-              <h4
-                style={{
-                  color: "#fff",
-                  textAlign: "center",
-                  marginTop: "20px",
-                  marginBottom: "20px",
-                }}>
-                OR
-              </h4>
-              <Grid container>
-                <Grid item xs>
-                  <Link
-                    href='#'
-                    variant='body2'
-                    style={{ color: "#fff" }}
-                    onClick={() => {
-                      history.push("/login");
-                    }}>
-                    {"Sign In"}
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link
-                    href='#'
-                    variant='body2'
-                    style={{ color: "#fff" }}
-                    onClick={() => {
-                      history.push("/register");
-                    }}>
-                    {"Sign Up"}
-                  </Link>
-                </Grid>
-              </Grid>
             </form>
           </div>
         </Container>
