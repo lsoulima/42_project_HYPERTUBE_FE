@@ -44,35 +44,6 @@ const ButtonAuth = styled.button`
   }
 `;
 
-const LinkBtn = styled.div`
-  width: 100%;
-  height: 36px;
-  padding: 6px 16px 6px 16px;
-  position: relative;
-  margin-bottom: 20px;
-  :hover {
-    cursor: pointer;
-  }
-
-  i {
-    position: absolute;
-    left: 20px;
-    font-size: 20px;
-    margin: auto;
-  }
-  @media (max-width: 425px) {
-    span {
-      display: none;
-    }
-    i {
-      font-size: 20px;
-      position: absolute;
-      left: 45%;
-      top: 15%;
-    }
-  }
-`;
-
 const WhiteBorderTextField = styled(TextField)`
   & .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
     border-color: #fff !important;
@@ -172,82 +143,86 @@ export default function Login() {
 
   return (
     <Wrapper>
-      <div className='container'>
-        <Container component='main' maxWidth='xs'>
-          <div className='paper'>
+      <div className="container">
+        <Container component="main" maxWidth="xs">
+          <div className="paper">
             <Typography
-              component='h1'
-              variant='h5'
+              component="h1"
+              variant="h5"
               style={{
                 alignSelf: "start",
                 fontSize: "40px",
                 fontWeight: 600,
                 color: "#fff",
-              }}>
+              }}
+            >
               Sign in
             </Typography>
             <Snackbar
               anchorOrigin={{ vertical: "top", horizontal: "center" }}
               open={open}
               autoHideDuration={3000}
-              onClose={handleClose}>
+              onClose={handleClose}
+            >
               {state.success === true ? (
                 <Alert
                   onClose={handleClose}
-                  severity='success'
-                  variant='filled'>
+                  severity="success"
+                  variant="filled"
+                >
                   {state.message}
                 </Alert>
               ) : (
-                <Alert onClose={handleClose} severity='error' variant='filled'>
+                <Alert onClose={handleClose} severity="error" variant="filled">
                   {state.error}
                 </Alert>
               )}
             </Snackbar>
-            <form className='form' onSubmit={handleSubmit(onSubmit)}>
+            <form className="form" onSubmit={handleSubmit(onSubmit)}>
               <WhiteBorderTextField
-                variant='outlined'
-                margin='normal'
+                variant="outlined"
+                margin="normal"
                 fullWidth
-                id='username'
-                label='username'
-                name='username'
-                autoComplete='username'
+                id="username"
+                label="username"
+                name="username"
+                autoComplete="username"
                 autoFocus
                 inputRef={register({
                   required: "You must provide your username to login!",
                 })}
               />
               {errors.username && (
-                <Box variant='filled' color='red' style={{ fontSize: "12px" }}>
+                <Box variant="filled" color="red" style={{ fontSize: "12px" }}>
                   {errors.username.message}
                 </Box>
               )}
               <WhiteBorderTextField
-                variant='outlined'
-                margin='normal'
+                variant="outlined"
+                margin="normal"
                 fullWidth
-                name='password'
-                label='Password'
-                type='password'
-                id='password'
-                autoComplete='current-password'
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
                 inputRef={register({
                   required: "You must provide your Password to login!",
                 })}
               />
               {errors.password && (
-                <Box variant='filled' color='red' style={{ fontSize: "12px" }}>
+                <Box variant="filled" color="red" style={{ fontSize: "12px" }}>
                   {errors.password.message}
                 </Box>
               )}
 
               <Button
-                type='submit'
+                type="submit"
                 fullWidth
-                variant='contained'
-                color='primary'
-                className='submit'>
+                variant="contained"
+                color="primary"
+                className="submit"
+              >
                 Sign In
               </Button>
               <h4
@@ -256,47 +231,58 @@ export default function Login() {
                   textAlign: "center",
                   marginTop: "20px",
                   marginBottom: "20px",
-                }}>
+                }}
+              >
                 OR
               </h4>
-              <Grid container>
-                <Grid item xs>
-                  <Link
-                    href='#'
-                    variant='body2'
-                    style={{ color: "#fff" }}
-                    onClick={() => {
-                      history.push("/forgetpwd");
-                    }}>
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link
-                    href='#'
-                    variant='body2'
-                    style={{ color: "#fff" }}
-                    onClick={() => {
-                      history.push("/register");
-                    }}>
-                    {"Sign Up"}
-                  </Link>
-                </Grid>
-              </Grid>
             </form>
-            <Grid style={{ margin: "10px" }}>
+
+            <Grid style={{ margin: "10px", width: "100%" }}>
               <Link href={`${API_URL}/auth/42`}>
-                <i>42</i>
-                <span>Continue With Intra</span>
+                <ButtonAuth>
+                  <i>42</i>
+                  <span>Continue With Intra</span>
+                </ButtonAuth>
               </Link>
-              {/* <Link href={`${API_URL}/auth/`}>
-                <i className='lab la-google-plus-g'></i>
-                <span>Continue With Google</span>
+
+              <Link href={`${API_URL}/auth/`}>
+                <ButtonAuth>
+                  <i className="lab la-google-plus-g"></i>
+                  <span>Continue With Google</span>
+                </ButtonAuth>
               </Link>
               <Link>
-                <i className='lab la-github'></i>
-                <span>Continue With Github</span>
-              </Link> */}
+                <ButtonAuth>
+                  <i className="lab la-github"></i>
+                  <span>Continue With Github</span>
+                </ButtonAuth>
+              </Link>
+            </Grid>
+            <Grid container>
+              <Grid item xs>
+                <Link
+                  href="#"
+                  variant="body2"
+                  style={{ color: "#fff" }}
+                  onClick={() => {
+                    history.push("/forgetpwd");
+                  }}
+                >
+                  Forgot password?
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link
+                  href="#"
+                  variant="body2"
+                  style={{ color: "#fff" }}
+                  onClick={() => {
+                    history.push("/register");
+                  }}
+                >
+                  {"Sign Up"}
+                </Link>
+              </Grid>
             </Grid>
           </div>
         </Container>
