@@ -90,7 +90,7 @@ const Wrapper = styled.div`
     width: 100%; // Fix IE 11 issue.
   }
   .submit {
-    margin: theme.spacing(3, 0, 2);
+    margin: 25px 0px;
     background: red;
   }
 `;

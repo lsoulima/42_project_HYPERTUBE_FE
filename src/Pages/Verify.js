@@ -49,7 +49,7 @@ const Wrapper = styled.div`
     width: 100%; // Fix IE 11 issue.
   }
   .submit {
-    margin: theme.spacing(3, 0, 2);
+    margin: 25px 0px;
     background: red;
   }
 `;
@@ -77,45 +77,49 @@ export default function Verify() {
 
   return (
     <Wrapper>
-      <div className='container'>
-        <Container component='main' maxWidth='xs'>
-          <div className='paper'>
+      <div className="container">
+        <Container component="main" maxWidth="xs">
+          <div className="paper">
             <Typography
-              component='h1'
-              variant='h5'
+              component="h1"
+              variant="h5"
               style={{
                 alignSelf: "start",
                 fontSize: "40px",
                 fontWeight: 600,
                 color: "#fff",
-              }}>
+              }}
+            >
               {state.message}
             </Typography>
             <Snackbar
               anchorOrigin={{ vertical: "top", horizontal: "center" }}
               open={open}
               autoHideDuration={3000}
-              onClose={handleClose}>
+              onClose={handleClose}
+            >
               {state.success === true ? (
                 <Alert
                   onClose={handleClose}
-                  severity='success'
-                  variant='filled'>
+                  severity="success"
+                  variant="filled"
+                >
                   {state.message}
                 </Alert>
               ) : (
-                <Alert onClose={handleClose} severity='error' variant='filled'>
+                <Alert onClose={handleClose} severity="error" variant="filled">
                   {state.error}
                 </Alert>
               )}
             </Snackbar>
-            <form className='form'>
+            <form className="form">
               <Button
-                href='/login'
+                href="/login"
                 fullWidth
-                variant='contained'
-                color='primary'
-                className='submit'>
+                variant="contained"
+                color="primary"
+                className="submit"
+              >
                 login
               </Button>
 
@@ -125,7 +129,8 @@ export default function Verify() {
                   textAlign: "center",
                   marginTop: "20px",
                   marginBottom: "20px",
-                }}></h4>
+                }}
+              ></h4>
             </form>
           </div>
         </Container>
