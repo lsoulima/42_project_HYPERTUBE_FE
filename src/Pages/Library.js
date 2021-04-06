@@ -263,8 +263,21 @@ export default function Library() {
   const [movies, setmovies] = useState([]);
   const [page, setPage] = useState(1);
 
-  // const API_ONE = `https://api.apiumadomain.com/list?sort=popularity&short=1&cb=&quality=720p,1080p,3d&page=${page}`;
-  const API_TWO = `https://yts.mx/api/v2/list_movies.json?sort=popularity&limit=50&page=${page}`;
+  // const API_ONE = `https://api.apiumadomain.com/list?sort=popularity&short=1&cb=&quality=720p&page=${page}`;
+  const API_SEARCH = `https://yts.mx/api/v2/list_movies.json?query_term=${searchTerm}`;
+  const API_TWO = `https://yts.mx/api/v2/list_movies.json?sort_by=like_count&quality=720p&limit=50&page=${page}`;
+
+  // const res = axios.get(API_ONE);
+  // if (res.data) movies = res.data;
+  // else {
+  //   const res = axios.get(API_TWO);
+  //   res.data.forEach((e) => {
+  //     movies.push({
+  //       id: e.hash,
+  //       img: e.pic,
+  //     });
+  //   });
+  // }
 
   // const fetchMovies = async (API) => {
   //   const res = await axios.get(API);
@@ -274,7 +287,7 @@ export default function Library() {
 
   const fetchYtsMovies = async (API) => {
     const res = await axios.get(API);
-    let mydata = movies.concat(res.data.data.movies);
+    let mydata = [...movies, ...res.data.data.movies]; //movies.concat(res.data.data.movies);
     setmovies(mydata);
   };
   useEffect(() => {
