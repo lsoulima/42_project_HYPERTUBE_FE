@@ -307,13 +307,13 @@ export default function Stream() {
                 tracks: [
                   {
                     kind: "subtitles",
-                    src: "subs/subtitles.en.vtt",
+                    src: "http://localhost:3001/subs/subtitles.en.vtt",
                     srcLang: "en",
                     default: true,
                   },
                   {
                     kind: "subtitles",
-                    src: "subs/subtitles.fr.vtt",
+                    src: "http://localhost:3001/subs/subtitles.fr.vtt",
                     srcLang: "fr",
                   },
                 ],
