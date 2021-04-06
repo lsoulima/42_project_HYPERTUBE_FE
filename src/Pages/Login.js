@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import { useHistory } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -11,6 +11,7 @@ import { loginAction } from "../services/auth";
 import { useForm } from "react-hook-form";
 import Alert from "@material-ui/lab/Alert";
 import { Snackbar, Box } from "@material-ui/core";
+import { HyperContext } from "../Context/context";
 
 const ButtonAuth = styled.button`
   width: 100%;
@@ -113,6 +114,7 @@ const Wrapper = styled.div`
 `;
 
 export default function Login() {
+  const { dispatch } = useContext(HyperContext);
   const [state, Setstate] = useState({});
   const { register, handleSubmit, errors } = useForm();
   const [open, setOpen] = useState(false);
@@ -123,15 +125,15 @@ export default function Login() {
 
     setOpen(false);
   };
+
   let history = useHistory();
   const onSubmit = async (data) => {
-    let registerData = data;
-    const responce = await loginAction(registerData);
+    const responce = await loginAction(data, dispatch);
     Setstate(responce);
-    if (state.success) {
+    setOpen(true);
+    if (responce.success === true) {
       history.push("/home");
     }
-    setOpen(true);
   };
 
   return (
@@ -173,18 +175,18 @@ export default function Login() {
                 variant='outlined'
                 margin='normal'
                 fullWidth
-                id='email'
-                label='Email Address'
-                name='email'
-                autoComplete='email'
+                id='username'
+                label='username'
+                name='username'
+                autoComplete='username'
                 autoFocus
                 inputRef={register({
-                  required: "You must provide your email to login!",
+                  required: "You must provide your username to login!",
                 })}
               />
-              {errors.email && (
+              {errors.username && (
                 <Box variant='filled' color='red' style={{ fontSize: "12px" }}>
-                  {errors.email.message}
+                  {errors.username.message}
                 </Box>
               )}
               <WhiteBorderTextField

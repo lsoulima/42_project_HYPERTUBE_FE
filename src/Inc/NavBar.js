@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext, Fragment } from "react";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -14,7 +14,10 @@ import { withNamespaces } from "react-i18next";
 import { FlagIcon } from "react-flag-kit";
 import styled from "styled-components";
 
+import { logout } from "../services/auth";
+
 import i18n from "../i18n";
+import { HyperContext } from "../Context/context";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -163,6 +166,7 @@ const Shadow = styled.div`
 `;
 
 function NavBar({ t, mytheme, settheme }) {
+  const { state, dispatch } = useContext(HyperContext);
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -186,10 +190,14 @@ function NavBar({ t, mytheme, settheme }) {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+  const handleLogout = () => {
+    logout(dispatch);
+  };
 
   let history = useHistory();
 
   const menuId = "primary-search-account-menu";
+
   const renderMenu = (
     <DesktopMenu
       anchorEl={anchorEl}
@@ -198,13 +206,12 @@ function NavBar({ t, mytheme, settheme }) {
       keepMounted
       transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <Link to="/edit" style={{ color: "#fff" }}>
+      onClose={handleMenuClose}>
+      <Link to='/edit' style={{ color: "#fff" }}>
         <MenuItem onClick={handleMenuClose}>Settings</MenuItem>
       </Link>
-      <Link to="/login" style={{ color: "#fff" }}>
-        <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+      <Link to='/login' style={{ color: "#fff" }}>
+        <MenuItem onClick={(handleMenuClose, handleLogout)}>Logout</MenuItem>
       </Link>
     </DesktopMenu>
   );
@@ -218,17 +225,26 @@ function NavBar({ t, mytheme, settheme }) {
       keepMounted
       transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      <Link className="link" to="/register">
-        <MenuItem>Register</MenuItem>
-      </Link>
-      <Link className="link" to="/login">
-        <MenuItem>Login</MenuItem>
-      </Link>
-      <Link className="link" to="/edit">
-        <MenuItem onClick={handleProfileMenuOpen}>Settings</MenuItem>
-      </Link>
+      onClose={handleMobileMenuClose}>
+      {state.isAuth === false ? (
+        <>
+          <Link className='link' to='/register'>
+            <MenuItem>Register</MenuItem>
+          </Link>
+          <Link className='link' to='/login'>
+            <MenuItem>Login</MenuItem>
+          </Link>
+        </>
+      ) : (
+        <>
+          <Link className='link' to='/edit'>
+            <MenuItem>Settings</MenuItem>
+          </Link>
+          <Link className='link' to='/logout'>
+            <MenuItem>Logout</MenuItem>
+          </Link>
+        </>
+      )}
     </MobileMenu>
   );
 
@@ -281,85 +297,85 @@ function NavBar({ t, mytheme, settheme }) {
   return (
     <div className={classes.grow}>
       <Shadow>
-        <AppBar position="static" className={classes.appbar}>
+        <AppBar position='static' className={classes.appbar}>
           <Toolbar>
             <div
               className={classes.title}
               onClick={() => {
                 history.push("/");
-              }}
-            >
-              <img src="./img/logo.png" className={classes.logo} alt="logo" />
-              <Typography className={classes.title} variant="h4" noWrap>
+              }}>
+              <img src='./img/logo.png' className={classes.logo} alt='logo' />
+              <Typography className={classes.title} variant='h4' noWrap>
                 yperTube
               </Typography>
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              <NavButton>
-                <Link className="link" to="/login">
-                  {t("loginTr")}
-                </Link>
-              </NavButton>
-              <NavButton>
-                <Link className="link" to="/register">
-                  {t("registerTr")}
-                </Link>
-              </NavButton>
+              {/* Traduction */}
               {localStorage.getItem("i18nextLng") === "en" ? (
                 <IconBtn onClick={() => changeLanguage("fr")}>
-                  <FlagIcon code="FR" size={25} />
+                  <FlagIcon code='FR' size={25} />
                 </IconBtn>
               ) : (
                 <IconBtn onClick={() => changeLanguage("en")}>
-                  <FlagIcon code="US" size={25} />
+                  <FlagIcon code='US' size={25} />
                 </IconBtn>
               )}
-
-              {/* check dark theme */}
+              {/* Check dark theme */}
               <ToggleTheme
                 onClick={() => handlePosition()}
                 style={
                   theme
                     ? { border: "1px solid white" }
                     : { border: "1px solid gray" }
-                }
-              >
+                }>
                 <span
-                  className="monWraper"
+                  className='monWraper'
                   style={
                     theme
                       ? { transform: "translateX(-15px)", background: "white" }
                       : { transform: "translateX(-40px)", background: "gray" }
-                  }
-                >
+                  }>
                   <img
-                    src="./img/moon.svg"
-                    alt="moon"
+                    src='./img/moon.svg'
+                    alt='moon'
                     style={theme ? { color: "white" } : { color: "yellow" }}
                   />
                 </span>
               </ToggleTheme>
 
-              <IconButton
-                edge="end"
-                aria-label="account of current user"
-                aria-controls={menuId}
-                aria-haspopup="true"
-                onClick={handleProfileMenuOpen}
-                style={{ background: "red" }}
-              >
-                <AccountCircle style={{ color: "#fff" }} />
-              </IconButton>
+              {state.isAuth === true ? (
+                <IconButton
+                  edge='end'
+                  aria-label='account of current user'
+                  aria-controls={menuId}
+                  aria-haspopup='true'
+                  onClick={handleProfileMenuOpen}
+                  style={{ background: "red" }}>
+                  <AccountCircle style={{ color: "#fff" }} />
+                </IconButton>
+              ) : (
+                <>
+                  <NavButton>
+                    <Link className='link' to='/login'>
+                      {t("loginTr")}
+                    </Link>
+                  </NavButton>
+                  <NavButton>
+                    <Link className='link' to='/register'>
+                      {t("registerTr")}
+                    </Link>
+                  </NavButton>
+                </>
+              )}
             </div>
             <div className={classes.sectionMobile}>
               <IconButton
-                aria-label="show more"
+                aria-label='show more'
                 aria-controls={mobileMenuId}
-                aria-haspopup="true"
+                aria-haspopup='true'
                 onClick={handleMobileMenuOpen}
-                color="inherit"
-              >
+                color='inherit'>
                 <MoreIcon style={{ color: "red" }} />
               </IconButton>
             </div>

@@ -5,7 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import styled from "styled-components";
-import { Link, useHistory, Redirect } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Alert from "@material-ui/lab/Alert";
 import { Box, Snackbar } from "@material-ui/core";
 import { useForm } from "react-hook-form";
@@ -126,10 +126,10 @@ export default function Register() {
     let registerData = data;
     const responce = await registerAction(registerData);
     Setstate(responce);
-    if (state.success === true) {
-      <Redirect to='/login' />;
-    }
     setOpen(true);
+    if (responce.success === true) {
+      history.push("/login");
+    }
   };
 
   return (
@@ -151,7 +151,7 @@ export default function Register() {
             <Snackbar
               anchorOrigin={{ vertical: "top", horizontal: "center" }}
               open={open}
-              autoHideDuration={3000}
+              autoHideDuration={6000}
               onClose={handleClose}>
               {state.success === true ? (
                 <Alert
