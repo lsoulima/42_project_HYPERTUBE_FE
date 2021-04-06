@@ -3,86 +3,119 @@ import axios from "axios";
 const API_URL = "http://localhost:3001/api/users/";
 
 //* REGISTER USER
-const registerAction = (data) => {
-  console.log("dataregsuter", data);
-
+export const registerAction = async (data) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
     },
   };
-  return axios.post(API_URL + "register", { config }, data);
+  try {
+    const res = await axios.post(API_URL + "register", data, config);
+    if (res) return res.data;
+    return false;
+  } catch (error) {
+    return error.response.data;
+  }
 };
 
-//* LOGIN USER
-const login = (username, password) => {
-  return axios
-    .post(API_URL + "login", {
-      username,
-      password,
-    })
-    .then((response) => {
-      if (response.data.accessToken) {
-        localStorage.setItem("user", JSON.stringify(response.data));
-      }
+// //* LOGIN USER
 
-      return response.data;
-    });
+export const loginAction = async (loginData) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  try {
+    const res = await axios.post(API_URL + "login", loginData, config);
+    localStorage.setItem("token", res.data.token);
+
+    // dispatch({
+    //   type: LOGIN_SUCCESS,
+    //   payload: {
+    //     isAuth:res.data.
+    //     token: res.data?.token,
+    //     isCompletinfo: res.data?.isInfosComplete,
+    //     username: loginData.usernasme,
+    //   },
+    // });
+
+    if (res.data) return res.data;
+  } catch (error) {
+    return error.response.data;
+  }
 };
 
 //* LOGOUT USER
-const logout = () => {
+export const logout = () => {
   localStorage.removeItem("user");
 };
 
 //* VERIFY USER ACCOUNT
-const verifyAccount = (token) => {
+export const verifyAccount = async (token) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
     },
   };
-  return axios.patch(API_URL + "verify", "", { config });
+
+  try {
+    const res = await axios.patch(
+      API_URL + "verify/account",
+      { token: token },
+      "",
+      config
+    );
+    if (res.data) return res.data;
+  } catch (error) {
+    return error.response.data;
+  }
 };
 
-//* VERIFY TOKEN OF USER
-const verifyToken = (token) => {
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  };
-  return axios.post(API_URL + "verify", { config });
-};
+// //* VERIFY TOKEN OF USER
+// const verifyToken = (token) => {
+//   const config = {
+//     headers: {
+//       "Content-Type": "application/json",
+//       Authorization: `Bearer ${token}`,
+//     },
+//   };
+//   return axios.post(API_URL + "verify", { config });
+// };
 
 // * RESET PASSWORD
-const resetPwd = (email) => {
+export const resetPwd = async (email) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
     },
   };
-  return axios.patch(API_URL + "resetpassword", email, { config });
+  try {
+    const res = await axios.post(API_URL + "resetpassword", email, config);
+    if (res.data) return res.data;
+  } catch (error) {
+    return error.response.data;
+  }
 };
 
 // * NEW PASSWORD
-const newPwd = (data) => {
+export const newPwd = async (newPassData, token) => {
+  let body = {
+    token: token,
+    newpassword: newPassData.newpassword,
+    confirmpassword: newPassData.confirmpassword,
+  };
+
   const config = {
     headers: {
       "Content-Type": "application/json",
     },
   };
-  return axios.patch(API_URL + "newpassword", data, { config });
-};
-
-export default {
-  registerAction,
-  login,
-  logout,
-  verifyToken,
-  verifyAccount,
-  resetPwd,
-  newPwd,
+  try {
+    const res = await axios.patch(API_URL + "newpassword", body, config);
+    if (res.data) return res.data;
+  } catch (error) {
+    return error.response.data;
+  }
 };

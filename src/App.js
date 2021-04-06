@@ -14,6 +14,8 @@ import Profile from "./Pages/Profile";
 import ForgetPwd from "./Pages/ForgetPwd";
 import { HyperProvider } from "./Context/context";
 import { ThemeProvider } from "styled-components";
+import NewPassword from "./Pages/NewPwd";
+import Verify from "./Pages/Verify";
 
 const App = () => {
   const [theme, setTheme] = useState({
@@ -50,15 +52,17 @@ const App = () => {
         <ThemeProvider theme={theme}>
           <NavBar mytheme={theme} settheme={setTheme} />
           <Switch>
-            <Route path="/login" component={Login} />
-            <Route path="/register" component={Register} />
-            <Route path="/edit" component={EditProfile} />
-            <Route path="/library" component={Library} />
-            <Route path="/stream" component={Stream} />
-            <Route path="/profile" component={Profile} />
-            <Route path="/forgetpwd" component={ForgetPwd} />
+            <Route path='/login' component={Login} />
+            <Route path='/verify' component={Verify} />
+            <Route path='/newpassword' component={NewPassword} />
+            <Route path='/register' component={Register} />
+            <Route path='/edit' component={EditProfile} />
+            <Route path='/library' component={Library} />
+            <Route path='/stream' component={Stream} />
+            <Route path='/profile' component={Profile} />
+            <Route path='/forgetpwd' component={ForgetPwd} />
 
-            <Route path="/" component={Home} />
+            <Route path='/' component={Home} />
           </Switch>
           <Footer />
         </ThemeProvider>

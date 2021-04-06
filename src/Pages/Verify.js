@@ -1,42 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
+
+import { useHistory } from "react-router-dom";
+
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import styled from "styled-components";
-import { resetPwd } from "../services/auth";
-import { useHistory } from "react-router";
-import { useForm } from "react-hook-form";
-import Alert from "@material-ui/lab/Alert";
-import { Snackbar, Box } from "@material-ui/core";
+import { verifyAccount } from "../services/auth";
 
-const WhiteBorderTextField = styled(TextField)`
-  & .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
-    border-color: #fff !important;
-  }
-  & .MuiOutlinedInput-notchedOutline {
-    border-color: #fff;
-  }
-  & label.Mui-focused {
-    color: #fff;
-  }
-  & .MuiOutlinedInput-root {
-    &.Mui-focused fieldset {
-      border-color: #fff;
-    }
-  }
-  label {
-    color: #fff !important;
-    font-size: 13px;
-  }
-  input:hover {
-    border-color: red !important;
-  }
-  input {
-    border-color: #fff;
-    color: #fff;
-  }
-`;
+import Alert from "@material-ui/lab/Alert";
+import { Snackbar } from "@material-ui/core";
 
 const Wrapper = styled.div`
   & {
@@ -73,7 +46,7 @@ const Wrapper = styled.div`
     background-color: red;
   }
   .form {
-    width: 100%;
+    width: 100%; // Fix IE 11 issue.
   }
   .submit {
     margin: theme.spacing(3, 0, 2);
@@ -81,9 +54,8 @@ const Wrapper = styled.div`
   }
 `;
 
-export default function ForgetPwd() {
-  const [state, Setstate] = useState({});
-  const { register, handleSubmit, errors } = useForm();
+export default function Verify() {
+  const [state, setState] = useState({});
   const [open, setOpen] = useState(false);
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -92,16 +64,17 @@ export default function ForgetPwd() {
 
     setOpen(false);
   };
-  let history = useHistory();
-  const onSubmit = async (data) => {
-    let registerData = data;
-    const responce = await resetPwd(registerData);
-    Setstate(responce);
-    if (state.success) {
-      history.push("/home");
-    }
-    setOpen(true);
-  };
+
+  const aToken = window.location.search.split("=")[1];
+  useEffect(() => {
+    const onVerify = async () => {
+      const responce = await verifyAccount(aToken);
+      setState(responce);
+      setOpen(true);
+    };
+    onVerify();
+  }, []);
+
   return (
     <Wrapper>
       <div className='container'>
@@ -112,12 +85,11 @@ export default function ForgetPwd() {
               variant='h5'
               style={{
                 alignSelf: "start",
-                fontSize: "30px",
+                fontSize: "40px",
                 fontWeight: 600,
                 color: "#fff",
-                marginBottom: "20px",
               }}>
-              Reset Password
+              {state.message}
             </Typography>
             <Snackbar
               anchorOrigin={{ vertical: "top", horizontal: "center" }}
@@ -137,34 +109,23 @@ export default function ForgetPwd() {
                 </Alert>
               )}
             </Snackbar>
-            <form className='form' onSubmit={handleSubmit(onSubmit)}>
-              <WhiteBorderTextField
-                variant='outlined'
-                margin='normal'
-                fullWidth
-                id='email'
-                label='Email Address'
-                name='email'
-                autoComplete='email'
-                autoFocus
-                inputRef={register({
-                  required:
-                    "You must provide your email to reset you password!",
-                })}
-              />
-              {errors.email && (
-                <Box variant='filled' color='red' style={{ fontSize: "12px" }}>
-                  {errors.email.message}
-                </Box>
-              )}
+            <form className='form'>
               <Button
-                type='submit'
+                href='/login'
                 fullWidth
                 variant='contained'
                 color='primary'
                 className='submit'>
-                Reset Password
+                login
               </Button>
+
+              <h4
+                style={{
+                  color: "#fff",
+                  textAlign: "center",
+                  marginTop: "20px",
+                  marginBottom: "20px",
+                }}></h4>
             </form>
           </div>
         </Container>

@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
-import registerAction from "../services/auth";
-import { Box } from "@material-ui/core";
+import { Link, useHistory, Redirect } from "react-router-dom";
+import Alert from "@material-ui/lab/Alert";
+import { Box, Snackbar } from "@material-ui/core";
 import { useForm } from "react-hook-form";
+
+import { registerAction } from "../services/auth";
 
 const ButtonAuth = styled.button`
   width: 100%;
@@ -109,19 +111,25 @@ const Wrapper = styled.div`
 `;
 
 export default function Register() {
-  // const [state, Setstate] = useState();
+  const [state, Setstate] = useState({});
   const { register, handleSubmit, errors } = useForm();
-  // const [open, setOpen] = React.useState(false);
-  // let history = useHistory();
-  // const handleClose = (event, reason, state) => {
-  //   if (reason === "clickaway") {
-  //     return;
-  //   }
-  //   setOpen(false);
-  // };
+  const [open, setOpen] = useState(false);
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
 
+    setOpen(false);
+  };
+  let history = useHistory();
   const onSubmit = async (data) => {
-    const res = await registerAction(data);
+    let registerData = data;
+    const responce = await registerAction(registerData);
+    Setstate(responce);
+    if (state.success === true) {
+      <Redirect to='/login' />;
+    }
+    setOpen(true);
   };
 
   return (
@@ -140,24 +148,24 @@ export default function Register() {
               }}>
               Sign Up
             </Typography>
-            {/* <Snackbar
+            <Snackbar
               anchorOrigin={{ vertical: "top", horizontal: "center" }}
               open={open}
-              autoHideDuration={1000}
+              autoHideDuration={3000}
               onClose={handleClose}>
-              {state === "0" ? (
+              {state.success === true ? (
                 <Alert
                   onClose={handleClose}
                   severity='success'
                   variant='filled'>
-                  Registered successfully, Please confirm your email
+                  {state.message}
                 </Alert>
               ) : (
                 <Alert onClose={handleClose} severity='error' variant='filled'>
-                  {state}
+                  {state.error}
                 </Alert>
               )}
-            </Snackbar> */}
+            </Snackbar>
             <form className='form' onSubmit={handleSubmit(onSubmit)}>
               <Grid container spacing={1}>
                 <Grid item xs={12} md={6}>
@@ -321,7 +329,6 @@ export default function Register() {
                   <Button
                     type='submit'
                     fullWidth
-                    // onClick={() => HandlSubmit()}
                     variant='contained'
                     color='primary'
                     className='submit'>
@@ -340,11 +347,11 @@ export default function Register() {
                   </h4>
                 </Grid>
                 <ButtonAuth>
-                  <i class='lab la-google-plus-g'></i>
+                  <i className='lab la-google-plus-g'></i>
                   <span>Continue With Goolge</span>
                 </ButtonAuth>
                 <ButtonAuth>
-                  <i class='lab la-github'></i>
+                  <i className='lab la-github'></i>
                   <span>Continue With Github</span>
                 </ButtonAuth>
                 <ButtonAuth>

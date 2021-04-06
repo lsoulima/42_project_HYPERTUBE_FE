@@ -7,39 +7,10 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import styled from "styled-components";
-import { loginAction } from "../services/auth";
+import { newPwd } from "../services/auth";
 import { useForm } from "react-hook-form";
 import Alert from "@material-ui/lab/Alert";
 import { Snackbar, Box } from "@material-ui/core";
-
-const ButtonAuth = styled.button`
-  width: 100%;
-  height: 36px;
-  padding: 6px 16px 6px 16px;
-  position: relative;
-  margin-bottom: 20px;
-  :hover {
-    cursor: pointer;
-  }
-
-  i {
-    position: absolute;
-    left: 20px;
-    font-size: 20px;
-    margin: auto;
-  }
-  @media (max-width: 425px) {
-    span {
-      display: none;
-    }
-    i {
-      font-size: 20px;
-      position: absolute;
-      left: 45%;
-      top: 15%;
-    }
-  }
-`;
 
 const WhiteBorderTextField = styled(TextField)`
   & .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
@@ -112,10 +83,13 @@ const Wrapper = styled.div`
   }
 `;
 
-export default function Login() {
+export default function NewPassword() {
   const [state, Setstate] = useState({});
   const { register, handleSubmit, errors } = useForm();
   const [open, setOpen] = useState(false);
+  const [newPwdData, setNewPwdData] = useState({
+    token: null,
+  });
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -123,14 +97,11 @@ export default function Login() {
 
     setOpen(false);
   };
+  const aToken = window.location.search.split("=")[1];
   let history = useHistory();
   const onSubmit = async (data) => {
-    let registerData = data;
-    const responce = await loginAction(registerData);
+    const responce = await newPwd(data, aToken);
     Setstate(responce);
-    if (state.success) {
-      history.push("/home");
-    }
     setOpen(true);
   };
 
@@ -148,7 +119,7 @@ export default function Login() {
                 fontWeight: 600,
                 color: "#fff",
               }}>
-              Sign in
+              New Password
             </Typography>
             <Snackbar
               anchorOrigin={{ vertical: "top", horizontal: "center" }}
@@ -173,36 +144,36 @@ export default function Login() {
                 variant='outlined'
                 margin='normal'
                 fullWidth
-                id='email'
-                label='Email Address'
-                name='email'
-                autoComplete='email'
-                autoFocus
+                name='newpassword'
+                label='NewPassword'
+                type='password'
+                id='newpassword'
+                autoComplete='current-password'
                 inputRef={register({
-                  required: "You must provide your email to login!",
+                  required: "You must provide your Password!",
                 })}
               />
-              {errors.email && (
+              {errors.newpassword && (
                 <Box variant='filled' color='red' style={{ fontSize: "12px" }}>
-                  {errors.email.message}
+                  {errors.newpassword.message}
                 </Box>
               )}
               <WhiteBorderTextField
                 variant='outlined'
                 margin='normal'
                 fullWidth
-                name='password'
-                label='Password'
+                name='confirmpassword'
+                label='Confirm_Password'
                 type='password'
-                id='password'
+                id='confirmpassword'
                 autoComplete='current-password'
                 inputRef={register({
-                  required: "You must provide your Password to login!",
+                  required: "You must Confirm your Password!",
                 })}
               />
-              {errors.password && (
+              {errors.confirmpassword && (
                 <Box variant='filled' color='red' style={{ fontSize: "12px" }}>
-                  {errors.password.message}
+                  {errors.confirmpassword.message}
                 </Box>
               )}
 
@@ -212,7 +183,7 @@ export default function Login() {
                 variant='contained'
                 color='primary'
                 className='submit'>
-                Sign In
+                Confirm
               </Button>
               <h4
                 style={{
@@ -223,18 +194,6 @@ export default function Login() {
                 }}>
                 OR
               </h4>
-              <ButtonAuth>
-                <i className='lab la-google-plus-g'></i>
-                <span>Continue With Google</span>
-              </ButtonAuth>
-              <ButtonAuth>
-                <i className='lab la-github'></i>
-                <span>Continue With Github</span>
-              </ButtonAuth>
-              <ButtonAuth>
-                <i>42</i>
-                <span>Continue With Intra</span>
-              </ButtonAuth>
               <Grid container>
                 <Grid item xs>
                   <Link
@@ -242,9 +201,9 @@ export default function Login() {
                     variant='body2'
                     style={{ color: "#fff" }}
                     onClick={() => {
-                      history.push("/forgetpwd");
+                      history.push("/login");
                     }}>
-                    Forgot password?
+                    {"Sign In"}
                   </Link>
                 </Grid>
                 <Grid item>
