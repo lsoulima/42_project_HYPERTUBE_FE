@@ -16,6 +16,8 @@ import { HyperProvider } from "./Context/context";
 import { ThemeProvider } from "styled-components";
 import NewPassword from "./Pages/NewPwd";
 import Verify from "./Pages/Verify";
+import PublicRoute from "./Routing/PublicRoute";
+import PrivateRoute from "./Routing/PrivateRoute";
 
 const App = () => {
   const [theme, setTheme] = useState({
@@ -52,15 +54,15 @@ const App = () => {
         <ThemeProvider theme={theme}>
           <NavBar mytheme={theme} settheme={setTheme} />
           <Switch>
-            <Route path='/login' component={Login} />
-            <Route path='/verify' component={Verify} />
-            <Route path='/newpassword' component={NewPassword} />
-            <Route path='/register' component={Register} />
-            <Route path='/edit' component={EditProfile} />
-            <Route path='/library' component={Library} />
-            <Route path='/stream' component={Stream} />
-            <Route path='/profile' component={Profile} />
-            <Route path='/forgetpwd' component={ForgetPwd} />
+            <PublicRoute path='/login' component={Login} exact />
+            <PublicRoute path='/verify' component={Verify} />
+            <PublicRoute path='/newpassword' component={NewPassword} />
+            <PublicRoute path='/register' component={Register} />
+            <PrivateRoute path='/edit' component={EditProfile} />
+            <PrivateRoute path='/library' component={Library} />
+            <PrivateRoute path='/stream' component={Stream} />
+            <PrivateRoute path='/profile' component={Profile} />
+            <PrivateRoute path='/forgetpwd' component={ForgetPwd} />
 
             <Route path='/' component={Home} />
           </Switch>

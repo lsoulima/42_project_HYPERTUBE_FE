@@ -1,9 +1,10 @@
 import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT } from "./actionsTypes";
 
+const token = localStorage.getItem("token");
+
 export const Initialstate = {
-  isAuth: false,
-  token: null,
   success: false,
+  token: token,
 };
 
 export const HyperReducer = (state = Initialstate, action) => {
@@ -13,21 +14,18 @@ export const HyperReducer = (state = Initialstate, action) => {
     case LOGIN_SUCCESS:
       return {
         ...state,
-        success: true,
-        isAuth: true,
+
         token: payload.token,
       };
     case LOGIN_FAIL:
       return {
         ...state,
-        isAuth: false,
-        success: false,
         token: payload.token,
       };
     case LOGOUT:
       return {
         ...state,
-        isAuth: false,
+
         token: null,
       };
     default:

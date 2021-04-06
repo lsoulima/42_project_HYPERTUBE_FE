@@ -346,18 +346,6 @@ export default function Register() {
                     OR
                   </h4>
                 </Grid>
-                <ButtonAuth>
-                  <i className='lab la-google-plus-g'></i>
-                  <span>Continue With Goolge</span>
-                </ButtonAuth>
-                <ButtonAuth>
-                  <i className='lab la-github'></i>
-                  <span>Continue With Github</span>
-                </ButtonAuth>
-                <ButtonAuth>
-                  <i>42</i>
-                  <span>Continue With Intra</span>
-                </ButtonAuth>
                 <Grid container>
                   <Grid
                     item

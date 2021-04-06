@@ -13,7 +13,38 @@ import Alert from "@material-ui/lab/Alert";
 import { Snackbar, Box } from "@material-ui/core";
 import { HyperContext } from "../Context/context";
 
+const API_URL = "http://localhost:3001/api/users/";
+
 const ButtonAuth = styled.button`
+  width: 100%;
+  height: 36px;
+  padding: 6px 16px 6px 16px;
+  position: relative;
+  margin-bottom: 20px;
+  :hover {
+    cursor: pointer;
+  }
+
+  i {
+    position: absolute;
+    left: 20px;
+    font-size: 20px;
+    margin: auto;
+  }
+  @media (max-width: 425px) {
+    span {
+      display: none;
+    }
+    i {
+      font-size: 20px;
+      position: absolute;
+      left: 45%;
+      top: 15%;
+    }
+  }
+`;
+
+const LinkBtn = styled.div`
   width: 100%;
   height: 36px;
   padding: 6px 16px 6px 16px;
@@ -132,7 +163,7 @@ export default function Login() {
     Setstate(responce);
     setOpen(true);
     if (responce.success === true) {
-      history.push("/home");
+      history.replace("/library");
     }
   };
 
@@ -225,18 +256,6 @@ export default function Login() {
                 }}>
                 OR
               </h4>
-              <ButtonAuth>
-                <i className='lab la-google-plus-g'></i>
-                <span>Continue With Google</span>
-              </ButtonAuth>
-              <ButtonAuth>
-                <i className='lab la-github'></i>
-                <span>Continue With Github</span>
-              </ButtonAuth>
-              <ButtonAuth>
-                <i>42</i>
-                <span>Continue With Intra</span>
-              </ButtonAuth>
               <Grid container>
                 <Grid item xs>
                   <Link
@@ -262,6 +281,20 @@ export default function Login() {
                 </Grid>
               </Grid>
             </form>
+            <Grid style={{ margin: "10px" }}>
+              <Link href={`${API_URL}/auth/42`}>
+                <i>42</i>
+                <span>Continue With Intra</span>
+              </Link>
+              {/* <Link href={`${API_URL}/auth/`}>
+                <i className='lab la-google-plus-g'></i>
+                <span>Continue With Google</span>
+              </Link>
+              <Link>
+                <i className='lab la-github'></i>
+                <span>Continue With Github</span>
+              </Link> */}
+            </Grid>
           </div>
         </Container>
       </div>
