@@ -1,4 +1,5 @@
 import axios from "axios";
+import { LOGIN_SUCCESS, LOGOUT } from "../Context/actionsTypes";
 
 const API_URL = "http://localhost:3001/api/users/";
 
@@ -20,7 +21,7 @@ export const registerAction = async (data) => {
 
 // //* LOGIN USER
 
-export const loginAction = async (loginData) => {
+export const loginAction = async (loginData, dispatch) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -31,15 +32,13 @@ export const loginAction = async (loginData) => {
     const res = await axios.post(API_URL + "login", loginData, config);
     localStorage.setItem("token", res.data.token);
 
-    // dispatch({
-    //   type: LOGIN_SUCCESS,
-    //   payload: {
-    //     isAuth:res.data.
-    //     token: res.data?.token,
-    //     isCompletinfo: res.data?.isInfosComplete,
-    //     username: loginData.usernasme,
-    //   },
-    // });
+    dispatch({
+      type: LOGIN_SUCCESS,
+      payload: {
+        isAuth: true,
+        token: res.data.token,
+      },
+    });
 
     if (res.data) return res.data;
   } catch (error) {
@@ -48,8 +47,15 @@ export const loginAction = async (loginData) => {
 };
 
 //* LOGOUT USER
-export const logout = () => {
-  localStorage.removeItem("user");
+export const logout = (dispatch) => {
+  localStorage.removeItem("token");
+  dispatch({
+    type: LOGOUT,
+    payload: {
+      isAuth: false,
+      token: null,
+    },
+  });
 };
 
 //* VERIFY USER ACCOUNT

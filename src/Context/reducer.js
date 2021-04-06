@@ -14,21 +14,21 @@ export const HyperReducer = (state = Initialstate, action) => {
       return {
         ...state,
         success: true,
-        isAuth: payload.success,
+        isAuth: true,
         token: payload.token,
       };
     case LOGIN_FAIL:
       return {
         ...state,
+        isAuth: false,
         success: false,
-        isAuth: payload.success,
         token: payload.token,
       };
     case LOGOUT:
       return {
         ...state,
-        isAuth: payload.success,
-        token: payload.token,
+        isAuth: false,
+        token: null,
       };
     default:
       return {};

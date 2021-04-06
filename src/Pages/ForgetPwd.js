@@ -97,10 +97,10 @@ export default function ForgetPwd() {
     let registerData = data;
     const responce = await resetPwd(registerData);
     Setstate(responce);
-    if (state.success) {
-      history.push("/home");
-    }
     setOpen(true);
+    if (responce.success === true) {
+      history.push("/login");
+    }
   };
   return (
     <Wrapper>
