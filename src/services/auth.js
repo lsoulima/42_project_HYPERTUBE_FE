@@ -35,7 +35,6 @@ export const loginAction = async (loginData, dispatch) => {
     dispatch({
       type: LOGIN_SUCCESS,
       payload: {
-        isAuth: true,
         token: res.data.token,
       },
     });
@@ -52,7 +51,6 @@ export const logout = (dispatch) => {
   dispatch({
     type: LOGOUT,
     payload: {
-      isAuth: false,
       token: null,
     },
   });
@@ -80,15 +78,31 @@ export const verifyAccount = async (token) => {
 };
 
 // //* VERIFY TOKEN OF USER
-// const verifyToken = (token) => {
-//   const config = {
-//     headers: {
-//       "Content-Type": "application/json",
-//       Authorization: `Bearer ${token}`,
-//     },
-//   };
-//   return axios.post(API_URL + "verify", { config });
-// };
+
+export const checkTokenAction = async (token) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  try {
+    const res = await axios.post(
+      API_URL + "/verify/token",
+      { token: token },
+      config
+    );
+
+    if (res.data?.valide) return res.data?.valide;
+    else {
+      localStorage.removeItem("token");
+      return false;
+    }
+  } catch (error) {
+    localStorage.removeItem("token");
+    return false;
+  }
+};
 
 // * RESET PASSWORD
 export const resetPwd = async (email) => {

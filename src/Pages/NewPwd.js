@@ -157,6 +157,11 @@ export default function NewPassword() {
                 autoComplete="current-password"
                 inputRef={register({
                   required: "You must provide your Password!",
+                  pattern: {
+                    value: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*_-]).{8,}$/,
+                    message:
+                      "Password must be at least eight characters long, at least one uppercase letter, one lowercase letter, one number and one special character !",
+                  },
                 })}
               />
               {errors.newpassword && (

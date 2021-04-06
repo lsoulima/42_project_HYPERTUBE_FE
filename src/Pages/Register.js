@@ -348,30 +348,6 @@ export default function Register() {
                     Sign Up
                   </Button>
                 </Grid>
-                <Grid item xs={12}>
-                  <h4
-                    style={{
-                      color: "#fff",
-                      textAlign: "center",
-                      marginTop: "20px",
-                      marginBottom: "20px",
-                    }}
-                  >
-                    OR
-                  </h4>
-                </Grid>
-                <ButtonAuth>
-                  <i className="lab la-google-plus-g"></i>
-                  <span>Continue With Goolge</span>
-                </ButtonAuth>
-                <ButtonAuth>
-                  <i className="lab la-github"></i>
-                  <span>Continue With Github</span>
-                </ButtonAuth>
-                <ButtonAuth>
-                  <i>42</i>
-                  <span>Continue With Intra</span>
-                </ButtonAuth>
                 <Grid container>
                   <Grid
                     item

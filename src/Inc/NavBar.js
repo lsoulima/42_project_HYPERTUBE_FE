@@ -235,25 +235,23 @@ function NavBar({ t, mytheme, settheme }) {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      {state.isAuth === false ? (
-        <>
-          <Link className="link" to="/register">
-            <MenuItem>Register</MenuItem>
-          </Link>
-          <Link className="link" to="/login">
-            <MenuItem>Login</MenuItem>
-          </Link>
-        </>
-      ) : (
-        <>
-          <Link className="link" to="/edit">
-            <MenuItem>Settings</MenuItem>
-          </Link>
-          <Link className="link" to="/logout">
-            <MenuItem>Logout</MenuItem>
-          </Link>
-        </>
-      )}
+      {state.token
+        ? [
+            <Link className="link" to="/register">
+              <MenuItem>Register</MenuItem>
+            </Link>,
+            <Link className="link" to="/login">
+              <MenuItem>Login</MenuItem>
+            </Link>,
+          ]
+        : [
+            <Link className="link" to="/edit">
+              <MenuItem>Settings</MenuItem>
+            </Link>,
+            <Link className="link" to="/logout">
+              <MenuItem>Logout</MenuItem>
+            </Link>,
+          ]}
     </MobileMenu>
   );
 
@@ -356,7 +354,7 @@ function NavBar({ t, mytheme, settheme }) {
                 </span>
               </ToggleTheme>
 
-              {state.isAuth === true ? (
+              {state.token ? (
                 <IconButton
                   edge="end"
                   aria-label="account of current user"
@@ -368,18 +366,18 @@ function NavBar({ t, mytheme, settheme }) {
                   <AccountCircle style={{ color: "#fff" }} />
                 </IconButton>
               ) : (
-                <>
+                [
                   <NavButton>
                     <Link className="link" to="/login">
                       {t("loginTr")}
                     </Link>
-                  </NavButton>
+                  </NavButton>,
                   <NavButton>
                     <Link className="link" to="/register">
                       {t("registerTr")}
                     </Link>
-                  </NavButton>
-                </>
+                  </NavButton>,
+                ]
               )}
             </div>
             <div className={classes.sectionMobile}>

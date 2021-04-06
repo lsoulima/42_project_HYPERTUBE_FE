@@ -123,7 +123,7 @@ export default function ForgetPwd() {
             <Snackbar
               anchorOrigin={{ vertical: "top", horizontal: "center" }}
               open={open}
-              autoHideDuration={3000}
+              autoHideDuration={6000}
               onClose={handleClose}
             >
               {state.success === true ? (
