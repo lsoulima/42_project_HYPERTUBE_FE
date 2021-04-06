@@ -208,10 +208,10 @@ function NavBar({ t, mytheme, settheme }) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <Link to="/edit" style={{ color: "#fff" }}>
+      <Link key="1" to="/edit" style={{ color: "#fff" }}>
         <MenuItem onClick={handleMenuClose}>Settings</MenuItem>
       </Link>
-      <Link to="/login" style={{ color: "#fff" }}>
+      <Link key="2" to="/login" style={{ color: "#fff" }}>
         <MenuItem
           onClick={() => {
             handleMenuClose();
@@ -237,18 +237,18 @@ function NavBar({ t, mytheme, settheme }) {
     >
       {state.token
         ? [
-            <Link className="link" to="/register">
+            <Link key="3" className="link" to="/register">
               <MenuItem>Register</MenuItem>
             </Link>,
-            <Link className="link" to="/login">
+            <Link key="4" className="link" to="/login">
               <MenuItem>Login</MenuItem>
             </Link>,
           ]
         : [
-            <Link className="link" to="/edit">
+            <Link key="5" className="link" to="/edit">
               <MenuItem>Settings</MenuItem>
             </Link>,
-            <Link className="link" to="/logout">
+            <Link key="6" className="link" to="/logout">
               <MenuItem>Logout</MenuItem>
             </Link>,
           ]}
@@ -368,12 +368,12 @@ function NavBar({ t, mytheme, settheme }) {
               ) : (
                 [
                   <NavButton>
-                    <Link className="link" to="/login">
+                    <Link key="7" className="link" to="/login">
                       {t("loginTr")}
                     </Link>
                   </NavButton>,
                   <NavButton>
-                    <Link className="link" to="/register">
+                    <Link key="8" className="link" to="/register">
                       {t("registerTr")}
                     </Link>
                   </NavButton>,

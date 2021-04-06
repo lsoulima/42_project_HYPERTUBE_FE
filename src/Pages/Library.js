@@ -260,6 +260,21 @@ const SearchCard = styled.div`
 export default function Library() {
   const [hovered, setHovered] = useState(false);
   const toggleHover = (value) => setHovered(value);
+
+  const [imdb, setImdb] = useState(10);
+  const handleImdbChange = (event, newValue) => {
+    setImdb(newValue);
+  };
+
+  const [radioValue, setRadioValue] = useState("female");
+  const handleChangeRadio = (event) => {
+    setRadioValue(event.target.value);
+  };
+
+  const [genre, setGenre] = useState("");
+  const handleGenreChange = (event) => {
+    setGenre(event.target.value);
+  };
   const [movies, setmovies] = useState([]);
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
@@ -291,39 +306,28 @@ export default function Library() {
     let mydata = [...movies, ...res.data.data.movies]; //movies.concat(res.data.data.movies);
     setmovies(mydata);
   };
-  useEffect(() => {
-    fetchYtsMovies(API_TWO);
-    // eslint-disable-next-line
-  }, [page]);
+  // useEffect(() => {
+  //   fetchYtsMovies(API_TWO);
+  //   // eslint-disable-next-line
+  // }, [page]);
 
-  const [imdb, setImdb] = useState(10);
-  const handleImdbChange = (event, newValue) => {
-    setImdb(newValue);
-  };
-
-  const [radioValue, setRadioValue] = useState("female");
-  const handleChangeRadio = (event) => {
-    setRadioValue(event.target.value);
-  };
-
-  const [genre, setGenre] = useState("");
-  const handleGenreChange = (event) => {
-    setGenre(event.target.value);
-  };
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    console.log("c'est ce que vous recherche " + searchTerm);
-    const fetchYtsMovies = async (API_SEARCH, searchTerm) => {
+    console.log("c'est ce que vous rechercher " + searchTerm);
+    const fetchYtsMovies = async () => {
       const res = await axios.get(API_SEARCH);
-      let mydata = [...movies, ...res.data.data.movies]; //movies.concat(res.data.data.movies);
-      setmovies(mydata);
+      let searchData = [...movies, ...res.data.data.movies]; //movies.concat(res.data.data.movies);
+      setmovies(searchData);
+      console.log("resultat de la recherche ", searchData);
     };
+    fetchYtsMovies();
     setSearchTerm("");
   };
 
   const handleOnChange = (e) => {
     setSearchTerm(e.target.value);
   };
+
   return (
     <MainContainer>
       <SearchCard>
