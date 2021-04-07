@@ -14,6 +14,8 @@ import { useForm } from "react-hook-form";
 import { Snackbar, Box } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import { HyperContext } from "../Context/context";
+import { checkTokenAction, logout } from "../services/auth";
+import { settingsAction } from "../services/profile";
 // import { logout } from "../services/auth";
 
 const LabelImage = styled.label`
@@ -106,9 +108,9 @@ const Wrapper = styled.div`
 `;
 
 export default function Settings() {
-  const { state } = useContext(HyperContext);
+  const { state, dispatch } = useContext(HyperContext);
   const [tab, setTab] = useState(0);
-  // const [message, setMessage] = useState({});
+  const [message, setMessage] = useState({});
   const { register, handleSubmit, errors } = useForm();
   const [open, setOpen] = useState(false);
   const handleClose = (reason) => {
@@ -124,49 +126,53 @@ export default function Settings() {
 
   const onSubmit = async (data) => {
     console.log(data);
+    console.log(state.token);
 
-    // const valideToken = await checkTokenAction(state.token);
-    // if (valideToken) {
-    //   const SettingsResponce = await settingsAction(state.token, data);
-    //   setMessage(SettingsResponce);
-    //   setOpen(true);
-    // } else {
-    // const res = await logout(state.token, dispatch);
-    // }
+    const valideToken = await checkTokenAction(state.token);
+    console.log(valideToken);
+
+    if (valideToken) {
+      const SettingsResponce = await settingsAction(state.token, data);
+      setMessage(SettingsResponce);
+      setOpen(true);
+    } else {
+      const res = await logout(state.token, dispatch);
+      setMessage(res);
+      setOpen(true);
+    }
   };
 
   const TabPanel = (props) => {
     const { children, value, index } = props;
 
     return (
-      <div role="tabpanel" hidden={value !== index}>
-        {value === index && <div className="paper">{children}</div>}
+      <div role='tabpanel' hidden={value !== index}>
+        {value === index && <div className='paper'>{children}</div>}
       </div>
     );
   };
 
   return (
     <Wrapper>
-      <div className="container">
-        <Container component="main" maxWidth="sm">
+      <div className='container'>
+        <Container component='main' maxWidth='sm'>
           <Paper elevation={5}>
             <Tabs
               value={tab}
               onChange={handleChange}
-              variant="fullWidth"
-              indicatorColor="secondary"
-              textColor="red"
+              variant='fullWidth'
+              indicatorColor='secondary'
+              textColor='red'
               TabIndicatorProps={{ style: { background: "red" } }}
-              style={{ background: "rgb(8, 7, 8)", color: "white" }}
-            >
+              style={{ background: "rgb(8, 7, 8)", color: "white" }}>
               <Tab
                 icon={<PersonPinIcon />}
-                label="Info"
+                label='Info'
                 style={{ padding: "20px 0" }}
               />
               <Tab
                 icon={<SecurityTwoToneIcon />}
-                label="Password"
+                label='Password'
                 style={{ padding: "20px 0" }}
               />
             </Tabs>
@@ -175,51 +181,48 @@ export default function Settings() {
             anchorOrigin={{ vertical: "top", horizontal: "center" }}
             open={open}
             autoHideDuration={3000}
-            onClose={handleClose}
-          >
+            onClose={handleClose}>
             {state.success === true ? (
-              <Alert onClose={handleClose} severity="success" variant="filled">
+              <Alert onClose={handleClose} severity='success' variant='filled'>
                 {state.message}
               </Alert>
             ) : (
-              <Alert onClose={handleClose} severity="error" variant="filled">
+              <Alert onClose={handleClose} severity='error' variant='filled'>
                 {state.error}
               </Alert>
             )}
           </Snackbar>
           <TabPanel value={tab} index={0}>
             <Typography
-              component="h1"
-              variant="h5"
+              component='h1'
+              variant='h5'
               style={{
                 fontSize: "40px",
                 fontWeight: 600,
                 color: "#fff",
-              }}
-            >
+              }}>
               Loubna Soulimani
             </Typography>
-            <form className="form" onSubmit={handleSubmit(onSubmit)}>
+            <form className='form' onSubmit={handleSubmit(onSubmit)}>
               <Grid container spacing={2}>
                 <Grid
                   item
                   xs={12}
-                  style={{ margin: "20px 0 20px 0", textAlign: "center" }}
-                >
-                  <LabelImage type="file">
-                    <img src="./img/avatar.jpeg" alt="avatar" />
-                    <input type="file" />
+                  style={{ margin: "20px 0 20px 0", textAlign: "center" }}>
+                  <LabelImage type='file'>
+                    <img src='./img/avatar.jpeg' alt='avatar' />
+                    <input type='file' />
                   </LabelImage>
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <WhiteBorderTextField
-                    variant="outlined"
-                    margin="normal"
+                    variant='outlined'
+                    margin='normal'
                     fullWidth
-                    id="firstname"
-                    label="First Name"
-                    name="firstname"
-                    autoComplete="firstname"
+                    id='firstname'
+                    label='First Name'
+                    name='firstname'
+                    autoComplete='firstname'
                     autoFocus
                     inputRef={register({
                       required: "You must provide your firstname!",
@@ -232,22 +235,21 @@ export default function Settings() {
                   />
                   {errors.firstname && (
                     <Box
-                      variant="filled"
-                      color="red"
-                      style={{ fontSize: "12px" }}
-                    >
+                      variant='filled'
+                      color='red'
+                      style={{ fontSize: "12px" }}>
                       {errors.firstname.message}
                     </Box>
                   )}
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <WhiteBorderTextField
-                    variant="outlined"
-                    margin="normal"
+                    variant='outlined'
+                    margin='normal'
                     fullWidth
-                    id="lastname"
-                    label="Last Name"
-                    name="lastname"
+                    id='lastname'
+                    label='Last Name'
+                    name='lastname'
                     inputRef={register({
                       required: "You must provide your lastname!",
                       pattern: {
@@ -259,22 +261,21 @@ export default function Settings() {
                   />
                   {errors.lastname && (
                     <Box
-                      variant="filled"
-                      color="red"
-                      style={{ fontSize: "12px" }}
-                    >
+                      variant='filled'
+                      color='red'
+                      style={{ fontSize: "12px" }}>
                       {errors.lastname.message}
                     </Box>
                   )}
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <WhiteBorderTextField
-                    variant="outlined"
-                    margin="normal"
+                    variant='outlined'
+                    margin='normal'
                     fullWidth
-                    id="username"
-                    label="User Name"
-                    name="username"
+                    id='username'
+                    label='User Name'
+                    name='username'
                     inputRef={register({
                       required: "You must provide your username!",
                       pattern: {
@@ -286,23 +287,22 @@ export default function Settings() {
                   />
                   {errors.username && (
                     <Box
-                      variant="filled"
-                      color="red"
-                      style={{ fontSize: "12px" }}
-                    >
+                      variant='filled'
+                      color='red'
+                      style={{ fontSize: "12px" }}>
                       {errors.username.message}
                     </Box>
                   )}
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <WhiteBorderTextField
-                    variant="outlined"
-                    margin="normal"
+                    variant='outlined'
+                    margin='normal'
                     fullWidth
-                    id="email"
-                    label="Email Address"
-                    name="email"
-                    autoComplete="email"
+                    id='email'
+                    label='Email Address'
+                    name='email'
+                    autoComplete='email'
                     inputRef={register({
                       required: "You must provide your email!",
                       pattern: {
@@ -313,21 +313,19 @@ export default function Settings() {
                   />
                   {errors.email && (
                     <Box
-                      variant="filled"
-                      color="red"
-                      style={{ fontSize: "12px" }}
-                    >
+                      variant='filled'
+                      color='red'
+                      style={{ fontSize: "12px" }}>
                       {errors.email.message}
                     </Box>
                   )}
                 </Grid>
                 <Button
-                  type="submit"
+                  type='submit'
                   fullWidth
-                  variant="contained"
-                  color="primary"
-                  className="submit"
-                >
+                  variant='contained'
+                  color='primary'
+                  className='submit'>
                   Save
                 </Button>
               </Grid>
@@ -335,51 +333,50 @@ export default function Settings() {
           </TabPanel>
 
           <TabPanel value={tab} index={1}>
-            <form className="form" noValidate>
+            <form className='form' noValidate>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <WhiteBorderTextField
-                    variant="outlined"
-                    margin="normal"
+                    variant='outlined'
+                    margin='normal'
                     required
                     fullWidth
-                    name="oldpassword"
-                    label="Old Password"
-                    type="password"
-                    id="oldpassword"
+                    name='oldpassword'
+                    label='Old Password'
+                    type='password'
+                    id='oldpassword'
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <WhiteBorderTextField
-                    variant="outlined"
-                    margin="normal"
+                    variant='outlined'
+                    margin='normal'
                     required
                     fullWidth
-                    name="newpassword"
-                    label="New Password"
-                    type="password"
-                    id="newpassword"
+                    name='newpassword'
+                    label='New Password'
+                    type='password'
+                    id='newpassword'
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <WhiteBorderTextField
-                    variant="outlined"
-                    margin="normal"
+                    variant='outlined'
+                    margin='normal'
                     required
                     fullWidth
-                    name="confirmpassword"
-                    label="Retype Password"
-                    type="password"
-                    id="confirmpassword"
+                    name='confirmpassword'
+                    label='Retype Password'
+                    type='password'
+                    id='confirmpassword'
                   />
                 </Grid>
                 <Button
-                  type="submit"
+                  type='submit'
                   fullWidth
-                  variant="contained"
-                  className="submit"
-                  color="primary"
-                >
+                  variant='contained'
+                  className='submit'
+                  color='primary'>
                   Save
                 </Button>
               </Grid>
