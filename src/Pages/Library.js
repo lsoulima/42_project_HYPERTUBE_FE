@@ -408,7 +408,7 @@ export default function Library() {
         </div>
       </Container>
       <InfiniteScroll
-        dataLength={movies.count} //This is important field to render the next data
+        dataLength={movies.length} //This is important field to render the next data
         next={() => setPage(page + 1)}
         hasMore={true}
         loader={<h4>Loading...</h4>}

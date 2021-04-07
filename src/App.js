@@ -54,17 +54,17 @@ const App = () => {
         <ThemeProvider theme={theme}>
           <NavBar mytheme={theme} settheme={setTheme} />
           <Switch>
-            <PublicRoute path='/login' component={Login} exact />
-            <PublicRoute path='/verify' component={Verify} />
-            <PublicRoute path='/newpassword' component={NewPassword} />
-            <PublicRoute path='/register' component={Register} />
-            <PrivateRoute path='/edit' component={EditProfile} />
-            <PrivateRoute path='/library' component={Library} />
-            <PrivateRoute path='/stream' component={Stream} />
-            <PrivateRoute path='/profile' component={Profile} />
-            <PrivateRoute path='/forgetpwd' component={ForgetPwd} />
+            <PublicRoute path="/login" component={Login} exact />
+            <PublicRoute path="/verify" component={Verify} />
+            <PublicRoute path="/newpassword" component={NewPassword} />
+            <PublicRoute path="/register" component={Register} />
+            <Route path="/edit" component={EditProfile} />
+            <Route path="/library" component={Library} />
+            <PrivateRoute path="/stream" component={Stream} />
+            <PrivateRoute path="/profile" component={Profile} />
+            <PrivateRoute path="/forgetpwd" component={ForgetPwd} />
 
-            <Route path='/' component={Home} />
+            <Route path="/" component={Home} />
           </Switch>
           <Footer />
         </ThemeProvider>

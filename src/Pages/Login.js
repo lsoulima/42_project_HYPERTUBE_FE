@@ -123,7 +123,7 @@ export default function Login() {
   const [state, Setstate] = useState({});
   const { register, handleSubmit, errors } = useForm();
   const [open, setOpen] = useState(false);
-  const handleClose = (event, reason) => {
+  const handleClose = (reason) => {
     if (reason === "clickaway") {
       return;
     }

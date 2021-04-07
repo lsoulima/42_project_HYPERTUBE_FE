@@ -90,7 +90,7 @@ export default function NewPassword() {
   const [newPwdData, setNewPwdData] = useState({
     token: null,
   });
-  const handleClose = (event, reason) => {
+  const handleClose = (reason) => {
     if (reason === "clickaway") {
       return;
     }

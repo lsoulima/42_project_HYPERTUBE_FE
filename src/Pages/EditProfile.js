@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import styled from "styled-components";
 import Grid from "@material-ui/core/Grid";
+
+import Paper from "@material-ui/core/Paper";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import VpnKeyTwoToneIcon from "@material-ui/icons/VpnKeyTwoTone";
+import SecurityTwoToneIcon from "@material-ui/icons/SecurityTwoTone";
+import PersonPinIcon from "@material-ui/icons/PersonPin";
+import Box from "@material-ui/core/Box";
 
 const LabelImage = styled.label`
   cursor: pointer;
@@ -76,7 +84,7 @@ const Wrapper = styled.div`
   }
   .paper {
     background-color: rgba(0, 0, 0, 0.75);
-    border-radius: 15px;
+    border-radius: 0 0 15px 15px;
     padding: 50px;
     display: flex;
     flex-direction: column;
@@ -96,11 +104,50 @@ const Wrapper = styled.div`
 `;
 
 export default function EditProfile() {
+  const [tab, setTab] = useState(0);
+
+  const handleChange = (event, newValue) => {
+    setTab(newValue);
+  };
+
+  const TabPanel = (props) => {
+    const { children, value, index } = props;
+
+    return (
+      <div role="tabpanel" hidden={value !== index}>
+        {value === index && <div className="paper">{children}</div>}
+      </div>
+    );
+  };
+
   return (
     <Wrapper>
       <div className="container">
         <Container component="main" maxWidth="sm">
-          <div className="paper">
+          <Paper elevation={5}>
+            <Tabs
+              value={tab}
+              onChange={handleChange}
+              variant="fullWidth"
+              indicatorColor="secondary"
+              textColor="red"
+              TabIndicatorProps={{ style: { background: "red" } }}
+              style={{ background: "rgb(8, 7, 8)", color: "white" }}
+            >
+              <Tab
+                icon={<PersonPinIcon />}
+                label="Info"
+                style={{ padding: "20px 0" }}
+              />
+              <Tab
+                icon={<SecurityTwoToneIcon />}
+                label="Password"
+                style={{ padding: "20px 0" }}
+              />
+            </Tabs>
+          </Paper>
+
+          <TabPanel value={tab} index={0}>
             <Typography
               component="h1"
               variant="h5"
@@ -171,19 +218,6 @@ export default function EditProfile() {
                     autoComplete="email"
                   />
                 </Grid>
-                <Grid item xs={12}>
-                  <WhiteBorderTextField
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    fullWidth
-                    name="password"
-                    label="Password"
-                    type="password"
-                    id="password"
-                  />
-                </Grid>
-
                 <Button
                   type="submit"
                   fullWidth
@@ -195,7 +229,59 @@ export default function EditProfile() {
                 </Button>
               </Grid>
             </form>
-          </div>
+          </TabPanel>
+
+          <TabPanel value={tab} index={1}>
+            <form className="form" noValidate>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <WhiteBorderTextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="oldpassword"
+                    label="Old Password"
+                    type="password"
+                    id="oldpassword"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <WhiteBorderTextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="newpassword"
+                    label="New Password"
+                    type="password"
+                    id="newpassword"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <WhiteBorderTextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="confirmpassword"
+                    label="Retype Password"
+                    type="password"
+                    id="confirmpassword"
+                  />
+                </Grid>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  className="submit"
+                  color="primary"
+                >
+                  Save
+                </Button>
+              </Grid>
+            </form>
+          </TabPanel>
         </Container>
       </div>
     </Wrapper>
