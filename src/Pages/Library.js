@@ -316,7 +316,8 @@ export default function Library() {
     console.log("c'est ce que vous rechercher " + searchTerm);
     const searchMovies = async () => {
       const res = await axios.get(API_SEARCH);
-      let searchData = res.data.data.movies;
+      let searchData =
+        res.data.data.movie_count === 0 ? [] : res.data.data.movies;
       setmovies(searchData);
       console.log("resultat de la recherche ", searchData);
     };
@@ -407,7 +408,7 @@ export default function Library() {
         </div>
       </Container>
       <InfiniteScroll
-        dataLength={movies.length} //This is important field to render the next data
+        dataLength={movies.count} //This is important field to render the next data
         next={() => setPage(page + 1)}
         hasMore={true}
         loader={<h4>Loading...</h4>}
