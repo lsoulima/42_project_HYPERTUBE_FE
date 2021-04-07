@@ -36,6 +36,8 @@ const API_URL = "http://localhost:3001/api/users/";
 //*EDIT USER PROFILE
 
 export const settingsAction = async (token, data) => {
+  console.log(token);
+
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -43,7 +45,9 @@ export const settingsAction = async (token, data) => {
     },
   };
   try {
-    const res = await axios.post(API_URL + "edit/informations", data, config);
+    const res = await axios.patch(API_URL + "edit/informations", data, config);
+    console.log(res);
+
     if (res.data) return res.data;
   } catch (error) {
     return error.response.data;
