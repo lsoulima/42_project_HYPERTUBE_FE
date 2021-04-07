@@ -301,15 +301,15 @@ export default function Library() {
   //   setmovies(mydata);
   // };
 
-  const fetchYtsMovies = async (API) => {
-    const res = await axios.get(API);
-    let mydata = [...movies, ...res.data.data.movies]; //movies.concat(res.data.data.movies);
-    setmovies(mydata);
-  };
-  // useEffect(() => {
-  //   fetchYtsMovies(API_TWO);
-  //   // eslint-disable-next-line
-  // }, [page]);
+  useEffect(() => {
+    const fetchYtsMovies = async () => {
+      const res = await axios.get(API_TWO);
+      let mydata = [...movies, ...res.data.data.movies]; //movies.concat(res.data.data.movies);
+      setmovies(mydata);
+    };
+    fetchYtsMovies();
+    // eslint-disable-next-line
+  }, [page]);
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
@@ -327,6 +327,7 @@ export default function Library() {
 
   const handleOnChange = (e) => {
     setSearchTerm(e.target.value);
+    setmovies([]);
   };
 
   return (
@@ -411,7 +412,6 @@ export default function Library() {
         dataLength={movies.length} //This is important field to render the next data
         next={() => setPage(page + 1)}
         hasMore={true}
-        loader={<h4>Loading...</h4>}
       >
         <CardContainer>
           {movies.map((movie, id) => (
