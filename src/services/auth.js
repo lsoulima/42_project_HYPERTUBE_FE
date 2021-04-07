@@ -64,7 +64,6 @@ export const logout = async (token, dispatch) => {
         token: null,
       },
     });
-    console.log(res.data);
 
     if (res.data) return res.data;
   } catch (error) {
@@ -96,6 +95,8 @@ export const verifyAccount = async (token) => {
 // //* VERIFY TOKEN OF USER
 
 export const checkTokenAction = async (token) => {
+  // console.log(aToken);
+
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -104,19 +105,14 @@ export const checkTokenAction = async (token) => {
 
   try {
     const res = await axios.post(
-      API_URL + "/verify/token",
+      API_URL + "verify/token",
       { token: token },
       config
     );
 
     if (res.data?.valide) return res.data?.valide;
-    else {
-      localStorage.removeItem("token");
-      return false;
-    }
   } catch (error) {
-    localStorage.removeItem("token");
-    return false;
+    return error.response.data;
   }
 };
 
