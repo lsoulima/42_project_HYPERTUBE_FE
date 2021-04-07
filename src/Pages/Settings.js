@@ -125,15 +125,20 @@ export default function Settings() {
 
   const onSubmit = async (data) => {
     console.log(data);
+    console.log(state.token);
 
-    // const valideToken = await checkTokenAction(state.token);
-    // if (valideToken) {
-    //   const SettingsResponce = await settingsAction(state.token, data);
-    //   setMessage(SettingsResponce);
-    //   setOpen(true);
-    // } else {
-    const res = await logout(state.token, dispatch);
-    // }
+    const valideToken = await checkTokenAction(state.token);
+    console.log(valideToken);
+
+    if (valideToken) {
+      const SettingsResponce = await settingsAction(state.token, data);
+      setMessage(SettingsResponce);
+      setOpen(true);
+    } else {
+      const res = await logout(state.token, dispatch);
+      setMessage(res);
+      setOpen(true);
+    }
   };
 
   const TabPanel = (props) => {
