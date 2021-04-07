@@ -11,11 +11,12 @@ import Tab from "@material-ui/core/Tab";
 import SecurityTwoToneIcon from "@material-ui/icons/SecurityTwoTone";
 import PersonPinIcon from "@material-ui/icons/PersonPin";
 import { useForm } from "react-hook-form";
-import { settingsAction } from "../services/profile";
 import { Snackbar, Box } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import { HyperContext } from "../Context/context";
-import { logout, checkTokenAction } from "../services/auth";
+import { checkTokenAction, logout } from "../services/auth";
+import { settingsAction } from "../services/profile";
+// import { logout } from "../services/auth";
 
 const LabelImage = styled.label`
   cursor: pointer;
