@@ -6,7 +6,7 @@ import "./css/app.css";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import Footer from "./Inc/Footer";
-import EditProfile from "./Pages/EditProfile";
+import Settings from "./Pages/Settings";
 import Library from "./Pages/Library";
 import Stream from "./Pages/Stream";
 import { useState } from "react";
@@ -54,17 +54,16 @@ const App = () => {
         <ThemeProvider theme={theme}>
           <NavBar mytheme={theme} settheme={setTheme} />
           <Switch>
-            <PublicRoute path="/login" component={Login} exact />
-            <PublicRoute path="/verify" component={Verify} />
-            <PublicRoute path="/newpassword" component={NewPassword} />
-            <PublicRoute path="/register" component={Register} />
-            <Route path="/edit" component={EditProfile} />
-            <Route path="/library" component={Library} />
-            <PrivateRoute path="/stream" component={Stream} />
-            <PrivateRoute path="/profile" component={Profile} />
-            <PrivateRoute path="/forgetpwd" component={ForgetPwd} />
-
-            <Route path="/" component={Home} />
+            <PublicRoute path='/login' component={Login} />
+            <PublicRoute path='/verify' component={Verify} />
+            <PublicRoute path='/newpassword' component={NewPassword} />
+            <PublicRoute path='/register' component={Register} />
+            <PublicRoute path='/forgetpwd' component={ForgetPwd} />
+            <PrivateRoute path='/settings' component={Settings} />
+            <PrivateRoute path='/library' component={Library} />
+            <PrivateRoute path='/stream' component={Stream} />
+            <PrivateRoute path='/profile' component={Profile} />
+            <Route path='/' component={Home} />
           </Switch>
           <Footer />
         </ThemeProvider>

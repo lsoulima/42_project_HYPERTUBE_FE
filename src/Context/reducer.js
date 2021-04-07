@@ -1,6 +1,7 @@
 import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT } from "./actionsTypes";
+import Cookie from "js-cookie";
 
-const token = localStorage.getItem("token");
+const token = localStorage.getItem("token") || Cookie.get("token");
 
 export const Initialstate = {
   success: false,
@@ -14,7 +15,6 @@ export const HyperReducer = (state = Initialstate, action) => {
     case LOGIN_SUCCESS:
       return {
         ...state,
-
         token: payload.token,
       };
     case LOGIN_FAIL:

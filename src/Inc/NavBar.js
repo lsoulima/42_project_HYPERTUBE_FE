@@ -13,9 +13,9 @@ import { Link } from "react-router-dom";
 import { withNamespaces } from "react-i18next";
 import { FlagIcon } from "react-flag-kit";
 import styled from "styled-components";
-
+import { Snackbar } from "@material-ui/core";
+import Alert from "@material-ui/lab/Alert";
 import { logout } from "../services/auth";
-
 import i18n from "../i18n";
 import { HyperContext } from "../Context/context";
 
@@ -170,6 +170,16 @@ function NavBar({ t, mytheme, settheme }) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [message, setMessage] = useState({});
+
+  const [open, setOpen] = useState(false);
+  const handleClose = (reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -190,8 +200,10 @@ function NavBar({ t, mytheme, settheme }) {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
-  const handleLogout = () => {
-    logout(dispatch);
+  const handleLogout = async () => {
+    const res = await logout(state.token, dispatch);
+    setMessage(res);
+    setOpen(true);
   };
 
   let history = useHistory();
@@ -208,7 +220,7 @@ function NavBar({ t, mytheme, settheme }) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <Link key="1" to="/edit" style={{ color: "#fff" }}>
+      <Link key="1" to="/settings" style={{ color: "#fff" }}>
         <MenuItem onClick={handleMenuClose}>Settings</MenuItem>
       </Link>
       <Link key="2" to="/login" style={{ color: "#fff" }}>
@@ -245,7 +257,7 @@ function NavBar({ t, mytheme, settheme }) {
             </Link>,
           ]
         : [
-            <Link key="5" className="link" to="/edit">
+            <Link key="5" className="link" to="/settings">
               <MenuItem>Settings</MenuItem>
             </Link>,
             <Link key="6" className="link" to="/logout">
@@ -307,7 +319,6 @@ function NavBar({ t, mytheme, settheme }) {
         <AppBar position="static" className={classes.appbar}>
           <Toolbar>
             <div
-              className={classes.title}
               onClick={() => {
                 history.push("/");
               }}
@@ -317,6 +328,26 @@ function NavBar({ t, mytheme, settheme }) {
                 yperTube
               </Typography>
             </div>
+            <Snackbar
+              anchorOrigin={{ vertical: "top", horizontal: "center" }}
+              open={open}
+              autoHideDuration={3000}
+              onClose={handleClose}
+            >
+              {message.success === true ? (
+                <Alert
+                  onClose={handleClose}
+                  severity="success"
+                  variant="filled"
+                >
+                  {message.message}
+                </Alert>
+              ) : (
+                <Alert onClose={handleClose} severity="error" variant="filled">
+                  {message.error}
+                </Alert>
+              )}
+            </Snackbar>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
               {/* Traduction */}

@@ -279,21 +279,9 @@ export default function Library() {
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
 
-  // const API_ONE = `https://api.apiumadomain.com/list?sort=popularity&short=1&cb=&quality=720p&page=${page}`;
+  // const API_ONE = `https://api.apiumadomain.com/list?sort=popularity&cb=&quality=720p&page=${page}`;
   const API_SEARCH = `https://yts.mx/api/v2/list_movies.json?query_term=${searchTerm}`;
   const API_TWO = `https://yts.mx/api/v2/list_movies.json?sort_by=like_count&limit=50&page=${page}`;
-
-  // const res = axios.get(API_ONE);
-  // if (res.data) movies = res.data;
-  // else {
-  //   const res = axios.get(API_TWO);
-  //   res.data.forEach((e) => {
-  //     movies.push({
-  //       id: e.hash,
-  //       img: e.pic,
-  //     });
-  //   });
-  // }
 
   // const fetchMovies = async (API) => {
   //   const res = await axios.get(API);
@@ -315,6 +303,17 @@ export default function Library() {
     e.preventDefault();
     console.log("c'est ce que vous rechercher " + searchTerm);
     const searchMovies = async () => {
+      //     const res1 = axios.get(API_ONE);
+      // if (res.data) movies = res.data;
+      // else {
+      //   const res2 = axios.get(API_TWO);
+      //   res.data.forEach((e) => {
+      //     movies.push({
+      //       id: e.hash,
+      //       img: e.pic,
+      //     });
+      //   });
+      // }
       const res = await axios.get(API_SEARCH);
       let searchData =
         res.data.data.movie_count === 0 ? [] : res.data.data.movies;

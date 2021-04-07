@@ -1,7 +1,7 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import { useHistory, Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -121,6 +121,7 @@ const Wrapper = styled.div`
 export default function Login() {
   const { dispatch } = useContext(HyperContext);
   const [state, Setstate] = useState({});
+
   const { register, handleSubmit, errors } = useForm();
   const [open, setOpen] = useState(false);
   const handleClose = (reason) => {
@@ -130,7 +131,10 @@ export default function Login() {
 
     setOpen(false);
   };
-
+  const oauthError = window.location.search
+    ?.split("=")[1]
+    ?.split("-")
+    .join(" ");
   let history = useHistory();
   const onSubmit = async (data) => {
     const responce = await loginAction(data, dispatch);
@@ -143,86 +147,85 @@ export default function Login() {
 
   return (
     <Wrapper>
-      <div className="container">
-        <Container component="main" maxWidth="xs">
-          <div className="paper">
+      <div className='container'>
+        <Container component='main' maxWidth='xs'>
+          <div className='paper'>
             <Typography
-              component="h1"
-              variant="h5"
+              component='h1'
+              variant='h5'
               style={{
                 alignSelf: "start",
                 fontSize: "40px",
                 fontWeight: 600,
                 color: "#fff",
-              }}
-            >
+              }}>
               Sign in
             </Typography>
             <Snackbar
               anchorOrigin={{ vertical: "top", horizontal: "center" }}
               open={open}
               autoHideDuration={3000}
-              onClose={handleClose}
-            >
+              onClose={handleClose}>
               {state.success === true ? (
                 <Alert
                   onClose={handleClose}
-                  severity="success"
-                  variant="filled"
-                >
+                  severity='success'
+                  variant='filled'>
                   {state.message}
                 </Alert>
               ) : (
-                <Alert onClose={handleClose} severity="error" variant="filled">
+                <Alert onClose={handleClose} severity='error' variant='filled'>
                   {state.error}
                 </Alert>
               )}
             </Snackbar>
-            <form className="form" onSubmit={handleSubmit(onSubmit)}>
+            <form className='form' onSubmit={handleSubmit(onSubmit)}>
               <WhiteBorderTextField
-                variant="outlined"
-                margin="normal"
+                variant='outlined'
+                margin='normal'
                 fullWidth
-                id="username"
-                label="username"
-                name="username"
-                autoComplete="username"
+                id='username'
+                label='username'
+                name='username'
+                autoComplete='username'
                 autoFocus
                 inputRef={register({
                   required: "You must provide your username to login!",
                 })}
               />
               {errors.username && (
-                <Box variant="filled" color="red" style={{ fontSize: "12px" }}>
+                <Box variant='filled' color='red' style={{ fontSize: "12px" }}>
                   {errors.username.message}
                 </Box>
               )}
               <WhiteBorderTextField
-                variant="outlined"
-                margin="normal"
+                variant='outlined'
+                margin='normal'
                 fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
+                name='password'
+                label='Password'
+                type='password'
+                id='password'
+                autoComplete='current-password'
                 inputRef={register({
                   required: "You must provide your Password to login!",
                 })}
               />
               {errors.password && (
-                <Box variant="filled" color="red" style={{ fontSize: "12px" }}>
+                <Box variant='filled' color='red' style={{ fontSize: "12px" }}>
                   {errors.password.message}
                 </Box>
               )}
+              <Box variant='filled' color='red' style={{ fontSize: "12px" }}>
+                {oauthError}
+              </Box>
 
               <Button
-                type="submit"
+                type='submit'
                 fullWidth
-                variant="contained"
-                color="primary"
-                className="submit"
-              >
+                variant='contained'
+                color='primary'
+                className='submit'>
                 Sign In
               </Button>
               <h4
@@ -231,29 +234,28 @@ export default function Login() {
                   textAlign: "center",
                   marginTop: "20px",
                   marginBottom: "20px",
-                }}
-              >
+                }}>
                 OR
               </h4>
             </form>
 
             <Grid style={{ margin: "10px", width: "100%" }}>
-              <Link href={`${API_URL}/auth/42`}>
+              <Link href={`${API_URL}auth/42`}>
                 <ButtonAuth>
                   <i>42</i>
                   <span>Continue With Intra</span>
                 </ButtonAuth>
               </Link>
 
-              <Link href={`${API_URL}/auth/`}>
+              <Link href={`${API_URL}auth/google`}>
                 <ButtonAuth>
-                  <i className="lab la-google-plus-g"></i>
+                  <i className='lab la-google-plus-g'></i>
                   <span>Continue With Google</span>
                 </ButtonAuth>
               </Link>
               <Link>
                 <ButtonAuth>
-                  <i className="lab la-github"></i>
+                  <i className='lab la-github'></i>
                   <span>Continue With Github</span>
                 </ButtonAuth>
               </Link>
@@ -261,25 +263,23 @@ export default function Login() {
             <Grid container>
               <Grid item xs>
                 <Link
-                  href="#"
-                  variant="body2"
+                  href='#'
+                  variant='body2'
                   style={{ color: "#fff" }}
                   onClick={() => {
                     history.push("/forgetpwd");
-                  }}
-                >
+                  }}>
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item>
                 <Link
-                  href="#"
-                  variant="body2"
+                  href='#'
+                  variant='body2'
                   style={{ color: "#fff" }}
                   onClick={() => {
                     history.push("/register");
-                  }}
-                >
+                  }}>
                   {"Sign Up"}
                 </Link>
               </Grid>

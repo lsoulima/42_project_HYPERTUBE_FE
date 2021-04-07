@@ -1,16 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import styled from "styled-components";
 import Grid from "@material-ui/core/Grid";
-
 import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import SecurityTwoToneIcon from "@material-ui/icons/SecurityTwoTone";
 import PersonPinIcon from "@material-ui/icons/PersonPin";
+import { useForm } from "react-hook-form";
+import { Snackbar, Box } from "@material-ui/core";
+import Alert from "@material-ui/lab/Alert";
+import { HyperContext } from "../Context/context";
+// import { logout } from "../services/auth";
 
 const LabelImage = styled.label`
   cursor: pointer;
@@ -101,11 +105,34 @@ const Wrapper = styled.div`
   }
 `;
 
-export default function EditProfile() {
+export default function Settings() {
+  const { state } = useContext(HyperContext);
   const [tab, setTab] = useState(0);
+  // const [message, setMessage] = useState({});
+  const { register, handleSubmit, errors } = useForm();
+  const [open, setOpen] = useState(false);
+  const handleClose = (reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
 
+    setOpen(false);
+  };
   const handleChange = (event, newValue) => {
     setTab(newValue);
+  };
+
+  const onSubmit = async (data) => {
+    console.log(data);
+
+    // const valideToken = await checkTokenAction(state.token);
+    // if (valideToken) {
+    //   const SettingsResponce = await settingsAction(state.token, data);
+    //   setMessage(SettingsResponce);
+    //   setOpen(true);
+    // } else {
+    // const res = await logout(state.token, dispatch);
+    // }
   };
 
   const TabPanel = (props) => {
@@ -144,7 +171,22 @@ export default function EditProfile() {
               />
             </Tabs>
           </Paper>
-
+          <Snackbar
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            open={open}
+            autoHideDuration={3000}
+            onClose={handleClose}
+          >
+            {state.success === true ? (
+              <Alert onClose={handleClose} severity="success" variant="filled">
+                {state.message}
+              </Alert>
+            ) : (
+              <Alert onClose={handleClose} severity="error" variant="filled">
+                {state.error}
+              </Alert>
+            )}
+          </Snackbar>
           <TabPanel value={tab} index={0}>
             <Typography
               component="h1"
@@ -157,7 +199,7 @@ export default function EditProfile() {
             >
               Loubna Soulimani
             </Typography>
-            <form className="form" noValidate>
+            <form className="form" onSubmit={handleSubmit(onSubmit)}>
               <Grid container spacing={2}>
                 <Grid
                   item
@@ -174,47 +216,110 @@ export default function EditProfile() {
                     variant="outlined"
                     margin="normal"
                     fullWidth
-                    required
                     id="firstname"
                     label="First Name"
                     name="firstname"
                     autoComplete="firstname"
                     autoFocus
+                    inputRef={register({
+                      required: "You must provide your firstname!",
+                      pattern: {
+                        value: /^[a-zA-Z]{3,20}$/,
+                        message:
+                          "The firstname must contain between 3 and 20 letters !",
+                      },
+                    })}
                   />
+                  {errors.firstname && (
+                    <Box
+                      variant="filled"
+                      color="red"
+                      style={{ fontSize: "12px" }}
+                    >
+                      {errors.firstname.message}
+                    </Box>
+                  )}
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <WhiteBorderTextField
                     variant="outlined"
                     margin="normal"
                     fullWidth
-                    required
                     id="lastname"
                     label="Last Name"
                     name="lastname"
+                    inputRef={register({
+                      required: "You must provide your lastname!",
+                      pattern: {
+                        value: /^[a-zA-Z]{3,20}$/,
+                        message:
+                          "The lastname  must contain between 3 and 20 letters !",
+                      },
+                    })}
                   />
+                  {errors.lastname && (
+                    <Box
+                      variant="filled"
+                      color="red"
+                      style={{ fontSize: "12px" }}
+                    >
+                      {errors.lastname.message}
+                    </Box>
+                  )}
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <WhiteBorderTextField
                     variant="outlined"
                     margin="normal"
-                    required
                     fullWidth
                     id="username"
                     label="User Name"
                     name="username"
+                    inputRef={register({
+                      required: "You must provide your username!",
+                      pattern: {
+                        value: /^[a-z]+(([-_.]?[a-z0-9])?)+$/,
+                        message:
+                          "The username must contain between 3 and 20 letters or numbers (-, _ or.) !",
+                      },
+                    })}
                   />
+                  {errors.username && (
+                    <Box
+                      variant="filled"
+                      color="red"
+                      style={{ fontSize: "12px" }}
+                    >
+                      {errors.username.message}
+                    </Box>
+                  )}
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <WhiteBorderTextField
                     variant="outlined"
                     margin="normal"
-                    required
                     fullWidth
                     id="email"
                     label="Email Address"
                     name="email"
                     autoComplete="email"
+                    inputRef={register({
+                      required: "You must provide your email!",
+                      pattern: {
+                        value: /[a-zA-Z0-9-_.]{1,50}@[a-zA-Z0-9-_.]{1,50}\.[a-z0-9]{2,10}$/,
+                        message: "Invalid email address !",
+                      },
+                    })}
                   />
+                  {errors.email && (
+                    <Box
+                      variant="filled"
+                      color="red"
+                      style={{ fontSize: "12px" }}
+                    >
+                      {errors.email.message}
+                    </Box>
+                  )}
                 </Grid>
                 <Button
                   type="submit"

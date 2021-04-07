@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 
-import { useHistory } from "react-router-dom";
-
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import styled from "styled-components";
@@ -73,64 +71,51 @@ export default function Verify() {
       setOpen(true);
     };
     onVerify();
-  }, []);
+  }, [aToken]);
 
   return (
     <Wrapper>
-      <div className="container">
-        <Container component="main" maxWidth="xs">
-          <div className="paper">
+      <div className='container'>
+        <Container component='main' maxWidth='xs'>
+          <div className='paper'>
             <Typography
-              component="h1"
-              variant="h5"
+              component='h1'
+              variant='h5'
               style={{
                 alignSelf: "start",
                 fontSize: "40px",
                 fontWeight: 600,
                 color: "#fff",
-              }}
-            >
+              }}>
               {state.message}
             </Typography>
             <Snackbar
               anchorOrigin={{ vertical: "top", horizontal: "center" }}
               open={open}
               autoHideDuration={3000}
-              onClose={handleClose}
-            >
+              onClose={handleClose}>
               {state.success === true ? (
                 <Alert
                   onClose={handleClose}
-                  severity="success"
-                  variant="filled"
-                >
+                  severity='success'
+                  variant='filled'>
                   {state.message}
                 </Alert>
               ) : (
-                <Alert onClose={handleClose} severity="error" variant="filled">
+                <Alert onClose={handleClose} severity='error' variant='filled'>
                   {state.error}
                 </Alert>
               )}
             </Snackbar>
-            <form className="form">
+            <form className='form'>
               <Button
-                href="/login"
+                href='/login'
                 fullWidth
-                variant="contained"
-                color="primary"
-                className="submit"
-              >
+                variant='contained'
+                color='primary'
+                className='submit'>
                 login
               </Button>
-
-              <h4
-                style={{
-                  color: "#fff",
-                  textAlign: "center",
-                  marginTop: "20px",
-                  marginBottom: "20px",
-                }}
-              ></h4>
             </form>
           </div>
         </Container>

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { LOGIN_SUCCESS, LOGOUT } from "../Context/actionsTypes";
+import Cookie from "js-cookie";
 
 const API_URL = "http://localhost:3001/api/users/";
 
@@ -46,14 +47,29 @@ export const loginAction = async (loginData, dispatch) => {
 };
 
 //* LOGOUT USER
-export const logout = (dispatch) => {
-  localStorage.removeItem("token");
-  dispatch({
-    type: LOGOUT,
-    payload: {
-      token: null,
+export const logout = async (token, dispatch) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
-  });
+  };
+  try {
+    const res = await axios.post(API_URL + "logout", "", config);
+    localStorage.removeItem("token");
+    Cookie.remove("token");
+    dispatch({
+      type: LOGOUT,
+      payload: {
+        token: null,
+      },
+    });
+    console.log(res.data);
+
+    if (res.data) return res.data;
+  } catch (error) {
+    return error.response.data;
+  }
 };
 
 //* VERIFY USER ACCOUNT
