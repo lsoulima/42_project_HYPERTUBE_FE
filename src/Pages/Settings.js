@@ -1,16 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import styled from "styled-components";
-import { Link, useHistory } from "react-router-dom";
-import Alert from "@material-ui/lab/Alert";
-import { Box, Snackbar } from "@material-ui/core";
+import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import SecurityTwoToneIcon from "@material-ui/icons/SecurityTwoTone";
+import PersonPinIcon from "@material-ui/icons/PersonPin";
 import { useForm } from "react-hook-form";
+import { settingsAction } from "../services/profile";
+import { Snackbar, Box } from "@material-ui/core";
+import Alert from "@material-ui/lab/Alert";
+import { HyperContext } from "../Context/context";
+import { logout, checkTokenAction } from "../services/auth";
 
-import { registerAction } from "../services/auth";
+const LabelImage = styled.label`
+  cursor: pointer;
+  color: #fff;
+  border-radius: 50%;
+  input {
+    display: none;
+  }
+  text-align: center;
+  img {
+    /* border-radius: 50%; */
+    width: 150px;
+    height: 150px;
+  }
+`;
 
 const WhiteBorderTextField = styled(TextField)`
   & .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
@@ -38,10 +58,8 @@ const WhiteBorderTextField = styled(TextField)`
     border-color: #fff;
     color: #fff;
   }
-  .MuiBox-root.MuiBox-root-15 {
-    margin-bottom: 20px;
-  }
 `;
+
 const Wrapper = styled.div`
   & {
     background: url("./img/net.jpg") no-repeat center center fixed;
@@ -51,22 +69,25 @@ const Wrapper = styled.div`
     background-size: cover;
 
     /* Set up proportionate scaling */
-    height: 100%;
     width: 100%;
+    height: 100%;
     @media (max-width: 768px) {
-      height: auto;
+      & {
+        height: auto;
+      }
     }
   }
   .container {
     padding-top: 100px;
     height: 100%;
+    min-height: 100%;
     width: 100%;
     background: rgba(51, 51, 51, 0.5);
     padding-bottom: 100px;
   }
   .paper {
     background-color: rgba(0, 0, 0, 0.75);
-    border-radius: 15px;
+    border-radius: 0 0 15px 15px;
     padding: 50px;
     display: flex;
     flex-direction: column;
@@ -85,8 +106,10 @@ const Wrapper = styled.div`
   }
 `;
 
-export default function Register() {
-  const [state, Setstate] = useState({});
+export default function Settings() {
+  const { state, dispatch } = useContext(HyperContext);
+  const [tab, setTab] = useState(0);
+  const [message, setMessage] = useState({});
   const { register, handleSubmit, errors } = useForm();
   const [open, setOpen] = useState(false);
   const handleClose = (reason) => {
@@ -96,54 +119,96 @@ export default function Register() {
 
     setOpen(false);
   };
-  let history = useHistory();
+  const handleChange = (event, newValue) => {
+    setTab(newValue);
+  };
+
   const onSubmit = async (data) => {
-    let registerData = data;
-    const responce = await registerAction(registerData);
-    Setstate(responce);
-    setOpen(true);
-    if (responce.success === true) {
-      history.push("/login");
-    }
+    console.log(data);
+
+    // const valideToken = await checkTokenAction(state.token);
+    // if (valideToken) {
+    //   const SettingsResponce = await settingsAction(state.token, data);
+    //   setMessage(SettingsResponce);
+    //   setOpen(true);
+    // } else {
+    const res = await logout(state.token, dispatch);
+    // }
+  };
+
+  const TabPanel = (props) => {
+    const { children, value, index } = props;
+
+    return (
+      <div role='tabpanel' hidden={value !== index}>
+        {value === index && <div className='paper'>{children}</div>}
+      </div>
+    );
   };
 
   return (
     <Wrapper>
       <div className='container'>
         <Container component='main' maxWidth='sm'>
-          <div className='paper'>
+          <Paper elevation={5}>
+            <Tabs
+              value={tab}
+              onChange={handleChange}
+              variant='fullWidth'
+              indicatorColor='secondary'
+              textColor='red'
+              TabIndicatorProps={{ style: { background: "red" } }}
+              style={{ background: "rgb(8, 7, 8)", color: "white" }}>
+              <Tab
+                icon={<PersonPinIcon />}
+                label='Info'
+                style={{ padding: "20px 0" }}
+              />
+              <Tab
+                icon={<SecurityTwoToneIcon />}
+                label='Password'
+                style={{ padding: "20px 0" }}
+              />
+            </Tabs>
+          </Paper>
+          <Snackbar
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            open={open}
+            autoHideDuration={3000}
+            onClose={handleClose}>
+            {state.success === true ? (
+              <Alert onClose={handleClose} severity='success' variant='filled'>
+                {state.message}
+              </Alert>
+            ) : (
+              <Alert onClose={handleClose} severity='error' variant='filled'>
+                {state.error}
+              </Alert>
+            )}
+          </Snackbar>
+          <TabPanel value={tab} index={0}>
             <Typography
               component='h1'
               variant='h5'
               style={{
-                alignSelf: "start",
                 fontSize: "40px",
                 fontWeight: 600,
                 color: "#fff",
               }}>
-              Sign Up
+              Loubna Soulimani
             </Typography>
-            <Snackbar
-              anchorOrigin={{ vertical: "top", horizontal: "center" }}
-              open={open}
-              autoHideDuration={6000}
-              onClose={handleClose}>
-              {state.success === true ? (
-                <Alert
-                  onClose={handleClose}
-                  severity='success'
-                  variant='filled'>
-                  {state.message}
-                </Alert>
-              ) : (
-                <Alert onClose={handleClose} severity='error' variant='filled'>
-                  {state.error}
-                </Alert>
-              )}
-            </Snackbar>
             <form className='form' onSubmit={handleSubmit(onSubmit)}>
-              <Grid container spacing={1}>
-                <Grid item xs={12} md={6}>
+              <Grid container spacing={2}>
+                <Grid
+                  item
+                  xs={12}
+                  style={{ margin: "20px 0 20px 0", textAlign: "center" }}>
+                  <LabelImage type='file'>
+                    <img src='./img/avatar.jpeg' alt='avatar' />
+                    <input type='file' />
+                  </LabelImage>
+                </Grid>
+                <Grid item xs={12} sm={6}>
                   <WhiteBorderTextField
                     variant='outlined'
                     margin='normal'
@@ -171,7 +236,7 @@ export default function Register() {
                     </Box>
                   )}
                 </Grid>
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} sm={6}>
                   <WhiteBorderTextField
                     variant='outlined'
                     margin='normal'
@@ -197,13 +262,11 @@ export default function Register() {
                     </Box>
                   )}
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={12} sm={6}>
                   <WhiteBorderTextField
                     variant='outlined'
                     margin='normal'
                     fullWidth
-                    min={3}
-                    max={20}
                     id='username'
                     label='User Name'
                     name='username'
@@ -225,7 +288,7 @@ export default function Register() {
                     </Box>
                   )}
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={12} sm={6}>
                   <WhiteBorderTextField
                     variant='outlined'
                     margin='normal'
@@ -251,81 +314,68 @@ export default function Register() {
                     </Box>
                   )}
                 </Grid>
-                <Grid item xs={12} md={6}>
+                <Button
+                  type='submit'
+                  fullWidth
+                  variant='contained'
+                  color='primary'
+                  className='submit'>
+                  Save
+                </Button>
+              </Grid>
+            </form>
+          </TabPanel>
+
+          <TabPanel value={tab} index={1}>
+            <form className='form' noValidate>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
                   <WhiteBorderTextField
                     variant='outlined'
                     margin='normal'
+                    required
                     fullWidth
-                    name='password'
-                    label='Password'
+                    name='oldpassword'
+                    label='Old Password'
                     type='password'
-                    id='password'
-                    inputRef={register({
-                      required: "You must provide your password!",
-                      pattern: {
-                        value: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*_-]).{8,}$/,
-                        message:
-                          "Password must be at least eight characters long, at least one uppercase letter, one lowercase letter, one number and one special character !",
-                      },
-                    })}
+                    id='oldpassword'
                   />
-                  {errors.password && (
-                    <Box
-                      variant='filled'
-                      color='red'
-                      style={{ fontSize: "12px" }}>
-                      {errors.password.message}
-                    </Box>
-                  )}
                 </Grid>
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12}>
                   <WhiteBorderTextField
                     variant='outlined'
                     margin='normal'
+                    required
+                    fullWidth
+                    name='newpassword'
+                    label='New Password'
+                    type='password'
+                    id='newpassword'
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <WhiteBorderTextField
+                    variant='outlined'
+                    margin='normal'
+                    required
                     fullWidth
                     name='confirmpassword'
                     label='Retype Password'
                     type='password'
                     id='confirmpassword'
-                    inputRef={register({
-                      required: "You must confirm your password!",
-                    })}
                   />
-                  {errors.confirmpassword && (
-                    <Box
-                      variant='filled'
-                      color='red'
-                      style={{ fontSize: "12px" }}>
-                      {errors.confirmpassword.message}
-                    </Box>
-                  )}
                 </Grid>
-                <Grid item xs={12}>
-                  <Button
-                    type='submit'
-                    fullWidth
-                    variant='contained'
-                    color='primary'
-                    className='submit'>
-                    Sign Up
-                  </Button>
-                </Grid>
-                <Grid container>
-                  <Grid
-                    item
-                    style={{
-                      display: "flex",
-                      justifyContent: "flex-end",
-                      width: "100%",
-                    }}>
-                    <Link to='/login' style={{ color: "#fff" }}>
-                      Sign In
-                    </Link>
-                  </Grid>
-                </Grid>
+                <Button
+                  type='submit'
+                  fullWidth
+                  variant='contained'
+                  className='submit'
+                  color='primary'>
+                  Save
+                </Button>
               </Grid>
             </form>
-          </div>
+          </TabPanel>
         </Container>
       </div>
     </Wrapper>

@@ -1,7 +1,7 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import { useHistory, Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -121,19 +121,20 @@ const Wrapper = styled.div`
 export default function Login() {
   const { dispatch } = useContext(HyperContext);
   const [state, Setstate] = useState({});
-  const [oauthError, setOauthError] = useState(
-    window.location.search?.split("=")[1]?.split("-").join(" ")
-  );
+
   const { register, handleSubmit, errors } = useForm();
   const [open, setOpen] = useState(false);
-  const handleClose = (event, reason) => {
+  const handleClose = (reason) => {
     if (reason === "clickaway") {
       return;
     }
 
     setOpen(false);
   };
-
+  const oauthError = window.location.search
+    ?.split("=")[1]
+    ?.split("-")
+    .join(" ");
   let history = useHistory();
   const onSubmit = async (data) => {
     const responce = await loginAction(data, dispatch);

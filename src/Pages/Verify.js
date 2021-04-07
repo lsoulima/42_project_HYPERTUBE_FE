@@ -55,7 +55,7 @@ const Wrapper = styled.div`
 export default function Verify() {
   const [state, setState] = useState({});
   const [open, setOpen] = useState(false);
-  const handleClose = (event, reason) => {
+  const handleClose = (reason) => {
     if (reason === "clickaway") {
       return;
     }

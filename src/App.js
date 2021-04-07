@@ -6,7 +6,7 @@ import "./css/app.css";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import Footer from "./Inc/Footer";
-import EditProfile from "./Pages/EditProfile";
+import Settings from "./Pages/Settings";
 import Library from "./Pages/Library";
 import Stream from "./Pages/Stream";
 import { useState } from "react";
@@ -59,11 +59,10 @@ const App = () => {
             <PublicRoute path='/newpassword' component={NewPassword} />
             <PublicRoute path='/register' component={Register} />
             <PublicRoute path='/forgetpwd' component={ForgetPwd} />
-            <PrivateRoute path='/edit' component={EditProfile} />
+            <PrivateRoute path='/settings' component={Settings} />
             <PrivateRoute path='/library' component={Library} />
             <PrivateRoute path='/stream' component={Stream} />
             <PrivateRoute path='/profile' component={Profile} />
-
             <Route path='/' component={Home} />
           </Switch>
           <Footer />
