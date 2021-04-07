@@ -171,7 +171,6 @@ function NavBar({ t, mytheme, settheme }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [message, setMessage] = useState({});
-  const [Tab, setTab] = useState(0);
 
   const [open, setOpen] = useState(false);
   const handleClose = (reason) => {
@@ -181,9 +180,7 @@ function NavBar({ t, mytheme, settheme }) {
 
     setOpen(false);
   };
-  const handleChange = (event, newValue) => {
-    setTab(newValue);
-  };
+
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
