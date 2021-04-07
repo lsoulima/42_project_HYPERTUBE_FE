@@ -1,5 +1,6 @@
 import axios from "axios";
 import { LOGIN_SUCCESS, LOGOUT } from "../Context/actionsTypes";
+import Cookie from "js-cookie";
 
 const API_URL = "http://localhost:3001/api/users/";
 
@@ -48,6 +49,7 @@ export const loginAction = async (loginData, dispatch) => {
 //* LOGOUT USER
 export const logout = (dispatch) => {
   localStorage.removeItem("token");
+  Cookie.remove("token");
   dispatch({
     type: LOGOUT,
     payload: {

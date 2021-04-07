@@ -12,34 +12,6 @@ import { useForm } from "react-hook-form";
 
 import { registerAction } from "../services/auth";
 
-const ButtonAuth = styled.button`
-  width: 100%;
-  height: 36px;
-  padding: 6px 16px 6px 16px;
-  position: relative;
-  margin-bottom: 20px;
-  :hover {
-    cursor: pointer;
-  }
-
-  i {
-    position: absolute;
-    left: 20px;
-    font-size: 20px;
-    margin: auto;
-  }
-  @media (max-width: 425px) {
-    span {
-      display: none;
-    }
-    i {
-      font-size: 20px;
-      position: absolute;
-      left: 45%;
-      top: 15%;
-    }
-  }
-`;
 const WhiteBorderTextField = styled(TextField)`
   & .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
     border-color: #fff !important;
@@ -137,52 +109,49 @@ export default function Register() {
 
   return (
     <Wrapper>
-      <div className="container">
-        <Container component="main" maxWidth="sm">
-          <div className="paper">
+      <div className='container'>
+        <Container component='main' maxWidth='sm'>
+          <div className='paper'>
             <Typography
-              component="h1"
-              variant="h5"
+              component='h1'
+              variant='h5'
               style={{
                 alignSelf: "start",
                 fontSize: "40px",
                 fontWeight: 600,
                 color: "#fff",
-              }}
-            >
+              }}>
               Sign Up
             </Typography>
             <Snackbar
               anchorOrigin={{ vertical: "top", horizontal: "center" }}
               open={open}
               autoHideDuration={6000}
-              onClose={handleClose}
-            >
+              onClose={handleClose}>
               {state.success === true ? (
                 <Alert
                   onClose={handleClose}
-                  severity="success"
-                  variant="filled"
-                >
+                  severity='success'
+                  variant='filled'>
                   {state.message}
                 </Alert>
               ) : (
-                <Alert onClose={handleClose} severity="error" variant="filled">
+                <Alert onClose={handleClose} severity='error' variant='filled'>
                   {state.error}
                 </Alert>
               )}
             </Snackbar>
-            <form className="form" onSubmit={handleSubmit(onSubmit)}>
+            <form className='form' onSubmit={handleSubmit(onSubmit)}>
               <Grid container spacing={1}>
                 <Grid item xs={12} md={6}>
                   <WhiteBorderTextField
-                    variant="outlined"
-                    margin="normal"
+                    variant='outlined'
+                    margin='normal'
                     fullWidth
-                    id="firstname"
-                    label="First Name"
-                    name="firstname"
-                    autoComplete="firstname"
+                    id='firstname'
+                    label='First Name'
+                    name='firstname'
+                    autoComplete='firstname'
                     autoFocus
                     inputRef={register({
                       required: "You must provide your firstname!",
@@ -195,22 +164,21 @@ export default function Register() {
                   />
                   {errors.firstname && (
                     <Box
-                      variant="filled"
-                      color="red"
-                      style={{ fontSize: "12px" }}
-                    >
+                      variant='filled'
+                      color='red'
+                      style={{ fontSize: "12px" }}>
                       {errors.firstname.message}
                     </Box>
                   )}
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <WhiteBorderTextField
-                    variant="outlined"
-                    margin="normal"
+                    variant='outlined'
+                    margin='normal'
                     fullWidth
-                    id="lastname"
-                    label="Last Name"
-                    name="lastname"
+                    id='lastname'
+                    label='Last Name'
+                    name='lastname'
                     inputRef={register({
                       required: "You must provide your lastname!",
                       pattern: {
@@ -222,24 +190,23 @@ export default function Register() {
                   />
                   {errors.lastname && (
                     <Box
-                      variant="filled"
-                      color="red"
-                      style={{ fontSize: "12px" }}
-                    >
+                      variant='filled'
+                      color='red'
+                      style={{ fontSize: "12px" }}>
                       {errors.lastname.message}
                     </Box>
                   )}
                 </Grid>
                 <Grid item xs={12}>
                   <WhiteBorderTextField
-                    variant="outlined"
-                    margin="normal"
+                    variant='outlined'
+                    margin='normal'
                     fullWidth
                     min={3}
                     max={20}
-                    id="username"
-                    label="User Name"
-                    name="username"
+                    id='username'
+                    label='User Name'
+                    name='username'
                     inputRef={register({
                       required: "You must provide your username!",
                       pattern: {
@@ -251,23 +218,22 @@ export default function Register() {
                   />
                   {errors.username && (
                     <Box
-                      variant="filled"
-                      color="red"
-                      style={{ fontSize: "12px" }}
-                    >
+                      variant='filled'
+                      color='red'
+                      style={{ fontSize: "12px" }}>
                       {errors.username.message}
                     </Box>
                   )}
                 </Grid>
                 <Grid item xs={12}>
                   <WhiteBorderTextField
-                    variant="outlined"
-                    margin="normal"
+                    variant='outlined'
+                    margin='normal'
                     fullWidth
-                    id="email"
-                    label="Email Address"
-                    name="email"
-                    autoComplete="email"
+                    id='email'
+                    label='Email Address'
+                    name='email'
+                    autoComplete='email'
                     inputRef={register({
                       required: "You must provide your email!",
                       pattern: {
@@ -278,23 +244,22 @@ export default function Register() {
                   />
                   {errors.email && (
                     <Box
-                      variant="filled"
-                      color="red"
-                      style={{ fontSize: "12px" }}
-                    >
+                      variant='filled'
+                      color='red'
+                      style={{ fontSize: "12px" }}>
                       {errors.email.message}
                     </Box>
                   )}
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <WhiteBorderTextField
-                    variant="outlined"
-                    margin="normal"
+                    variant='outlined'
+                    margin='normal'
                     fullWidth
-                    name="password"
-                    label="Password"
-                    type="password"
-                    id="password"
+                    name='password'
+                    label='Password'
+                    type='password'
+                    id='password'
                     inputRef={register({
                       required: "You must provide your password!",
                       pattern: {
@@ -306,45 +271,42 @@ export default function Register() {
                   />
                   {errors.password && (
                     <Box
-                      variant="filled"
-                      color="red"
-                      style={{ fontSize: "12px" }}
-                    >
+                      variant='filled'
+                      color='red'
+                      style={{ fontSize: "12px" }}>
                       {errors.password.message}
                     </Box>
                   )}
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <WhiteBorderTextField
-                    variant="outlined"
-                    margin="normal"
+                    variant='outlined'
+                    margin='normal'
                     fullWidth
-                    name="confirmpassword"
-                    label="Retype Password"
-                    type="password"
-                    id="confirmpassword"
+                    name='confirmpassword'
+                    label='Retype Password'
+                    type='password'
+                    id='confirmpassword'
                     inputRef={register({
                       required: "You must confirm your password!",
                     })}
                   />
                   {errors.confirmpassword && (
                     <Box
-                      variant="filled"
-                      color="red"
-                      style={{ fontSize: "12px" }}
-                    >
+                      variant='filled'
+                      color='red'
+                      style={{ fontSize: "12px" }}>
                       {errors.confirmpassword.message}
                     </Box>
                   )}
                 </Grid>
                 <Grid item xs={12}>
                   <Button
-                    type="submit"
+                    type='submit'
                     fullWidth
-                    variant="contained"
-                    color="primary"
-                    className="submit"
-                  >
+                    variant='contained'
+                    color='primary'
+                    className='submit'>
                     Sign Up
                   </Button>
                 </Grid>
@@ -355,9 +317,8 @@ export default function Register() {
                       display: "flex",
                       justifyContent: "flex-end",
                       width: "100%",
-                    }}
-                  >
-                    <Link to="/login" style={{ color: "#fff" }}>
+                    }}>
+                    <Link to='/login' style={{ color: "#fff" }}>
                       Sign In
                     </Link>
                   </Grid>

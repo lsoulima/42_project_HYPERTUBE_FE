@@ -1,4 +1,4 @@
-import React, { useState, useContext, Fragment } from "react";
+import React, { useState, useContext } from "react";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -206,18 +206,16 @@ function NavBar({ t, mytheme, settheme }) {
       keepMounted
       transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <Link key="1" to="/edit" style={{ color: "#fff" }}>
+      onClose={handleMenuClose}>
+      <Link key='1' to='/edit' style={{ color: "#fff" }}>
         <MenuItem onClick={handleMenuClose}>Settings</MenuItem>
       </Link>
-      <Link key="2" to="/login" style={{ color: "#fff" }}>
+      <Link key='2' to='/login' style={{ color: "#fff" }}>
         <MenuItem
           onClick={() => {
             handleMenuClose();
             handleLogout();
-          }}
-        >
+          }}>
           Logout
         </MenuItem>
       </Link>
@@ -233,22 +231,21 @@ function NavBar({ t, mytheme, settheme }) {
       keepMounted
       transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
+      onClose={handleMobileMenuClose}>
       {state.token
         ? [
-            <Link key="3" className="link" to="/register">
+            <Link key='3' className='link' to='/register'>
               <MenuItem>Register</MenuItem>
             </Link>,
-            <Link key="4" className="link" to="/login">
+            <Link key='4' className='link' to='/login'>
               <MenuItem>Login</MenuItem>
             </Link>,
           ]
         : [
-            <Link key="5" className="link" to="/edit">
+            <Link key='5' className='link' to='/edit'>
               <MenuItem>Settings</MenuItem>
             </Link>,
-            <Link key="6" className="link" to="/logout">
+            <Link key='6' className='link' to='/logout'>
               <MenuItem>Logout</MenuItem>
             </Link>,
           ]}
@@ -304,16 +301,15 @@ function NavBar({ t, mytheme, settheme }) {
   return (
     <div className={classes.grow}>
       <Shadow>
-        <AppBar position="static" className={classes.appbar}>
+        <AppBar position='static' className={classes.appbar}>
           <Toolbar>
             <div
               className={classes.title}
               onClick={() => {
                 history.push("/");
-              }}
-            >
-              <img src="./img/logo.png" className={classes.logo} alt="logo" />
-              <Typography className={classes.title} variant="h4" noWrap>
+              }}>
+              <img src='./img/logo.png' className={classes.logo} alt='logo' />
+              <Typography className={classes.title} variant='h4' noWrap>
                 yperTube
               </Typography>
             </div>
@@ -322,11 +318,11 @@ function NavBar({ t, mytheme, settheme }) {
               {/* Traduction */}
               {localStorage.getItem("i18nextLng") === "en" ? (
                 <IconBtn onClick={() => changeLanguage("fr")}>
-                  <FlagIcon code="FR" size={25} />
+                  <FlagIcon code='FR' size={25} />
                 </IconBtn>
               ) : (
                 <IconBtn onClick={() => changeLanguage("en")}>
-                  <FlagIcon code="US" size={25} />
+                  <FlagIcon code='US' size={25} />
                 </IconBtn>
               )}
               {/* Check dark theme */}
@@ -336,19 +332,17 @@ function NavBar({ t, mytheme, settheme }) {
                   theme
                     ? { border: "1px solid white" }
                     : { border: "1px solid gray" }
-                }
-              >
+                }>
                 <span
-                  className="monWraper"
+                  className='monWraper'
                   style={
                     theme
                       ? { transform: "translateX(-15px)", background: "white" }
                       : { transform: "translateX(-40px)", background: "gray" }
-                  }
-                >
+                  }>
                   <img
-                    src="./img/moon.svg"
-                    alt="moon"
+                    src='./img/moon.svg'
+                    alt='moon'
                     style={theme ? { color: "white" } : { color: "yellow" }}
                   />
                 </span>
@@ -356,24 +350,23 @@ function NavBar({ t, mytheme, settheme }) {
 
               {state.token ? (
                 <IconButton
-                  edge="end"
-                  aria-label="account of current user"
+                  edge='end'
+                  aria-label='account of current user'
                   aria-controls={menuId}
-                  aria-haspopup="true"
+                  aria-haspopup='true'
                   onClick={handleProfileMenuOpen}
-                  style={{ background: "red" }}
-                >
+                  style={{ background: "red" }}>
                   <AccountCircle style={{ color: "#fff" }} />
                 </IconButton>
               ) : (
                 [
                   <NavButton>
-                    <Link key="7" className="link" to="/login">
+                    <Link key='7' className='link' to='/login'>
                       {t("loginTr")}
                     </Link>
                   </NavButton>,
                   <NavButton>
-                    <Link key="8" className="link" to="/register">
+                    <Link key='8' className='link' to='/register'>
                       {t("registerTr")}
                     </Link>
                   </NavButton>,
@@ -382,12 +375,11 @@ function NavBar({ t, mytheme, settheme }) {
             </div>
             <div className={classes.sectionMobile}>
               <IconButton
-                aria-label="show more"
+                aria-label='show more'
                 aria-controls={mobileMenuId}
-                aria-haspopup="true"
+                aria-haspopup='true'
                 onClick={handleMobileMenuOpen}
-                color="inherit"
-              >
+                color='inherit'>
                 <MoreIcon style={{ color: "red" }} />
               </IconButton>
             </div>
