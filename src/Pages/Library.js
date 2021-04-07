@@ -260,41 +260,53 @@ const SearchCard = styled.div`
 export default function Library() {
   const [hovered, setHovered] = useState(false);
   const toggleHover = (value) => setHovered(value);
-
   const [imdb, setImdb] = useState(10);
-  const handleImdbChange = (event, newValue) => {
-    setImdb(newValue);
-  };
-
-  const [radioValue, setRadioValue] = useState("female");
-  const handleChangeRadio = (event) => {
-    setRadioValue(event.target.value);
-  };
-
+  const [radioValue, setRadioValue] = useState("rating");
   const [genre, setGenre] = useState("");
-  const handleGenreChange = (event) => {
-    setGenre(event.target.value);
-  };
   const [movies, setmovies] = useState([]);
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
 
   // const API_ONE = `https://api.apiumadomain.com/list?sort=popularity&cb=&quality=720p&page=${page}`;
-  const API_SEARCH = `https://yts.mx/api/v2/list_movies.json?query_term=${searchTerm}`;
-  const API_TWO = `https://yts.mx/api/v2/list_movies.json?sort_by=like_count&limit=50&page=${page}`;
+  const API_SORT = `https://yts.mx/api/v2/list_movies.json?&sort_by=${radioValue}&limit=50&page=${page}`;
+  const API_SEARCH = `https://yts.mx/api/v2/list_movies.json?query_term=${searchTerm}&sort_by=${radioValue}&limit=50&page=${page}`;
+  // const API_TWO = `https://yts.mx/api/v2/list_movies.json?sort_by=rating&limit=50&page=${page}`;
+
+  const handleImdbChange = (event, newValue) => {
+    setImdb(newValue);
+  };
+
+  const handleGenreChange = (event) => {
+    setGenre(event.target.value);
+  };
 
   // const fetchMovies = async (API) => {
   //   const res = await axios.get(API);
   //   let mydata = movies.concat(res.data.MovieList); //res.data.data.movies
   //   setmovies(mydata);
   // };
+  const fetchYtsMovies = async () => {
+    const res = await axios.get(API_SEARCH);
+    let mydata = [...movies, ...res.data.data.movies]; //movies.concat(res.data.data.movies);
+    setmovies(mydata);
+  };
+
+  const handleChangeRadio = (event) => {
+    setRadioValue(event.target.value);
+
+    const getSortMovies = async () => {
+      const res = await axios.get(
+        `https://yts.mx/api/v2/list_movies.json?&sort_by=${radioValue}`
+      );
+      let sortData =
+        res.data.data.movie_count === 0 ? [] : res.data.data.movies;
+      console.log(sortData);
+      setmovies(sortData);
+    };
+    getSortMovies();
+  };
 
   useEffect(() => {
-    const fetchYtsMovies = async () => {
-      const res = await axios.get(API_TWO);
-      let mydata = [...movies, ...res.data.data.movies]; //movies.concat(res.data.data.movies);
-      setmovies(mydata);
-    };
     fetchYtsMovies();
     // eslint-disable-next-line
   }, [page]);
@@ -345,27 +357,27 @@ export default function Library() {
       <Container>
         <div className="first_card">
           <FilterCard style={{ width: "100%" }}>
-            <FormControl component="fieldset" style={{ width: "100%" }}>
+            <FormControl error component="fieldset" style={{ width: "100%" }}>
               <RadioGroup
-                name="gender1"
+                // name="sort"
                 value={radioValue}
-                onChange={handleChangeRadio}
+                onChange={(e) => handleChangeRadio(e)}
                 className="radioContainer"
               >
                 <FormControlLabel
-                  value="male"
+                  value="rating"
                   control={<Radio />}
-                  label="popularity"
+                  label="rating"
                 />
                 <FormControlLabel
-                  value="female"
+                  value="year"
                   control={<Radio />}
-                  label="Year"
+                  label="year"
                 />
                 <FormControlLabel
-                  value="other"
+                  value="title"
                   control={<Radio />}
-                  label="Name"
+                  label="title"
                 />
               </RadioGroup>
             </FormControl>
@@ -420,7 +432,7 @@ export default function Library() {
               onMouseLeave={() => toggleHover(false)}
             >
               <img
-                src={movie.large_cover_image} //poster_big}
+                src={movie?.large_cover_image} //poster_big}
                 width="100%"
                 height="100%"
                 alt="cover"
