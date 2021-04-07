@@ -314,13 +314,13 @@ export default function Library() {
   const handleOnSubmit = (e) => {
     e.preventDefault();
     console.log("c'est ce que vous rechercher " + searchTerm);
-    const fetchYtsMovies = async () => {
+    const searchMovies = async () => {
       const res = await axios.get(API_SEARCH);
-      let searchData = [...movies, ...res.data.data.movies]; //movies.concat(res.data.data.movies);
+      let searchData = res.data.data.movies;
       setmovies(searchData);
       console.log("resultat de la recherche ", searchData);
     };
-    fetchYtsMovies();
+    searchMovies();
     setSearchTerm("");
   };
 
