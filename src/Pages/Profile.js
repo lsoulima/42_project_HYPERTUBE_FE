@@ -304,8 +304,9 @@ export default function Profile() {
             enableAutoPlay
             autoPlaySpeed={1500}
           >
-            {movies.map((movie) => (
+            {movies.map((movie, id) => (
               <MyCard
+                key={id}
                 onMouseEnter={() => toggleHover(true)}
                 onMouseLeave={() => toggleHover(false)}
               >
@@ -317,7 +318,7 @@ export default function Profile() {
                 />
 
                 <div className="eye ">
-                  <i class="las la-star  animate__animated animate__tada animate__infinite"></i>
+                  <i className="las la-star  animate__animated animate__tada animate__infinite"></i>
                 </div>
                 <div className="backHover">
                   <div className="imdbPlace">

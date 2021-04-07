@@ -307,13 +307,13 @@ export default function Stream() {
                 tracks: [
                   {
                     kind: "subtitles",
-                    src: "http://localhost:3001/subs/subtitles.en.vtt",
+                    src: "", //"http://localhost:3001/subs/subtitles.en.vtt",
                     srcLang: "en",
                     default: true,
                   },
                   {
                     kind: "subtitles",
-                    src: "http://localhost:3001/subs/subtitles.fr.vtt",
+                    src: "", //"http://localhost:3001/subs/subtitles.fr.vtt",
                     srcLang: "fr",
                   },
                 ],
@@ -371,12 +371,12 @@ export default function Stream() {
         </MovieDetailes>
         <div className="suggestions_like">You May Also Like</div>
         <Suggestions>
-          {[0, 1, 2, 3, 4, 5].map((movie) => (
-            <MyCard>
+          {[0, 1, 2, 3, 4, 5].map((movie, id) => (
+            <MyCard key={id}>
               <div className="info_section">
                 <div className="movie_header">
                   <img
-                    class="cover"
+                    className="cover"
                     src="https://yts.mx/assets/images/movies/deadly_illusions_2021/large-cover.jpg"
                     alt="cover"
                   />
