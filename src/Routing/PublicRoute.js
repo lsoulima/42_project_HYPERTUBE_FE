@@ -3,7 +3,7 @@ import { useHistory, Route } from "react-router-dom";
 import { HyperContext } from "../Context/context";
 
 const PublicRoute = ({ component: Component, ...rest }) => {
-  const { state } = useContext(HyperContext);
+  const { state, authorized } = useContext(HyperContext);
   // const [logged, setLogged] = useState(false);
   // setLogged(state.isAuth);
   // console.log(logged);
@@ -13,7 +13,7 @@ const PublicRoute = ({ component: Component, ...rest }) => {
       {...rest}
       render={
         (props) =>
-          state.token ? (
+          state.token && authorized ? (
             history.push("/library")
           ) : (
             // <div>
