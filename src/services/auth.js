@@ -48,6 +48,16 @@ export const loginAction = async (loginData, dispatch) => {
 
 //* LOGOUT USER
 export const logout = async (token, dispatch) => {
+  localStorage.removeItem("token");
+  Cookie.remove("token");
+
+  dispatch({
+    type: LOGOUT,
+    payload: {
+      token: null,
+    },
+  });
+
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -55,15 +65,7 @@ export const logout = async (token, dispatch) => {
     },
   };
   try {
-    const res = await axios.post(API_URL + "logout", "", config);
-    localStorage.removeItem("token");
-    Cookie.remove("token");
-    dispatch({
-      type: LOGOUT,
-      payload: {
-        token: null,
-      },
-    });
+    const res = await axios.post(API_URL + "logout", config);
 
     if (res.data) return res.data;
   } catch (error) {
@@ -83,9 +85,9 @@ export const verifyAccount = async (token) => {
     const res = await axios.patch(
       API_URL + "verify/account",
       { token: token },
-      "",
       config
     );
+
     if (res.data) return res.data;
   } catch (error) {
     return error.response.data;
@@ -111,8 +113,15 @@ export const checkTokenAction = async (token) => {
     );
 
     if (res.data?.valide) return res.data?.valide;
+    else {
+      Cookie.remove("token");
+      localStorage.removeItem("token");
+      return false;
+    }
   } catch (error) {
-    return error.response.data;
+    Cookie.remove("token");
+    localStorage.removeItem("token");
+    return false;
   }
 };
 
