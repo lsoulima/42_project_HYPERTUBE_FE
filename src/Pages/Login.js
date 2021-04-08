@@ -216,9 +216,6 @@ export default function Login() {
                   {errors.password.message}
                 </Box>
               )}
-              <Box variant='filled' color='red' style={{ fontSize: "12px" }}>
-                {oauthError}
-              </Box>
 
               <Button
                 type='submit'
@@ -237,6 +234,9 @@ export default function Login() {
                 }}>
                 OR
               </h4>
+              <Box variant='filled' color='red' style={{ fontSize: "12px" }}>
+                {oauthError}
+              </Box>
             </form>
 
             <Grid style={{ margin: "10px", width: "100%" }}>
