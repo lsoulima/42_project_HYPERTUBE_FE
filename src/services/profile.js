@@ -2,15 +2,22 @@ import axios from "axios";
 
 const API_URL = "http://localhost:3001/api/users/";
 // //* GET DATA PROFILE
-// const getProfile = (token) => {
-//   const config = {
-//     headers: {
-//       "Content-Type": "application/json",
-//       Authorization: `Bearer ${token}`,
-//     },
-//   };
-//   return axios.get(API_URL + "profile", { config });
-// };
+export const getUser = async (token) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  try {
+    const res = await axios.get(API_URL + "profile", config);
+    console.log(res.data.data);
+
+    if (res.data) return res.data.data;
+  } catch (error) {
+    return false;
+  }
+};
 
 // //* GET DATA OTHERS PROFILE BY ID
 // const findProfileById = (token, id) => {
@@ -36,8 +43,6 @@ const API_URL = "http://localhost:3001/api/users/";
 //*EDIT USER PROFILE
 
 export const settingsAction = async (token, data) => {
-  console.log(token);
-
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -46,7 +51,6 @@ export const settingsAction = async (token, data) => {
   };
   try {
     const res = await axios.patch(API_URL + "edit/informations", data, config);
-    console.log(res);
 
     if (res.data) return res.data;
   } catch (error) {
@@ -56,7 +60,7 @@ export const settingsAction = async (token, data) => {
 
 //* Update password Action
 
-export const changePassword = async (token, data) => {
+export const changePassword = async (token, editpassword) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -66,13 +70,13 @@ export const changePassword = async (token, data) => {
 
   try {
     const res = await axios.patch(
-      "http://localhost:3001/api/users/edit/password",
-      data,
+      API_URL + "edit/password",
+      editpassword,
       config
     );
 
     if (res) return res.data;
   } catch (error) {
-    return error.response.data;
+    return error.response?.data;
   }
 };
