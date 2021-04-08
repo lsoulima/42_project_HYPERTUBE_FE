@@ -253,10 +253,10 @@ export default function Login() {
                   <span>Continue With Google</span>
                 </ButtonAuth>
               </Link>
-              <Link>
+              <Link href={`${API_URL}auth/linkedin`}>
                 <ButtonAuth>
-                  <i className='lab la-github'></i>
-                  <span>Continue With Github</span>
+                  <i className='lab la-linkedin'></i>
+                  <span>Continue With Linkedin</span>
                 </ButtonAuth>
               </Link>
             </Grid>
