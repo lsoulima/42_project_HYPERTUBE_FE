@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import Carousel from "react-elastic-carousel";
 import axios from "axios";
+import { HyperContext } from "../Context/context";
+import { Typography } from "@material-ui/core";
 
 const MyCard = styled.div`
   display: flex;
@@ -195,11 +197,13 @@ const MovieList = styled.div`
 const Avatar = styled.img`
   width: 150px;
   height: 150px;
+  border-radius: 100%;
 `;
 
 export default function Profile() {
   const [hovered, setHovered] = useState(false);
   const toggleHover = (value) => setHovered(value);
+  const { userInfos } = useContext(HyperContext);
 
   const breakPoints = [
     { width: 1, itemsToShow: 1 },
@@ -226,48 +230,64 @@ export default function Profile() {
     <Container>
       <UserProfile>
         <div>
-          <Avatar alt="Cindy Baker" src="./img/avatar.jpeg" />
-          <h1>Loubna Soulimani</h1>
+          <Avatar src={userInfos.profile ? userInfos.profile : ""} />
+          <Typography
+            component='h1'
+            variant='h6'
+            style={{
+              fontSize: "30px",
+              fontWeight: 500,
+              color: "#fff",
+            }}>
+            Username: {userInfos.username}
+          </Typography>
+          <Typography
+            component='h1'
+            variant='h6'
+            style={{
+              fontSize: "20px",
+              fontWeight: 500,
+              color: "#fff",
+            }}>
+            Email: {userInfos.email}
+          </Typography>
         </div>
       </UserProfile>
       <MovieList>
-        <div className="suggestions_like">Watched List</div>
-        <div className="watchedList">
+        <div className='suggestions_like'>Watched List</div>
+        <div className='watchedList'>
           <Carousel
             breakPoints={breakPoints}
             pagination={false}
             // showArrows={false}
             enableMouseSwipe
             enableAutoPlay
-            autoPlaySpeed={1500}
-          >
+            autoPlaySpeed={1500}>
             {movies.map((movie) => (
               <MyCard
                 onMouseEnter={() => toggleHover(true)}
-                onMouseLeave={() => toggleHover(false)}
-              >
+                onMouseLeave={() => toggleHover(false)}>
                 <img
                   src={movie.poster_big}
-                  width="100%"
-                  height="100%"
-                  alt="cover"
+                  width='100%'
+                  height='100%'
+                  alt='cover'
                 />
 
-                <div className="eye">
-                  <i className="las la-eye  animate__animated animate__wobble animate__infinite"></i>
+                <div className='eye'>
+                  <i className='las la-eye  animate__animated animate__wobble animate__infinite'></i>
                 </div>
-                <div className="backHover">
-                  <div className="imdbPlace">
+                <div className='backHover'>
+                  <div className='imdbPlace'>
                     <h6>{movie.rating}</h6>
                   </div>
-                  <div className="watch">
+                  <div className='watch'>
                     <div
                       className={
                         hovered
                           ? "watchBtn animate__animated  animate__backInDown animate__faster"
                           : "watchBtn"
-                      }
-                    >
+                      }>
                       Watch
                     </div>
                     <div
@@ -275,17 +295,15 @@ export default function Profile() {
                         hovered
                           ? "test1 animate__animated  animate__backInLeft animate__faster"
                           : "test1"
-                      }
-                    ></div>
+                      }></div>
                     <div
                       className={
                         hovered
                           ? "test2 animate__animated  animate__backInRight animate__faster"
                           : "test2"
-                      }
-                    ></div>
+                      }></div>
                   </div>
-                  <div className="mvName">
+                  <div className='mvName'>
                     <h4>{movie.title}</h4>
                     <h6>{movie.year}</h6>
                   </div>
@@ -294,44 +312,41 @@ export default function Profile() {
             ))}
           </Carousel>
         </div>
-        <div className="suggestions_like">Favourite List</div>
-        <div className="favouriteList">
+        <div className='suggestions_like'>Favourite List</div>
+        <div className='favouriteList'>
           <Carousel
             breakPoints={breakPoints}
             pagination={false}
             // showArrows={false}
             enableMouseSwipe
             enableAutoPlay
-            autoPlaySpeed={1500}
-          >
+            autoPlaySpeed={1500}>
             {movies.map((movie, id) => (
               <MyCard
                 key={id}
                 onMouseEnter={() => toggleHover(true)}
-                onMouseLeave={() => toggleHover(false)}
-              >
+                onMouseLeave={() => toggleHover(false)}>
                 <img
                   src={movie.poster_big}
-                  width="100%"
-                  height="100%"
-                  alt="cover"
+                  width='100%'
+                  height='100%'
+                  alt='cover'
                 />
 
-                <div className="eye ">
-                  <i className="las la-star  animate__animated animate__tada animate__infinite"></i>
+                <div className='eye '>
+                  <i className='las la-star  animate__animated animate__tada animate__infinite'></i>
                 </div>
-                <div className="backHover">
-                  <div className="imdbPlace">
+                <div className='backHover'>
+                  <div className='imdbPlace'>
                     <h6>{movie.rating}</h6>
                   </div>
-                  <div className="watch">
+                  <div className='watch'>
                     <div
                       className={
                         hovered
                           ? "watchBtn animate__animated  animate__backInDown animate__faster"
                           : "watchBtn"
-                      }
-                    >
+                      }>
                       Watch
                     </div>
                     <div
@@ -339,17 +354,15 @@ export default function Profile() {
                         hovered
                           ? "test1 animate__animated  animate__backInLeft animate__faster"
                           : "test1"
-                      }
-                    ></div>
+                      }></div>
                     <div
                       className={
                         hovered
                           ? "test2 animate__animated  animate__backInRight animate__faster"
                           : "test2"
-                      }
-                    ></div>
+                      }></div>
                   </div>
-                  <div className="mvName">
+                  <div className='mvName'>
                     <h4>{movie.title}</h4>
                     <h6>{movie.year}</h6>
                   </div>
