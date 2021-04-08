@@ -25,7 +25,6 @@ export const HyperReducer = (state = Initialstate, action) => {
     case LOGOUT:
       return {
         ...state,
-
         token: null,
       };
     default:
