@@ -166,7 +166,7 @@ const Shadow = styled.div`
 `;
 
 function NavBar({ t, mytheme, settheme }) {
-  const { state, dispatch, authorized, userInfos } = useContext(HyperContext);
+  const { state, dispatch, userInfos, authorized } = useContext(HyperContext);
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -249,7 +249,7 @@ function NavBar({ t, mytheme, settheme }) {
       transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}>
-      {state.token && authorized
+      {state.token
         ? [
             <Link key='4' className='link' to='/settings'>
               <MenuItem>Settings</MenuItem>
@@ -386,14 +386,20 @@ function NavBar({ t, mytheme, settheme }) {
                 </span>
               </ToggleTheme>
 
-              {state.token && authorized ? (
+              {state.token ? (
                 <IconButton
                   edge='end'
                   aria-label='account of current user'
                   aria-controls={menuId}
                   aria-haspopup='true'
                   onClick={handleProfileMenuOpen}>
-                  <Avatar src={userInfos.profile ? userInfos.profile : ""} />
+                  <Avatar
+                    src={
+                      userInfos.profile
+                        ? userInfos.profile
+                        : "./img/avatar.jpeg"
+                    }
+                  />
                 </IconButton>
               ) : (
                 [

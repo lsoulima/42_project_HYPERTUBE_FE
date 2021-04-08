@@ -119,7 +119,7 @@ const Wrapper = styled.div`
 `;
 
 export default function Login() {
-  const { dispatch } = useContext(HyperContext);
+  const { dispatch, authorized } = useContext(HyperContext);
   const [state, Setstate] = useState({});
 
   const { register, handleSubmit, errors } = useForm();
@@ -140,7 +140,7 @@ export default function Login() {
     const responce = await loginAction(data, dispatch);
     Setstate(responce);
     setOpen(true);
-    if (responce.success === true) {
+    if (responce.success === true && authorized) {
       history.replace("/library");
     }
   };

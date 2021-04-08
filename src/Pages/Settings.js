@@ -201,7 +201,11 @@ export default function Settings() {
                   style={{ margin: "20px 0 20px 0", textAlign: "center" }}>
                   <LabelImage type='file'>
                     <img
-                      src={userInfos.profile ? userInfos.profile : ""}
+                      src={
+                        userInfos.profile
+                          ? userInfos.profile
+                          : "./img/avatar.jpeg"
+                      }
                       alt='avatar'
                     />
                     <input type='file' />

@@ -10,6 +10,8 @@ import Alert from "@material-ui/lab/Alert";
 import { changePassword } from "../services/profile";
 import { HyperContext } from "../Context/context";
 
+import { logout } from "../services/auth";
+
 const WhiteBorderTextField = styled(TextField)`
   & .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
     border-color: #fff !important;
@@ -39,7 +41,7 @@ const WhiteBorderTextField = styled(TextField)`
 `;
 
 export default function Editpassword() {
-  const { state } = useContext(HyperContext);
+  const { state, dispatch } = useContext(HyperContext);
   const [message, setMessage] = useState({});
   const { register, handleSubmit, errors } = useForm();
   const [open, setOpen] = useState(false);
@@ -55,8 +57,11 @@ export default function Editpassword() {
 
   const onSubmit = async (data) => {
     const editpassword = await changePassword(state.token, data);
-    setMessage(editpassword);
-    setOpen(true);
+    if (editpassword.success === true) {
+      await logout(state.token, dispatch);
+      setMessage(editpassword);
+      setOpen(true);
+    }
   };
 
   return (

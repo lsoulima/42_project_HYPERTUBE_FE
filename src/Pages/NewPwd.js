@@ -82,7 +82,7 @@ const Wrapper = styled.div`
 `;
 
 export default function NewPassword() {
-  const [state, Setstate] = useState({});
+  const [message, setMessage] = useState({});
   const { register, handleSubmit, errors } = useForm();
   const [open, setOpen] = useState(false);
 
@@ -97,7 +97,7 @@ export default function NewPassword() {
   let history = useHistory();
   const onSubmit = async (data) => {
     const responce = await newPwd(data, aToken);
-    Setstate(responce);
+    setMessage(responce);
     setOpen(true);
     if (responce.success === true) {
       history.push("/login");
@@ -125,16 +125,16 @@ export default function NewPassword() {
               open={open}
               autoHideDuration={3000}
               onClose={handleClose}>
-              {state.success === true ? (
+              {message.success === true ? (
                 <Alert
                   onClose={handleClose}
                   severity='success'
                   variant='filled'>
-                  {state.message}
+                  {message.message}
                 </Alert>
               ) : (
                 <Alert onClose={handleClose} severity='error' variant='filled'>
-                  {state.error}
+                  {message.error}
                 </Alert>
               )}
             </Snackbar>

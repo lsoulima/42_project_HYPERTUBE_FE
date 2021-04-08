@@ -31,6 +31,8 @@ export const loginAction = async (loginData, dispatch) => {
 
   try {
     const res = await axios.post(API_URL + "login", loginData, config);
+    console.log(res);
+
     localStorage.setItem("token", res.data.token);
 
     dispatch({
@@ -134,6 +136,7 @@ export const resetPwd = async (email) => {
   };
   try {
     const res = await axios.post(API_URL + "resetpassword", email, config);
+
     if (res.data) return res.data;
   } catch (error) {
     return error.response.data;
@@ -155,6 +158,7 @@ export const newPwd = async (newPassData, token) => {
   };
   try {
     const res = await axios.patch(API_URL + "newpassword", body, config);
+
     if (res.data) return res.data;
   } catch (error) {
     return error.response.data;

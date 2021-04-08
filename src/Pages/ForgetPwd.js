@@ -5,7 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import styled from "styled-components";
 import { resetPwd } from "../services/auth";
-import { useHistory } from "react-router";
+
 import { useForm } from "react-hook-form";
 import Alert from "@material-ui/lab/Alert";
 import { Snackbar, Box } from "@material-ui/core";
@@ -82,7 +82,7 @@ const Wrapper = styled.div`
 `;
 
 export default function ForgetPwd() {
-  const [state, Setstate] = useState({});
+  const [message, setMessage] = useState({});
   const { register, handleSubmit, errors } = useForm();
   const [open, setOpen] = useState(false);
   const handleClose = (reason) => {
@@ -92,15 +92,12 @@ export default function ForgetPwd() {
 
     setOpen(false);
   };
-  let history = useHistory();
+
   const onSubmit = async (data) => {
     let registerData = data;
     const responce = await resetPwd(registerData);
-    Setstate(responce);
+    setMessage(responce);
     setOpen(true);
-    if (responce.success === true) {
-      history.push("/login");
-    }
   };
   return (
     <Wrapper>
@@ -124,16 +121,16 @@ export default function ForgetPwd() {
               open={open}
               autoHideDuration={6000}
               onClose={handleClose}>
-              {state.success === true ? (
+              {message.success === true ? (
                 <Alert
                   onClose={handleClose}
                   severity='success'
                   variant='filled'>
-                  {state.message}
+                  {message.message}
                 </Alert>
               ) : (
                 <Alert onClose={handleClose} severity='error' variant='filled'>
-                  {state.error}
+                  {message.error}
                 </Alert>
               )}
             </Snackbar>

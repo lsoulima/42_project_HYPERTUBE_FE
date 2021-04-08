@@ -230,7 +230,9 @@ export default function Profile() {
     <Container>
       <UserProfile>
         <div>
-          <Avatar src={userInfos.profile ? userInfos.profile : ""} />
+          <Avatar
+            src={userInfos.profile ? userInfos.profile : "./img/avatar.jpeg"}
+          />
           <Typography
             component='h1'
             variant='h6'

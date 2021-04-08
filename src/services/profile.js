@@ -11,7 +11,6 @@ export const getUser = async (token) => {
   };
   try {
     const res = await axios.get(API_URL + "profile", config);
-    console.log(res.data.data);
 
     if (res.data) return res.data.data;
   } catch (error) {
