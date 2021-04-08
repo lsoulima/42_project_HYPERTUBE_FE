@@ -268,7 +268,7 @@ export default function Library() {
   const [searchTerm, setSearchTerm] = useState("");
 
   // const API_ONE = `https://api.apiumadomain.com/list?sort=popularity&cb=&quality=720p&page=${page}`;
-  const API_SORT = `https://yts.mx/api/v2/list_movies.json?&sort_by=${radioValue}&limit=50&page=${page}`;
+  // const API_SORT = `https://yts.mx/api/v2/list_movies.json?&sort_by=${radioValue}&limit=50&page=${page}`;
   const API_SEARCH = `https://yts.mx/api/v2/list_movies.json?query_term=${searchTerm}&sort_by=${radioValue}&limit=50&page=${page}`;
   // const API_TWO = `https://yts.mx/api/v2/list_movies.json?sort_by=rating&limit=50&page=${page}`;
 
@@ -346,53 +346,52 @@ export default function Library() {
       <SearchCard>
         <form onSubmit={handleOnSubmit}>
           <input
-            className="search"
-            type="search"
-            placeholder="Search ..."
+            className='search'
+            type='search'
+            placeholder='Search ...'
             value={searchTerm}
             onChange={handleOnChange}
           />
         </form>
       </SearchCard>
       <Container>
-        <div className="first_card">
+        <div className='first_card'>
           <FilterCard style={{ width: "100%" }}>
-            <FormControl error component="fieldset" style={{ width: "100%" }}>
+            <FormControl error component='fieldset' style={{ width: "100%" }}>
               <RadioGroup
                 // name="sort"
                 value={radioValue}
                 onChange={(e) => handleChangeRadio(e)}
-                className="radioContainer"
-              >
+                className='radioContainer'>
                 <FormControlLabel
-                  value="rating"
+                  value='rating'
                   control={<Radio />}
-                  label="rating"
+                  label='rating'
                 />
                 <FormControlLabel
-                  value="year"
+                  value='year'
                   control={<Radio />}
-                  label="year"
+                  label='year'
                 />
                 <FormControlLabel
-                  value="title"
+                  value='title'
                   control={<Radio />}
-                  label="title"
+                  label='title'
                 />
               </RadioGroup>
             </FormControl>
           </FilterCard>
         </div>
-        <div className="second_card">
-          <div className="firsrDiv">
-            <Typography id="range-slider" gutterBottom>
+        <div className='second_card'>
+          <div className='firsrDiv'>
+            <Typography id='range-slider' gutterBottom>
               Imdb Rating
             </Typography>
             <MySlider
               value={imdb}
               onChange={handleImdbChange}
-              aria-labelledby="continuous-slider"
-              valueLabelDisplay="auto"
+              aria-labelledby='continuous-slider'
+              valueLabelDisplay='auto'
               // step={1}
               // marks
               min={0}
@@ -401,16 +400,15 @@ export default function Library() {
           </div>
           <div>
             <FormControlMdf>
-              <InputLabel id="demo-simple-select-helper-label">
+              <InputLabel id='demo-simple-select-helper-label'>
                 Genre
               </InputLabel>
               <Select
-                labelId="demo-simple-select-helper-label"
-                id="demo-simple-select-helper"
+                labelId='demo-simple-select-helper-label'
+                id='demo-simple-select-helper'
                 value={genre}
-                onChange={handleGenreChange}
-              >
-                <MenuItem value="">Romantic</MenuItem>
+                onChange={handleGenreChange}>
+                <MenuItem value=''>Romantic</MenuItem>
                 <MenuItem value={10}>Comedy</MenuItem>
                 <MenuItem value={20}>Drama</MenuItem>
                 <MenuItem value={30}>Horror</MenuItem>
@@ -422,45 +420,42 @@ export default function Library() {
       <InfiniteScroll
         dataLength={movies.length} //This is important field to render the next data
         next={() => setPage(page + 1)}
-        hasMore={true}
-      >
+        hasMore={true}>
         <CardContainer>
           {movies.map((movie, id) => (
             <MyCard
               key={id}
               onMouseEnter={() => toggleHover(true)}
-              onMouseLeave={() => toggleHover(false)}
-            >
+              onMouseLeave={() => toggleHover(false)}>
               <img
                 src={movie?.large_cover_image} //poster_big}
-                width="100%"
-                height="100%"
-                alt="cover"
+                width='100%'
+                height='100%'
+                alt='cover'
                 onError={(e) => {
                   e.target.onerror = null;
                   e.target.src = "https://t.ly/teEM";
                 }}
               />
               {movie.isWatched ? (
-                <div className="eye ">
-                  <i className="las la-eye"></i>
+                <div className='eye '>
+                  <i className='las la-eye'></i>
                 </div>
               ) : (
                 ""
               )}
 
-              <div className="backHover">
-                <div className="imdbPlace">
+              <div className='backHover'>
+                <div className='imdbPlace'>
                   <h6>{movie.rating}</h6>
                 </div>
-                <div className="watch">
+                <div className='watch'>
                   <div
                     className={
                       hovered
                         ? "watchBtn animate__animated  animate__backInDown animate__faster"
                         : "watchBtn"
-                    }
-                  >
+                    }>
                     Watch
                   </div>
                   <div
@@ -468,17 +463,15 @@ export default function Library() {
                       hovered
                         ? "test1 animate__animated  animate__backInLeft animate__faster"
                         : "test1"
-                    }
-                  ></div>
+                    }></div>
                   <div
                     className={
                       hovered
                         ? "test2 animate__animated  animate__backInRight animate__faster"
                         : "test2"
-                    }
-                  ></div>
+                    }></div>
                 </div>
-                <div className="mvName">
+                <div className='mvName'>
                   <h4>{movie.title}</h4>
                   <h6>{movie.year}</h6>
                 </div>
