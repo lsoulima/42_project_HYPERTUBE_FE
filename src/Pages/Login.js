@@ -242,7 +242,14 @@ export default function Login() {
             <Grid style={{ margin: "10px", width: "100%" }}>
               <Link href={`${API_URL}auth/42`}>
                 <ButtonAuth>
-                  <i>42</i>
+                  <i>
+                    <img
+                      src='./img/42.png'
+                      style={{
+                        width: "10%",
+                        margin: "10px",
+                      }}></img>
+                  </i>
                   <span>Continue With Intra</span>
                 </ButtonAuth>
               </Link>
