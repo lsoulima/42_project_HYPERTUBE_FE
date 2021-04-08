@@ -1,13 +1,43 @@
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useReducer, useEffect, useState } from "react";
 import { Initialstate, HyperReducer } from "./reducer";
+import { checkTokenAction, logout } from "../services/auth";
+import { getUser } from "../services/profile";
 
 export const HyperContext = createContext(Initialstate);
 
 export const HyperProvider = ({ children }) => {
   const [state, dispatch] = useReducer(HyperReducer, Initialstate);
-
+  const [userInfos, setUserInfos] = useState({
+    id: "",
+    firstname: "",
+    lastname: "",
+    email: "",
+    username: "",
+    profile: "",
+  });
+  const [authorized, setAuthorized] = useState(true);
+  useEffect(() => {
+    const getUserData = async () => {
+      const valideToken = await checkTokenAction(state.token);
+      if (valideToken) {
+        const userData = await getUser(state.token);
+        setUserInfos({
+          id: userData._id,
+          firstname: userData.firstname,
+          lastname: userData.lastname,
+          email: userData.email,
+          username: userData.username,
+          profile: userData.profile,
+        });
+      } else if (valideToken === false) {
+        setAuthorized(false);
+        await logout(state.token, dispatch);
+      }
+    };
+    getUserData();
+  }, [state.token]);
   return (
-    <HyperContext.Provider value={{ state, dispatch }}>
+    <HyperContext.Provider value={{ state, dispatch, userInfos, authorized }}>
       {children}
     </HyperContext.Provider>
   );
