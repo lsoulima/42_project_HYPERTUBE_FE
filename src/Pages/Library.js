@@ -9,6 +9,7 @@ import Slider from "@material-ui/core/Slider";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import Button from "@material-ui/core/Button";
 import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
 
@@ -18,29 +19,61 @@ const Container = styled.div`
   display: flex;
   justify-content: space-between;
 
-  .first_card,
-  .second_card {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    flex-basis: 48%;
-    border-radius: 15px;
+  .filter_card {
+    flex-basis: 50%;
     background-color: ${(props) => props.theme.cards};
-    height: 200px;
+    border-radius: 15px;
+    /* height: 290px; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .filter_row {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+    }
+    .firstDiv {
+      text-align: center;
+      width: 10%;
+      color: ${(props) => props.theme.text};
+    }
+    .secondDiv {
+      text-align: center;
+      width: 20%;
+      color: ${(props) => props.theme.text};
+    }
+
+    .filterByName {
+      background: transparent;
+      display: flex;
+      justify-content: center;
+      /* width: 20%; */
+
+      .filter {
+        background: ${(props) => props.theme.cards};
+        border: 2px solid ${(props) => props.theme.border};
+        width: 300px;
+        border-radius: 50px;
+        color: ${(props) => props.theme.background};
+        font-family: inherit;
+        font-size: 0.8rem;
+        padding: 0.6rem 1.6rem;
+      }
+    }
+    .submit {
+      margin: 25px 0px;
+      background: red;
+    }
   }
-  .second_card > div:first-of-type {
-    text-align: center;
-    width: 50%;
-    color: ${(props) => props.theme.text};
-  }
-  .second_card > div:last-of-type {
+  .genre {
     .MuiFormControl-root {
-      min-width: 140px;
+      min-width: 170px;
       padding-bottom: 28px;
     }
   }
-
   .radioContainer {
     width: 100%;
     display: flex;
@@ -51,8 +84,8 @@ const Container = styled.div`
   @media (max-width: 768px) {
     flex-direction: column;
     height: 300px;
-    .first_card,
-    .second_card {
+    .sort_card,
+    .filter_card {
       margin-bottom: 20px;
     }
   }
@@ -224,6 +257,14 @@ const FilterCard = styled.div`
   .MuiRadio-colorSecondary.Mui-checked {
     color: red;
   }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-basis: 48%;
+  border-radius: 15px;
+  background-color: ${(props) => props.theme.cards};
+  height: 290px;
 `;
 const MainContainer = styled.div`
   background: ${(props) => props.theme.background};
@@ -261,6 +302,7 @@ export default function Library() {
   const [hovered, setHovered] = useState(false);
   const toggleHover = (value) => setHovered(value);
   const [imdb, setImdb] = useState(10);
+  const [gapYear, setGapYear] = useState(2021);
   const [radioValue, setRadioValue] = useState("rating");
   const [genre, setGenre] = useState("");
   const [movies, setmovies] = useState([]);
@@ -275,7 +317,9 @@ export default function Library() {
   const handleImdbChange = (event, newValue) => {
     setImdb(newValue);
   };
-
+  const handleGapYearChange = (event, newValue) => {
+    setGapYear(newValue);
+  };
   const handleGenreChange = (event) => {
     setGenre(event.target.value);
   };
@@ -296,7 +340,7 @@ export default function Library() {
 
     const getSortMovies = async () => {
       const res = await axios.get(
-        `https://yts.mx/api/v2/list_movies.json?&sort_by=${radioValue}`
+        `https://yts.mx/api/v2/list_movies.json?&sort_by=${radioValue}&limit=50&page=${page}`
       );
       let sortData =
         res.data.data.movie_count === 0 ? [] : res.data.data.movies;
@@ -315,7 +359,7 @@ export default function Library() {
     e.preventDefault();
     console.log("c'est ce que vous rechercher " + searchTerm);
     const searchMovies = async () => {
-      //     const res1 = axios.get(API_ONE);
+      // const res1 = axios.get(API_ONE);
       // if (res.data) movies = res.data;
       // else {
       //   const res2 = axios.get(API_TWO);
@@ -346,116 +390,170 @@ export default function Library() {
       <SearchCard>
         <form onSubmit={handleOnSubmit}>
           <input
-            className='search'
-            type='search'
-            placeholder='Search ...'
+            className="search"
+            type="search"
+            placeholder="Search ..."
             value={searchTerm}
             onChange={handleOnChange}
           />
         </form>
       </SearchCard>
       <Container>
-        <div className='first_card'>
-          <FilterCard style={{ width: "100%" }}>
-            <FormControl error component='fieldset' style={{ width: "100%" }}>
-              <RadioGroup
-                // name="sort"
-                value={radioValue}
-                onChange={(e) => handleChangeRadio(e)}
-                className='radioContainer'>
-                <FormControlLabel
-                  value='rating'
-                  control={<Radio />}
-                  label='rating'
-                />
-                <FormControlLabel
-                  value='year'
-                  control={<Radio />}
-                  label='year'
-                />
-                <FormControlLabel
-                  value='title'
-                  control={<Radio />}
-                  label='title'
-                />
-              </RadioGroup>
-            </FormControl>
-          </FilterCard>
-        </div>
-        <div className='second_card'>
-          <div className='firsrDiv'>
-            <Typography id='range-slider' gutterBottom>
-              Imdb Rating
-            </Typography>
-            <MySlider
-              value={imdb}
-              onChange={handleImdbChange}
-              aria-labelledby='continuous-slider'
-              valueLabelDisplay='auto'
-              // step={1}
-              // marks
-              min={0}
-              max={10}
-            />
-          </div>
-          <div>
+        <FilterCard>
+          <div className="genre">
             <FormControlMdf>
-              <InputLabel id='demo-simple-select-helper-label'>
+              <InputLabel id="demo-simple-select-helper-label">
                 Genre
               </InputLabel>
               <Select
-                labelId='demo-simple-select-helper-label'
-                id='demo-simple-select-helper'
+                labelId="demo-simple-select-helper-label"
+                id="demo-simple-select-helper"
                 value={genre}
-                onChange={handleGenreChange}>
-                <MenuItem value=''>Romantic</MenuItem>
+                onChange={handleGenreChange}
+              >
+                <MenuItem value="">Romantic</MenuItem>
                 <MenuItem value={10}>Comedy</MenuItem>
                 <MenuItem value={20}>Drama</MenuItem>
                 <MenuItem value={30}>Horror</MenuItem>
               </Select>
             </FormControlMdf>
           </div>
+          <FormControl error component="fieldset" style={{ width: "100%" }}>
+            <RadioGroup
+              // name="sort"
+              value={radioValue}
+              onChange={(e) => handleChangeRadio(e)}
+              className="radioContainer"
+            >
+              <FormControlLabel
+                value="rating"
+                control={<Radio />}
+                label="Rating"
+              />
+              <FormControlLabel value="year" control={<Radio />} label="Year" />
+              <FormControlLabel
+                value="title"
+                control={<Radio />}
+                label="Title"
+              />
+            </RadioGroup>
+          </FormControl>
+        </FilterCard>
+        <div className="filter_card">
+          <div className="filter_row">
+            <div className="firstDiv">
+              <Typography id="range-slider" gutterBottom>
+                Imdb Rating
+              </Typography>
+              <MySlider
+                value={imdb}
+                onChange={handleImdbChange}
+                aria-labelledby="continuous-slider"
+                valueLabelDisplay="auto"
+                // step={1}
+                // marks
+                min={0}
+                max={10}
+              />
+            </div>
+            <div className="secondDiv">
+              <Typography id="range-slider" gutterBottom>
+                Gape of prod year
+              </Typography>
+              <MySlider
+                value={gapYear}
+                onChange={handleGapYearChange}
+                aria-labelledby="continuous-slider"
+                valueLabelDisplay="auto"
+                // step={1}
+                // marks
+                min={1970}
+                max={2021}
+              />
+            </div>
+            <div className="filterByName">
+              <form onSubmit={handleOnSubmit}>
+                <input
+                  className="filter"
+                  type="search"
+                  placeholder="Enter Name ..."
+                  value={searchTerm}
+                  onChange={handleOnChange}
+                />
+              </form>
+            </div>
+            <div className="genre">
+              <FormControlMdf>
+                <InputLabel id="demo-simple-select-helper-label">
+                  Genre
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-helper-label"
+                  id="demo-simple-select-helper"
+                  value={genre}
+                  onChange={handleGenreChange}
+                >
+                  <MenuItem value="">Romantic</MenuItem>
+                  <MenuItem value={10}>Comedy</MenuItem>
+                  <MenuItem value={20}>Drama</MenuItem>
+                  <MenuItem value={30}>Horror</MenuItem>
+                </Select>
+              </FormControlMdf>
+            </div>
+          </div>
+
+          <Button
+            type="submit"
+            variant="contained"
+            className="submit"
+            color="primary"
+          >
+            Filter
+          </Button>
         </div>
       </Container>
       <InfiniteScroll
         dataLength={movies.length} //This is important field to render the next data
         next={() => setPage(page + 1)}
-        hasMore={true}>
+        hasMore={true}
+      >
         <CardContainer>
           {movies.map((movie, id) => (
             <MyCard
               key={id}
               onMouseEnter={() => toggleHover(true)}
-              onMouseLeave={() => toggleHover(false)}>
+              onMouseLeave={() => toggleHover(false)}
+            >
               <img
                 src={movie?.large_cover_image} //poster_big}
-                width='100%'
-                height='100%'
-                alt='cover'
+                width="100%"
+                height="100%"
+                alt="cover"
                 onError={(e) => {
                   e.target.onerror = null;
                   e.target.src = "https://t.ly/teEM";
                 }}
               />
               {movie.isWatched ? (
-                <div className='eye '>
-                  <i className='las la-eye'></i>
+                <div className="eye ">
+                  <i className="las la-eye"></i>
                 </div>
               ) : (
                 ""
               )}
 
-              <div className='backHover'>
-                <div className='imdbPlace'>
+              <div className="backHover">
+                <div className="imdbPlace">
                   <h6>{movie.rating}</h6>
                 </div>
-                <div className='watch'>
+                <div className="watch">
                   <div
                     className={
                       hovered
                         ? "watchBtn animate__animated  animate__backInDown animate__faster"
                         : "watchBtn"
-                    }>
+                    }
+                  >
                     Watch
                   </div>
                   <div
@@ -463,15 +561,17 @@ export default function Library() {
                       hovered
                         ? "test1 animate__animated  animate__backInLeft animate__faster"
                         : "test1"
-                    }></div>
+                    }
+                  ></div>
                   <div
                     className={
                       hovered
                         ? "test2 animate__animated  animate__backInRight animate__faster"
                         : "test2"
-                    }></div>
+                    }
+                  ></div>
                 </div>
-                <div className='mvName'>
+                <div className="mvName">
                   <h4>{movie.title}</h4>
                   <h6>{movie.year}</h6>
                 </div>
