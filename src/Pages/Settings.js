@@ -15,7 +15,7 @@ import { Snackbar, Box } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import { HyperContext } from "../Context/context";
 
-import { settingsAction } from "../services/profile";
+import { settingsAction, ProfileUpAction } from "../services/profile";
 import Editpassword from "./Editpassword";
 
 const LabelImage = styled.label`
@@ -113,6 +113,10 @@ export default function Settings() {
   const [message, setMessage] = useState({});
   const { register, handleSubmit, errors } = useForm();
   const [open, setOpen] = useState(false);
+  const [selectedFile, setSelectedFile] = useState({
+    profile: null,
+    url: null,
+  });
   //* Informations
 
   const handleClose = (reason) => {
@@ -126,8 +130,29 @@ export default function Settings() {
     setTab(newValue);
   };
 
+  const onFileChange = (e) => {
+    let url = URL.createObjectURL(e[0]);
+    OnFileUpload(e[0]);
+    setSelectedFile({ profile: e[0], url: url });
+  };
+  const OnFileUpload = async (file) => {
+    const res = await ProfileUpAction(state.token, file);
+    console.log(res);
+    setMessage(res);
+    setOpen(true);
+  };
+
+  // const handleProfileUpload = (e) => {
+  //   console.log(e);
+  //   setSelectedFile({ profile: e[0] });
+  //   console.log(selectedFile);
+  //   uploadProfileReq(e);
+  // };
+
   const onSubmit = async (data) => {
     const SettingsResponce = await settingsAction(state.token, data);
+    // eslint-disable-next-line
+
     setMessage(SettingsResponce);
     setOpen(true);
   };
@@ -202,13 +227,18 @@ export default function Settings() {
                   <LabelImage type='file'>
                     <img
                       src={
-                        userInfos.profile
+                        selectedFile.profile
+                          ? selectedFile.url
+                          : userInfos.profile
                           ? userInfos.profile
                           : "./img/avatar.jpeg"
                       }
                       alt='avatar'
                     />
-                    <input type='file' />
+                    <input
+                      type='file'
+                      onChange={(e) => onFileChange(e.target.files)}
+                    />
                   </LabelImage>
                 </Grid>
                 <Grid item xs={12} sm={6}>

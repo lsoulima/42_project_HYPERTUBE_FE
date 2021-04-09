@@ -18,6 +18,7 @@ import NewPassword from "./Pages/NewPwd";
 import Verify from "./Pages/Verify";
 import PublicRoute from "./Routing/PublicRoute";
 import PrivateRoute from "./Routing/PrivateRoute";
+import Notfound from "./Pages/notFound";
 
 const App = () => {
   const [theme, setTheme] = useState({
@@ -63,7 +64,8 @@ const App = () => {
             <PrivateRoute path='/library' component={Library} />
             <PrivateRoute path='/stream' component={Stream} />
             <PrivateRoute path='/profile' component={Profile} />
-            <Route path='/' component={Home} />
+            <PublicRoute path='/' component={Home} />
+            <Route component={Notfound} />
           </Switch>
           <Footer />
         </ThemeProvider>
