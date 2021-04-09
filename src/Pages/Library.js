@@ -261,15 +261,21 @@ export default function Library() {
   const [hovered, setHovered] = useState(false);
   const toggleHover = (value) => setHovered(value);
   const [imdb, setImdb] = useState(10);
-  const [radioValue, setRadioValue] = useState("rating");
+  const [radioValue, setRadioValue] = useState("like_count");
   const [genre, setGenre] = useState("");
-  const [movies, setmovies] = useState([]);
   const [page, setPage] = useState(1);
+  // eslint-disable-next-line
   const [searchTerm, setSearchTerm] = useState("");
+  // const [search, setSearchRes] = useState([]);
+  // const [sortByPopularity, setPopularity] = useState([]);
+  // const [sortByYears, setYears] = useState([]);
+  const [movies, setMovies] = useState([]);
+  // const [sortByImdb, setImdb] = useState([]);
+  // const [sortByGenre, setGenre] = useState([]);
 
   // const API_ONE = `https://api.apiumadomain.com/list?sort=popularity&cb=&quality=720p&page=${page}`;
   // const API_SORT = `https://yts.mx/api/v2/list_movies.json?&sort_by=${radioValue}&limit=50&page=${page}`;
-  const API_SEARCH = `https://yts.mx/api/v2/list_movies.json?query_term=${searchTerm}&sort_by=${radioValue}&limit=50&page=${page}`;
+  // const API_SEARCH = `https://yts.mx/api/v2/list_movies.json?query_term=${searchTerm}&sort_by=${radioValue}&limit=50&page=${page}`;
   // const API_TWO = `https://yts.mx/api/v2/list_movies.json?sort_by=rating&limit=50&page=${page}`;
 
   const handleImdbChange = (event, newValue) => {
@@ -280,65 +286,80 @@ export default function Library() {
     setGenre(event.target.value);
   };
 
+  //* SORT
+  const sort = async (field) => {
+    // eslint-disable-next-line
+    const choice = field.toLowerCase();
+    // eslint-disable-next-line
+    switch (choice) {
+      case "like_count":
+        await PopularitySort();
+        break;
+      case "year":
+        await YearSort();
+        break;
+    }
+  };
+
+  useEffect(() => {
+    PopularitySort();
+  });
+
   // const fetchMovies = async (API) => {
   //   const res = await axios.get(API);
   //   let mydata = movies.concat(res.data.MovieList); //res.data.data.movies
   //   setmovies(mydata);
   // };
-  const fetchYtsMovies = async () => {
-    const res = await axios.get(API_SEARCH);
-    let mydata = [...movies, ...res.data.data.movies]; //movies.concat(res.data.data.movies);
-    setmovies(mydata);
-  };
-
   const handleChangeRadio = (event) => {
     setRadioValue(event.target.value);
-
-    const getSortMovies = async () => {
-      const res = await axios.get(
-        `https://yts.mx/api/v2/list_movies.json?&sort_by=${radioValue}`
-      );
-      let sortData =
-        res.data.data.movie_count === 0 ? [] : res.data.data.movies;
-      console.log(sortData);
-      setmovies(sortData);
-    };
-    getSortMovies();
+    sort(radioValue);
   };
 
-  useEffect(() => {
-    fetchYtsMovies();
-    // eslint-disable-next-line
-  }, [page]);
+  const PopularitySort = async () => {
+    const res = await axios.get(
+      `https://yts.mx/api/v2/list_movies.json?sort_by=like_count&limit=50&page=1`
+    );
+    setMovies(res.data.data.movies);
+  };
+  const YearSort = async () => {
+    setMovies([]);
+
+    // const res = await axios.get(
+    //   `https://yts.mx/api/v2/list_movies.json?sort_by=year&limit=50&page=1`
+    // );
+    // setMovies(res.data.data.movies);
+  };
 
   const handleOnSubmit = (e) => {
+    console.log("hello");
+
     e.preventDefault();
     console.log("c'est ce que vous rechercher " + searchTerm);
-    const searchMovies = async () => {
-      //     const res1 = axios.get(API_ONE);
-      // if (res.data) movies = res.data;
-      // else {
-      //   const res2 = axios.get(API_TWO);
-      //   res.data.forEach((e) => {
-      //     movies.push({
-      //       id: e.hash,
-      //       img: e.pic,
-      //     });
-      //   });
-      // }
-      const res = await axios.get(API_SEARCH);
-      let searchData =
-        res.data.data.movie_count === 0 ? [] : res.data.data.movies;
-      setmovies(searchData);
-      console.log("resultat de la recherche ", searchData);
-    };
-    searchMovies();
-    setSearchTerm("");
+    // const searchMovies = async () => {
+    //   //     const res1 = axios.get(API_ONE);
+    //   // if (res.data) movies = res.data;
+    //   // else {
+    //   //   const res2 = axios.get(API_TWO);
+    //   //   res.data.forEach((e) => {
+    //   //     movies.push({
+    //   //       id: e.hash,
+    //   //       img: e.pic,
+    //   //     });
+    //   //   });
+    //   // }
+    //   const res = await axios.get(API_SEARCH);
+    //   let searchData =
+    //     res.data.data.movie_count === 0 ? [] : res.data.data.movies;
+    //   setmovies(searchData);
+    //   console.log("resultat de la recherche ", searchData);
+    // };
+    // searchMovies();
+    // setSearchTerm("");
   };
 
   const handleOnChange = (e) => {
-    setSearchTerm(e.target.value);
-    setmovies([]);
+    // setSearchTerm(e.target.value);
+    // setmovies([]);
   };
 
   return (
@@ -359,24 +380,19 @@ export default function Library() {
           <FilterCard style={{ width: "100%" }}>
             <FormControl error component='fieldset' style={{ width: "100%" }}>
               <RadioGroup
-                // name="sort"
                 value={radioValue}
-                onChange={(e) => handleChangeRadio(e)}
-                className='radioContainer'>
-                <FormControlLabel
-                  value='rating'
-                  control={<Radio />}
-                  label='rating'
-                />
+                className='radioContainer'
+                onChange={(e) => handleChangeRadio(e)}>
+                <FormControlLabel value='Pop' control={<Radio />} label='Pop' />
                 <FormControlLabel
                   value='year'
                   control={<Radio />}
-                  label='year'
+                  label='Year'
                 />
                 <FormControlLabel
-                  value='title'
+                  value='name'
                   control={<Radio />}
-                  label='title'
+                  label='Name'
                 />
               </RadioGroup>
             </FormControl>

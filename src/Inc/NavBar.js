@@ -166,7 +166,7 @@ const Shadow = styled.div`
 `;
 
 function NavBar({ t, mytheme, settheme }) {
-  const { state, dispatch, userInfos, authorized } = useContext(HyperContext);
+  const { state, dispatch, userInfos } = useContext(HyperContext);
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -227,7 +227,7 @@ function NavBar({ t, mytheme, settheme }) {
       <Link key='2' to='/profile' style={{ color: "#fff" }}>
         <MenuItem onClick={handleMenuClose}> Profile</MenuItem>
       </Link>
-      <Link key='3' to='/logout' style={{ color: "#fff" }}>
+      <Link key='3' to='/login' style={{ color: "#fff" }}>
         <MenuItem
           onClick={() => {
             handleMenuClose();
