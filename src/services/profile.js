@@ -63,6 +63,7 @@ export const getUser = async (token) => {
 //*EDIT USER PROFILE
 
 export const ProfileUpAction = async (token, file) => {
+  console.log(file);
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -74,11 +75,11 @@ export const ProfileUpAction = async (token, file) => {
   formData.append("profile", file);
   try {
     const res = await axios.put(API_URL + "upload/profile", formData, config);
-    console.log("hello");
-
-    if (res) return res.data;
+    console.log("1", res.data.message);
+    if (res.data) return res.data;
   } catch (error) {
-    console.log("hello");
+    console.log(error.response.data.error);
+
     return error.response.data;
   }
 };

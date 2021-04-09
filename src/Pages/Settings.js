@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
@@ -11,12 +11,13 @@ import Tab from "@material-ui/core/Tab";
 import SecurityTwoToneIcon from "@material-ui/icons/SecurityTwoTone";
 import PersonPinIcon from "@material-ui/icons/PersonPin";
 import { useForm } from "react-hook-form";
-import { Snackbar, Box } from "@material-ui/core";
+import { Snackbar, Box, Avatar } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import { HyperContext } from "../Context/context";
 
 import { settingsAction, ProfileUpAction } from "../services/profile";
 import Editpassword from "./Editpassword";
+import { makeStyles } from "@material-ui/core/styles";
 
 const LabelImage = styled.label`
   cursor: pointer;
@@ -111,14 +112,24 @@ export default function Settings() {
   const { state, userInfos } = useContext(HyperContext);
   const [tab, setTab] = useState(0);
   const [message, setMessage] = useState({});
+  const [profileMessage, setProfileMsg] = useState({});
   const { register, handleSubmit, errors } = useForm();
   const [open, setOpen] = useState(false);
+  const [done, setDone] = useState(false);
   const [selectedFile, setSelectedFile] = useState({
     profile: null,
     url: null,
   });
-  //* Informations
 
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      width: "50%",
+      "& > * + *": {
+        marginTop: theme.spacing(2),
+      },
+    },
+  }));
+  const classes = useStyles();
   const handleClose = (reason) => {
     if (reason === "clickaway") {
       return;
@@ -130,24 +141,16 @@ export default function Settings() {
     setTab(newValue);
   };
 
-  const onFileChange = (e) => {
-    let url = URL.createObjectURL(e[0]);
-    OnFileUpload(e[0]);
-    setSelectedFile({ profile: e[0], url: url });
+  const handlChangeFile = (e) => {
+    let url = URL.createObjectURL(e);
+    setSelectedFile({ ...selectedFile, profile: e, url: url });
   };
-  const OnFileUpload = async (file) => {
-    const res = await ProfileUpAction(state.token, file);
-    console.log(res);
-    setMessage(res);
-    setOpen(true);
+  const onFileChange = async (e) => {
+    const res = await ProfileUpAction(state.token, e);
+    setProfileMsg(res);
+    setDone(true);
+    handlChangeFile(e);
   };
-
-  // const handleProfileUpload = (e) => {
-  //   console.log(e);
-  //   setSelectedFile({ profile: e[0] });
-  //   console.log(selectedFile);
-  //   uploadProfileReq(e);
-  // };
 
   const onSubmit = async (data) => {
     const SettingsResponce = await settingsAction(state.token, data);
@@ -194,8 +197,26 @@ export default function Settings() {
           </Paper>
           <Snackbar
             anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            open={done}
+            autoHideDuration={2000}
+            onClose={handleClose}>
+            <div className={classes.root}>
+              {profileMessage.success === true ? (
+                <Alert variant='outlined' severity='info' variant='filled'>
+                  {profileMessage.message}
+                </Alert>
+              ) : (
+                <Alert variant='outlined' severity='error' variant='filled'>
+                  {profileMessage.error}
+                </Alert>
+              )}
+            </div>
+          </Snackbar>
+
+          <Snackbar
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
             open={open}
-            autoHideDuration={3000}
+            autoHideDuration={2000}
             onClose={handleClose}>
             {message.success === true ? (
               <Alert onClose={handleClose} severity='success' variant='filled'>
@@ -237,10 +258,12 @@ export default function Settings() {
                     />
                     <input
                       type='file'
-                      onChange={(e) => onFileChange(e.target.files)}
+                      accept='image/*'
+                      onChange={(e) => onFileChange(e.target.files[0])}
                     />
                   </LabelImage>
                 </Grid>
+
                 <Grid item xs={12} sm={6}>
                   <WhiteBorderTextField
                     variant='outlined'
