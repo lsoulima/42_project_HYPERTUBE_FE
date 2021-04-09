@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
@@ -10,8 +10,9 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
-import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { moviesAction } from "../services/moviesActions";
+import { HyperContext } from "../Context/context";
 
 const Container = styled.div`
   margin: 0 20px 20px 20px;
@@ -299,19 +300,22 @@ const SearchCard = styled.div`
 `;
 
 export default function Library() {
+  const { state } = useContext(HyperContext);
+  const [movies, setMovies] = useState([]);
+  const [newMovies, setNewMovies] = useState("");
+  const [searching, setSearching] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [page, setPage] = useState(1);
+  const [radioValue, setRadioValue] = useState("like_count");
   const [hovered, setHovered] = useState(false);
-  const toggleHover = (value) => setHovered(value);
   const [imdb, setImdb] = useState(10);
   const [gapYear, setGapYear] = useState(2021);
-  const [radioValue, setRadioValue] = useState("rating");
   const [genre, setGenre] = useState("");
-  const [page, setPage] = useState(1);
+  const toggleHover = (value) => setHovered(value);
   // eslint-disable-next-line
-  const [searchTerm, setSearchTerm] = useState("");
   // const [search, setSearchRes] = useState([]);
   // const [sortByPopularity, setPopularity] = useState([]);
   // const [sortByYears, setYears] = useState([]);
-  const [movies, setMovies] = useState([]);
   // const [sortByImdb, setImdb] = useState([]);
   // const [sortByGenre, setGenre] = useState([]);
 
@@ -320,68 +324,35 @@ export default function Library() {
   // const API_SEARCH = `https://yts.mx/api/v2/list_movies.json?query_term=${searchTerm}&sort_by=${radioValue}&limit=50&page=${page}`;
   // const API_TWO = `https://yts.mx/api/v2/list_movies.json?sort_by=rating&limit=50&page=${page}`;
 
-  const handleImdbChange = (event, newValue) => {
-    setImdb(newValue);
-  };
-  const handleGapYearChange = (event, newValue) => {
-    setGapYear(newValue);
-  };
-  const handleGenreChange = (event) => {
-    setGenre(event.target.value);
+  // const handleImdbChange = (event, newValue) => {
+  //   setImdb(newValue);
+  // };
+  // const handleGapYearChange = (event, newValue) => {
+  //   setGapYear(newValue);
+  // };
+  // const handleGenreChange = (event) => {
+  //   setGenre(event.target.value);
+  // };
+
+  const handleChangeRadio = (event) => {
+    setRadioValue(event.target.value);
+    // setMovies([]);
+    // fetchMovies(page, event.target.value);
   };
 
-  //* SORT
-  const sort = async (field) => {
-    // eslint-disable-next-line
-    const choice = field.toLowerCase();
-    // eslint-disable-next-line
-    switch (choice) {
-      case "like_count":
-        await PopularitySort();
-        break;
-      case "year":
-        await YearSort();
-        break;
+  const fetchMovies = async (page, sort, filter) => {
+    const res = await moviesAction(state.token, page, sort, filter);
+
+    if (res?.success === false) {
+      // Print error ( res.error )
+    } else {
+      setMovies(res);
     }
   };
 
   useEffect(() => {
-    PopularitySort();
-  });
-
-  // const fetchMovies = async (API) => {
-  //   const res = await axios.get(API);
-  //   let mydata = movies.concat(res.data.MovieList); //res.data.data.movies
-  //   setmovies(mydata);
-  // };
-  const handleChangeRadio = (event) => {
-    setRadioValue(event.target.value);
-    sort(radioValue);
-  };
-
-  const getSortMovies = async () => {
-    const res = await axios.get(
-      `https://yts.mx/api/v2/list_movies.json?&sort_by=${radioValue}&limit=50&page=${page}`
-    );
-    let sortData = res.data.data.movie_count === 0 ? [] : res.data.data.movies;
-    console.log(sortData);
-    // setmovies(sortData);
-  };
-  getSortMovies();
-  const PopularitySort = async () => {
-    const res = await axios.get(
-      `https://yts.mx/api/v2/list_movies.json?sort_by=like_count&limit=50&page=1`
-    );
-    setMovies(res.data.data.movies);
-  };
-  const YearSort = async () => {
-    setMovies([]);
-
-    // const res = await axios.get(
-    //   `https://yts.mx/api/v2/list_movies.json?sort_by=year&limit=50&page=1`
-    // );
-    // setMovies(res.data.data.movies);
-  };
+    fetchMovies(page, radioValue);
+  }, [page, radioValue]);
 
   const handleOnSubmit = (e) => {
     console.log("hello");
@@ -420,9 +391,9 @@ export default function Library() {
       <SearchCard>
         <form onSubmit={handleOnSubmit}>
           <input
-            className="search"
-            type="search"
-            placeholder="Search ..."
+            className='search'
+            type='search'
+            placeholder='Search ...'
             value={searchTerm}
             onChange={handleOnChange}
           />
@@ -430,100 +401,80 @@ export default function Library() {
       </SearchCard>
       <Container>
         <FilterCard>
-          <div className="genre">
-            <FormControlMdf>
-              <InputLabel id="demo-simple-select-helper-label">
-                Genre
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-helper-label"
-                id="demo-simple-select-helper"
-                value={genre}
-                onChange={handleGenreChange}
-              >
-                <MenuItem value="">Romantic</MenuItem>
-                <MenuItem value={10}>Comedy</MenuItem>
-                <MenuItem value={20}>Drama</MenuItem>
-                <MenuItem value={30}>Horror</MenuItem>
-              </Select>
-            </FormControlMdf>
-          </div>
-          <FormControl error component="fieldset" style={{ width: "100%" }}>
+          <FormControl error component='fieldset' style={{ width: "100%" }}>
             <RadioGroup
               // name="sort"
               value={radioValue}
               onChange={(e) => handleChangeRadio(e)}
-              className="radioContainer"
-            >
+              className='radioContainer'>
               <FormControlLabel
-                value="rating"
+                value='like_count'
                 control={<Radio />}
-                label="Rating"
+                label='Rating'
               />
-              <FormControlLabel value="year" control={<Radio />} label="Year" />
+              <FormControlLabel value='year' control={<Radio />} label='Year' />
               <FormControlLabel
-                value="title"
+                value='title'
                 control={<Radio />}
-                label="Title"
+                label='Title'
               />
             </RadioGroup>
           </FormControl>
         </FilterCard>
-        <div className="filter_card">
-          <div className="filter_row">
-            <div className="firstDiv">
-              <Typography id="range-slider" gutterBottom>
+        {/* <div className='filter_card'>
+          <div className='filter_row'>
+            <div className='firstDiv'>
+              <Typography id='range-slider' gutterBottom>
                 Imdb Rating
               </Typography>
               <MySlider
                 value={imdb}
                 onChange={handleImdbChange}
-                aria-labelledby="continuous-slider"
-                valueLabelDisplay="auto"
+                aria-labelledby='continuous-slider'
+                valueLabelDisplay='auto'
                 // step={1}
                 // marks
                 min={0}
                 max={10}
               />
             </div>
-            <div className="secondDiv">
-              <Typography id="range-slider" gutterBottom>
+            <div className='secondDiv'>
+              <Typography id='range-slider' gutterBottom>
                 Gape of prod year
               </Typography>
               <MySlider
                 value={gapYear}
                 onChange={handleGapYearChange}
-                aria-labelledby="continuous-slider"
-                valueLabelDisplay="auto"
+                aria-labelledby='continuous-slider'
+                valueLabelDisplay='auto'
                 // step={1}
                 // marks
                 min={1970}
                 max={2021}
               />
             </div>
-            <div className="filterByName">
+            <div className='filterByName'>
               <form onSubmit={handleOnSubmit}>
                 <input
-                  className="filter"
-                  type="search"
-                  placeholder="Enter Name ..."
+                  className='filter'
+                  type='search'
+                  placeholder='Enter Name ...'
                   value={searchTerm}
                   onChange={handleOnChange}
                 />
               </form>
             </div>
-            <div className="genre">
+            <div className='genre'>
               <FormControlMdf>
-                <InputLabel id="demo-simple-select-helper-label">
+                <InputLabel id='demo-simple-select-helper-label'>
                   Genre
                 </InputLabel>
                 <Select
-                  labelId="demo-simple-select-helper-label"
-                  id="demo-simple-select-helper"
+                  labelId='demo-simple-select-helper-label'
+                  id='demo-simple-select-helper'
                   value={genre}
-                  onChange={handleGenreChange}
-                >
-                  <MenuItem value="">Romantic</MenuItem>
+                  onChange={handleGenreChange}>
+                  <MenuItem value=''>Romantic</MenuItem>
                   <MenuItem value={10}>Comedy</MenuItem>
                   <MenuItem value={20}>Drama</MenuItem>
                   <MenuItem value={30}>Horror</MenuItem>
@@ -533,57 +484,53 @@ export default function Library() {
           </div>
 
           <Button
-            type="submit"
-            variant="contained"
-            className="submit"
-            color="primary"
-          >
+            type='submit'
+            variant='contained'
+            className='submit'
+            color='primary'>
             Filter
           </Button>
-        </div>
+        </div> */}
       </Container>
       <InfiniteScroll
         dataLength={movies.length} //This is important field to render the next data
         next={() => setPage(page + 1)}
-        hasMore={true}
-      >
+        hasMore={true}>
         <CardContainer>
           {movies.map((movie, id) => (
             <MyCard
               key={id}
               onMouseEnter={() => toggleHover(true)}
-              onMouseLeave={() => toggleHover(false)}
-            >
+              onMouseLeave={() => toggleHover(false)}>
               <img
                 src={movie?.large_cover_image} //poster_big}
-                width="100%"
-                height="100%"
-                alt="cover"
+                width='100%'
+                height='100%'
+                alt='cover'
                 onError={(e) => {
                   e.target.onerror = null;
                   e.target.src = "https://t.ly/teEM";
                 }}
               />
               {movie.isWatched ? (
-                <div className="eye ">
-                  <i className="las la-eye"></i>
+                <div className='eye '>
+                  <i className='las la-eye'></i>
                 </div>
               ) : (
                 ""
               )}
 
-              <div className="backHover">
-                <div className="imdbPlace">
+              <div className='backHover'>
+                <div className='imdbPlace'>
                   <h6>{movie.rating}</h6>
                 </div>
-                <div className="watch">
+                <div className='watch'>
                   <div
                     className={
                       hovered
                         ? "watchBtn animate__animated  animate__backInDown animate__faster"
                         : "watchBtn"
-                    }
-                  >
+                    }>
                     Watch
                   </div>
                   <div
@@ -591,17 +538,15 @@ export default function Library() {
                       hovered
                         ? "test1 animate__animated  animate__backInLeft animate__faster"
                         : "test1"
-                    }
-                  ></div>
+                    }></div>
                   <div
                     className={
                       hovered
                         ? "test2 animate__animated  animate__backInRight animate__faster"
                         : "test2"
-                    }
-                  ></div>
+                    }></div>
                 </div>
-                <div className="mvName">
+                <div className='mvName'>
                   <h4>{movie.title}</h4>
                   <h6>{movie.year}</h6>
                 </div>

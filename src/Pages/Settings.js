@@ -109,17 +109,13 @@ const Wrapper = styled.div`
 `;
 
 export default function Settings() {
-  const { state, userInfos } = useContext(HyperContext);
+  const { state, userInfos, setUserInfos } = useContext(HyperContext);
   const [tab, setTab] = useState(0);
   const [message, setMessage] = useState({});
   const [profileMessage, setProfileMsg] = useState({});
   const { register, handleSubmit, errors } = useForm();
   const [open, setOpen] = useState(false);
   const [done, setDone] = useState(false);
-  const [selectedFile, setSelectedFile] = useState({
-    profile: null,
-    url: null,
-  });
 
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -134,22 +130,20 @@ export default function Settings() {
     if (reason === "clickaway") {
       return;
     }
-
+    setDone(false);
     setOpen(false);
   };
   const handleChange = (event, newValue) => {
     setTab(newValue);
   };
 
-  const handlChangeFile = (e) => {
-    let url = URL.createObjectURL(e);
-    setSelectedFile({ ...selectedFile, profile: e, url: url });
-  };
   const onFileChange = async (e) => {
     const res = await ProfileUpAction(state.token, e);
+    if (res.success) {
+      setUserInfos({ ...userInfos, profile: res.data });
+    }
     setProfileMsg(res);
     setDone(true);
-    handlChangeFile(e);
   };
 
   const onSubmit = async (data) => {
@@ -157,6 +151,7 @@ export default function Settings() {
     // eslint-disable-next-line
 
     setMessage(SettingsResponce);
+
     setOpen(true);
   };
 
@@ -248,9 +243,7 @@ export default function Settings() {
                   <LabelImage type='file'>
                     <img
                       src={
-                        selectedFile.profile
-                          ? selectedFile.url
-                          : userInfos.profile
+                        userInfos.profile
                           ? userInfos.profile
                           : "./img/avatar.jpeg"
                       }
