@@ -1,6 +1,18 @@
 import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
-import { Grid, Radio, RadioGroup, FormControlLabel, FormControl, Typography, Slider, InputLabel, Select, MenuItem, Button } from "@material-ui/core";
+import {
+  Grid,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  FormControl,
+  Typography,
+  Slider,
+  InputLabel,
+  Select,
+  MenuItem,
+  Button,
+} from "@material-ui/core";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { moviesAction } from "../services/moviesActions";
 import { HyperContext } from "../Context/context";
@@ -300,13 +312,14 @@ export default function Library() {
   const [page, setPage] = useState(1);
   const [radioValue, setRadioValue] = useState("like_count");
   const [searching, setSearching] = useState(false);
+  const [isloading, setIsloading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-  const [ filter, setFilter ] = useState({
+  const [filter, setFilter] = useState({
     rating: [0, 10],
     year: [1950, 2021],
     title: "",
-    genre: ""
-  })
+    genre: "",
+  });
   const [hovered, setHovered] = useState(false);
   const toggleHover = (value) => setHovered(value);
   // eslint-disable-next-line
@@ -324,9 +337,9 @@ export default function Library() {
   // const handleImdbChange = (event, newValue) => {
   //   setImdb(newValue);
   // };
-  // const handleGapYearChange = (event, newValue) => {
-  //   setGapYear(newValue);
-  // };
+  const handleGapYearChange = (event, newValue) => {
+    // setGapYear(newValue);
+  };
   const handleGenreChange = (event) => {
     setFilter({ ...filter, genre: event.target.value });
   };
@@ -334,7 +347,6 @@ export default function Library() {
   const handleChangeRadio = (event) => {
     setRadioValue(event.target.value);
     setIsloading(true);
-
     setMovies([]);
     setPage(1);
     fetchSortedMovies(page, event.target.value);
@@ -435,43 +447,49 @@ export default function Library() {
             </RadioGroup>
           </FormControl>
         </FilterCard>
-        <div className='filter_card' style={{padding: "60px"}}>
+        <div className='filter_card' style={{ padding: "60px" }}>
           <Grid container spacing={4}>
             <Grid item xs={6}>
-              <Typography id='range-slider' gutterBottom style={{color: "#fff"}}>
+              <Typography
+                id='range-slider'
+                gutterBottom
+                style={{ color: "#fff" }}>
                 Rating
               </Typography>
               <MySlider
                 value={filter.rating}
                 valueLabelDisplay='auto'
-                aria-labelledby="range-slider"
-                min={ 0}
-                max={ 10}
+                aria-labelledby='range-slider'
+                min={0}
+                max={10}
                 // onChange={handleImdbChange}
               />
             </Grid>
             <Grid item xs={6}>
-              <Typography id='range-slider' gutterBottom style={{color: "#fff"}}>
+              <Typography
+                id='range-slider'
+                gutterBottom
+                style={{ color: "#fff" }}>
                 Production year
               </Typography>
               <MySlider
                 value={filter.year}
                 valueLabelDisplay='auto'
-                aria-labelledby="range-slider"
+                aria-labelledby='range-slider'
                 min={1950}
                 max={2021}
-                // onChange={handleGapYearChange}
+                onChange={handleGapYearChange}
               />
             </Grid>
             <Grid item xs={6}>
               <div className='filterByName'>
-                  <input
-                    className='filter'
-                    type='search'
-                    placeholder='Enter Name ...'
-                    value={filter.title}
-                    // onChange={handleOnChange}
-                  />
+                <input
+                  className='filter'
+                  type='search'
+                  placeholder='Enter Name ...'
+                  value={filter.title}
+                  // onChange={handleOnChange}
+                />
               </div>
             </Grid>
             <Grid item xs={6}>
@@ -483,14 +501,13 @@ export default function Library() {
                   labelId='demo-simple-select-helper-label'
                   id='demo-simple-select-helper'
                   value={filter.genre}
-                  onChange={handleGenreChange}
-                  >
-                  <MenuItem value="Romantic">Romantic</MenuItem>
-                  <MenuItem value="Comedy">Comedy</MenuItem>
-                  <MenuItem value="Drama">Drama</MenuItem>
-                  <MenuItem value="Horror">Horror</MenuItem>
-                  <MenuItem value="Action">Action</MenuItem>
-                  <MenuItem value="Crime">Crime</MenuItem>
+                  onChange={handleGenreChange}>
+                  <MenuItem value='Romantic'>Romantic</MenuItem>
+                  <MenuItem value='Comedy'>Comedy</MenuItem>
+                  <MenuItem value='Drama'>Drama</MenuItem>
+                  <MenuItem value='Horror'>Horror</MenuItem>
+                  <MenuItem value='Action'>Action</MenuItem>
+                  <MenuItem value='Crime'>Crime</MenuItem>
                 </Select>
               </FormControlMdf>
             </Grid>
@@ -500,13 +517,11 @@ export default function Library() {
                 variant='contained'
                 className='submit'
                 color='primary'
-                style={{ width: "150px", padding: "10px", fontSize: "16px" }}
-                >
+                style={{ width: "150px", padding: "10px", fontSize: "16px" }}>
                 Filter
               </Button>
             </Grid>
           </Grid>
-
         </div>
       </Container>
       <InfiniteScroll
