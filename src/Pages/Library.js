@@ -244,14 +244,7 @@ const FormControlMdf = styled(FormControl)`
     color: ${(props) => props.theme.text};
   }
 `;
-// const CardHover = styled.div`
-//   position: relative;
-//   width: 100%;
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   justify-content: center;
-// `;
+
 const CardContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -263,6 +256,7 @@ const CardContainer = styled.div`
     margin-top: 200px;
   }
 `;
+
 const FilterCard = styled.div`
   .MuiRadio-colorSecondary.Mui-checked {
     color: red;
@@ -274,12 +268,14 @@ const FilterCard = styled.div`
   flex-basis: 48%;
   border-radius: 15px;
   background-color: ${(props) => props.theme.cards};
-  height: 290px;
+  height: 150px;
 `;
+
 const MainContainer = styled.div`
   background: ${(props) => props.theme.background};
   min-height: 100%;
 `;
+
 const SearchCard = styled.div`
   background: transparent;
   display: flex;
@@ -318,23 +314,13 @@ export default function Library() {
   const [isloading, setIsloading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState({
-    rating: 9,
+    rating: 0,
     quality: "",
     genre: "",
   });
   const [hovered, setHovered] = useState(false);
   const toggleHover = (value) => setHovered(value);
   // eslint-disable-next-line
-  // const [search, setSearchRes] = useState([]);
-  // const [sortByPopularity, setPopularity] = useState([]);
-  // const [sortByYears, setYears] = useState([]);
-  // const [sortByImdb, setImdb] = useState([]);
-  // const [sortByGenre, setGenre] = useState([]);
-
-  // const API_ONE = `https://api.apiumadomain.com/list?sort=popularity&cb=&quality=720p&page=${page}`;
-  // const API_SORT = `https://yts.mx/api/v2/list_movies.json?&sort_by=${radioValue}&limit=50&page=${page}`;
-  // const API_SEARCH = `https://yts.mx/api/v2/list_movies.json?query_term=${searchTerm}&sort_by=${radioValue}&limit=50&page=${page}`;
-  // const API_TWO = `https://yts.mx/api/v2/list_movies.json?sort_by=rating&limit=50&page=${page}`;
 
   // *FILTER HANDLERS
 
@@ -348,12 +334,21 @@ export default function Library() {
     setFilter({ ...filter, genre: event.target.value });
   };
 
+  const handleSubmitFilter = () => {
+    setIsloading(true);
+    setMovies([]);
+    setPage(1);
+    fetchMoviesWithSortFilter(page, radioValue, filter);
+  };
+
+  //  *SORT Handle
+
   const handleChangeRadio = (event) => {
     setRadioValue(event.target.value);
     setIsloading(true);
     setMovies([]);
     setPage(1);
-    fetchSortedMovies(page, event.target.value);
+    fetchMoviesWithSortFilter(page, event.target.value);
   };
 
   const fetchMovies = async (page, sort, filter) => {
@@ -363,32 +358,25 @@ export default function Library() {
       setMovies([...movies, ...res]);
       setTimeout(() => {
         setIsloading(false);
-      }, 2000);
+      }, 1500);
     }
-    // }
   };
-  const fetchSortedMovies = async (page, sort, filter) => {
+  const fetchMoviesWithSortFilter = async (page, sort, filter) => {
     const res = await moviesAction(state.token, page, sort, filter);
 
     if (res) {
       setMovies(res);
       setTimeout(() => {
         setIsloading(false);
-      }, 2000);
+      }, 1500);
     }
-
-    // }
   };
 
-  useEffect(() => {
-    fetchMovies(page, radioValue);
-  }, [page, radioValue]);
+  // *SEARCH HANDLE
 
   const handleOnSubmit = (e) => {
-    console.log("hello");
-
     e.preventDefault();
-    console.log("c'est ce que vous rechercher " + searchTerm);
+
     // const searchMovies = async () => {
     //   //     const res1 = axios.get(API_ONE);
     //   // if (res.data) movies = res.data;
@@ -412,9 +400,13 @@ export default function Library() {
   };
 
   const handleOnChange = (e) => {
-    // setSearchTerm(e.target.value);
-    // setmovies([]);
+    setSearching(true);
+    setSearchTerm(e.target.value);
   };
+
+  useEffect(() => {
+    fetchMovies(page, radioValue, filter);
+  }, [page, radioValue]);
 
   return (
     <MainContainer>
@@ -430,10 +422,12 @@ export default function Library() {
         </form>
       </SearchCard>
       <Container>
-        <FilterCard style={{ margin: "10px" }}>
+        <FilterCard>
+          <Typography gutterBottom style={{ color: "#fff" }}>
+            Sort by :
+          </Typography>
           <FormControl error component='fieldset' style={{ width: "100%" }}>
             <RadioGroup
-              // name="sort"
               value={radioValue}
               onChange={(e) => handleChangeRadio(e)}
               className='radioContainer'>
@@ -451,9 +445,9 @@ export default function Library() {
             </RadioGroup>
           </FormControl>
         </FilterCard>
-        <div className='filter_card' style={{ padding: "60px" }}>
+        <div className='filter_card' style={{ padding: "30px" }}>
           <Grid container spacing={4}>
-            <Grid item xs={6}>
+            <Grid item xs={4}>
               <Typography
                 id='range-slider'
                 gutterBottom
@@ -468,7 +462,7 @@ export default function Library() {
                 max={9}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={4}>
               <FormControlMdf>
                 <InputLabel id='demo-simple-select-helper-label'>
                   Quality
@@ -485,7 +479,7 @@ export default function Library() {
                 </Select>
               </FormControlMdf>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={4}>
               <FormControlMdf>
                 <InputLabel id='demo-simple-select-helper-label'>
                   Genre
@@ -495,12 +489,15 @@ export default function Library() {
                   id='demo-simple-select-helper'
                   value={filter.genre}
                   onChange={handleGenreChange}>
-                  <MenuItem value='Romantic'>Romantic</MenuItem>
-                  <MenuItem value='Comedy'>Comedy</MenuItem>
+                  <MenuItem value='Action'>Action</MenuItem>
                   <MenuItem value='Drama'>Drama</MenuItem>
                   <MenuItem value='Horror'>Horror</MenuItem>
-                  <MenuItem value='Action'>Action</MenuItem>
+                  <MenuItem value='Comedy'>Comedy</MenuItem>
                   <MenuItem value='Crime'>Crime</MenuItem>
+                  <MenuItem value='Adventure'>Adventure</MenuItem>
+                  <MenuItem value='Biography'>Biography</MenuItem>
+                  <MenuItem value='Documentary'>Documentary</MenuItem>
+                  <MenuItem value='Family'>Family</MenuItem>
                 </Select>
               </FormControlMdf>
             </Grid>
@@ -510,7 +507,8 @@ export default function Library() {
                 variant='contained'
                 className='submit'
                 color='primary'
-                style={{ width: "150px", padding: "10px", fontSize: "16px" }}>
+                style={{ width: "150px", padding: "10px", fontSize: "16px" }}
+                onClick={handleSubmitFilter}>
                 Filter
               </Button>
             </Grid>
@@ -541,7 +539,7 @@ export default function Library() {
               color='red'
               height={200}
               width={200}
-              timeout={2000}
+              timeout={1500}
             />
           </div>
         ) : (

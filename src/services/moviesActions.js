@@ -10,6 +10,9 @@ export const moviesAction = async (token, page, sort, filter) => {
     params: {
       page: page,
       sort: sort,
+      genre: filter?.genre,
+      quality: filter?.quality,
+      rating: filter?.rating,
     },
   };
   try {
