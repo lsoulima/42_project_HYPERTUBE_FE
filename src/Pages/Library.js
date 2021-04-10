@@ -318,9 +318,8 @@ export default function Library() {
   const [isloading, setIsloading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState({
-    rating: [0, 10],
-    year: [1950, 2021],
-    title: "",
+    rating: 9,
+    quality: "",
     genre: "",
   });
   const [hovered, setHovered] = useState(false);
@@ -337,11 +336,13 @@ export default function Library() {
   // const API_SEARCH = `https://yts.mx/api/v2/list_movies.json?query_term=${searchTerm}&sort_by=${radioValue}&limit=50&page=${page}`;
   // const API_TWO = `https://yts.mx/api/v2/list_movies.json?sort_by=rating&limit=50&page=${page}`;
 
-  // const handleImdbChange = (event, newValue) => {
-  //   setImdb(newValue);
-  // };
-  const handleYearChange = (newvalue) => {
-    setFilter({ ...filter, year: newvalue });
+  // *FILTER HANDLERS
+
+  const handleReatingChange = (event, newvalue) => {
+    setFilter({ ...filter, rating: newvalue });
+  };
+  const handleQualityChange = (event) => {
+    setFilter({ ...filter, quality: event.target.value });
   };
   const handleGenreChange = (event) => {
     setFilter({ ...filter, genre: event.target.value });
@@ -463,37 +464,26 @@ export default function Library() {
                 value={filter.rating}
                 valueLabelDisplay='auto'
                 aria-labelledby='range-slider'
-                min={0}
-                max={10}
-                // onChange={handleImdbChange}
+                onChange={handleReatingChange}
+                max={9}
               />
             </Grid>
             <Grid item xs={6}>
-              <Typography
-                id='range-slider'
-                gutterBottom
-                style={{ color: "#fff" }}>
-                Production year
-              </Typography>
-              <MySlider
-                defaultValue={[1950, 2021]}
-                min={1950}
-                max={2021}
-                valueLabelDisplay='auto'
-                aria-labelledby='range-slider'
-                onChange={handleYearChange}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <div className='filterByName'>
-                <input
-                  className='filter'
-                  type='search'
-                  placeholder='Enter Name ...'
-                  value={filter.title}
-                  // onChange={handleOnChange}
-                />
-              </div>
+              <FormControlMdf>
+                <InputLabel id='demo-simple-select-helper-label'>
+                  Quality
+                </InputLabel>
+                <Select
+                  labelId='demo-simple-select-helper-label'
+                  id='demo-simple-select-helper'
+                  value={filter.quality}
+                  onChange={handleQualityChange}>
+                  <MenuItem value='720p'>720p</MenuItem>
+                  <MenuItem value='1080p'>1080p</MenuItem>
+                  <MenuItem value='2160p'>2160p</MenuItem>
+                  <MenuItem value='3D'>3D</MenuItem>
+                </Select>
+              </FormControlMdf>
             </Grid>
             <Grid item xs={6}>
               <FormControlMdf>
@@ -533,7 +523,7 @@ export default function Library() {
         hasMore={true}>
         {isloading ? (
           <div
-            id="loader"
+            id='loader'
             style={{
               // background: "white",
               padding: "10px 10px 10px 100px",
