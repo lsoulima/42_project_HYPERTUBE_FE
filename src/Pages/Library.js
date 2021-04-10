@@ -337,9 +337,9 @@ export default function Library() {
   // const handleImdbChange = (event, newValue) => {
   //   setImdb(newValue);
   // };
-  // const handleGapYearChange = (event, newValue) => {
-  //   // setGapYear(newValue);
-  // };
+  const handleYearChange = (newvalue) => {
+    setFilter({ ...filter, year: newvalue });
+  };
   const handleGenreChange = (event) => {
     setFilter({ ...filter, genre: event.target.value });
   };
@@ -473,12 +473,12 @@ export default function Library() {
                 Production year
               </Typography>
               <MySlider
-                value={filter.year}
-                valueLabelDisplay='auto'
-                aria-labelledby='range-slider'
+                defaultValue={[1950, 2021]}
                 min={1950}
                 max={2021}
-                // onChange={handleGapYearChange}
+                valueLabelDisplay='auto'
+                aria-labelledby='range-slider'
+                onChange={handleYearChange}
               />
             </Grid>
             <Grid item xs={6}>
