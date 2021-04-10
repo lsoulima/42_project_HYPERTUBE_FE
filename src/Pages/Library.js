@@ -92,7 +92,10 @@ const Container = styled.div`
     height: 300px;
     .sort_card,
     .filter_card {
-      margin-bottom: 20px;
+      margin-bottom: 200px;
+    }
+    div#loader {
+      margin-top: 200px;
     }
   }
   @media (max-width: 425px) {
@@ -109,7 +112,6 @@ const Container = styled.div`
         flex-direction: column;
       }
     }
-
     .radioContainer {
       flex-direction: column;
     }
@@ -258,6 +260,7 @@ const CardContainer = styled.div`
   margin: 0 auto;
   @media (max-width: 768px) {
     max-width: 100%;
+    margin-top: 200px;
   }
 `;
 const FilterCard = styled.div`
@@ -359,7 +362,7 @@ export default function Library() {
       setMovies([...movies, ...res]);
       setTimeout(() => {
         setIsloading(false);
-      }, 6000);
+      }, 2000);
     }
     // }
   };
@@ -370,7 +373,7 @@ export default function Library() {
       setMovies(res);
       setTimeout(() => {
         setIsloading(false);
-      }, 6000);
+      }, 2000);
     }
 
     // }
@@ -426,7 +429,7 @@ export default function Library() {
         </form>
       </SearchCard>
       <Container>
-        <FilterCard>
+        <FilterCard style={{ margin: "10px" }}>
           <FormControl error component='fieldset' style={{ width: "100%" }}>
             <RadioGroup
               // name="sort"
@@ -530,6 +533,7 @@ export default function Library() {
         hasMore={true}>
         {isloading ? (
           <div
+            id="loader"
             style={{
               // background: "white",
               padding: "10px 10px 10px 100px",
@@ -547,7 +551,7 @@ export default function Library() {
               color='red'
               height={200}
               width={200}
-              timeout={6000}
+              timeout={2000}
             />
           </div>
         ) : (
