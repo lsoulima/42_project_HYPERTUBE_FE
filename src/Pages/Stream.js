@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useEffect, useContext, useState } from "react";
 import styled from "styled-components";
 import ReactPlayer from "react-player";
+import { HyperContext } from "../Context/context";
+import { movieDetailsAction } from "../services/moviesActions";
+import Alert from "@material-ui/lab/Alert";
+import { Snackbar, Box } from "@material-ui/core";
 
 const Container = styled.div`
   padding-top: 100px;
@@ -293,6 +297,32 @@ const MainContainer = styled.div`
 `;
 
 export default function Stream() {
+  const { state } = useContext(HyperContext);
+  const [details, setDetails] = useState({});
+  const [error, setError] = useState({});
+  const [open, setOpen] = useState(false);
+  const movieID = window.location.search.split("=")[1];
+
+  const handleClose = (reason) => {
+    if (reason === "clickaway") return;
+    setOpen(false);
+  };
+
+  useEffect(() => {
+    const loadMovieDetails = async () => {
+      if (movieID) {
+        const response = await movieDetailsAction(state.token, movieID);
+        if (response?.success === false) {
+          console.log("ERROR", response.error);
+        } else {
+          setDetails(response);
+        }
+      } else {
+        console.log("ERROR", "NO MOVIE ID FOUND");
+      }
+    };
+    loadMovieDetails();
+  }, []);
   return (
     <MainContainer>
       <Container>
@@ -300,8 +330,8 @@ export default function Stream() {
           <ReactPlayer
             url={[{ src: "movie.mp4" }, { src: "foo.mkv", type: "video/mkv" }]}
             controls={true}
-            width="100%"
-            height="100%"
+            width='100%'
+            height='100%'
             config={{
               file: {
                 tracks: [
@@ -322,82 +352,62 @@ export default function Stream() {
           />
         </MyVideo>
         <MovieDetailes>
-          <div className="movie_section">
+          <div className='movie_section'>
             <div>
-              <img
-                src="https://yts.mx/assets/images/movies/deadly_illusions_2021/large-cover.jpg"
-                alt="cover"
-              />
+              <img src={details.large_cover_image} alt='cover' />
             </div>
             <div>Add to Favorites</div>
           </div>
-          <div className="detail_section">
-            <div className="divider detail_section_name">
-              <h1>I Am Still Here</h1>
+          <div className='detail_section'>
+            <div className='divider detail_section_name'>
+              <h1>{details?.title_long}</h1>
               <div>
                 <span>Rating: </span>
-                <span>9.2</span>
+                <span>{details?.rating}</span>
               </div>
             </div>
-            <div className="detail_section_duration">
-              <span>2017</span>
-              <span>.</span>
+            <div className='detail_section_duration'>
               <span>1 hr 43 min</span>
-              <div className="movie_genre">
-                <div>Drama</div>
-                <div>Action</div>
-                <div>Romantic</div>
+              <div className='movie_genre'>
+                {details?.genres?.map((item) => (
+                  <div>{item}</div>
+                ))}
               </div>
             </div>
-            <div className=" divider detail_section_description">
-              Follow the horrifying journey of 10-year-old Layla as she is
-              abducted and forced into sexual slavery hidden inside an ordinary
-              American suburb.
-            </div>
-            <div className="divider detail_section_movieInfo">
-              <div className="detail_section_director">
-                <div className="director">DIRECTOR</div>
-                <div className="director_value">Mischa Marcus</div>
-              </div>
-              <div className="mini_divider"></div>
-              <div className="divider detail_section_director">
-                <div className="director">STARRING</div>
-                <div className="director_value">
-                  Johnny Rey Diaz Erika Ringor Ciara Jiana Aliyah Conley
-                </div>
-              </div>
+            <div className=' divider detail_section_description'>
+              {details.description_intro}
             </div>
           </div>
         </MovieDetailes>
-        <div className="suggestions_like">You May Also Like</div>
-        <Suggestions>
+        {/* <div className='suggestions_like'>You May Also Like</div> */}
+        {/* <Suggestions>
           {[0, 1, 2, 3, 4, 5].map((movie, id) => (
             <MyCard key={id}>
-              <div className="info_section">
-                <div className="movie_header">
+              <div className='info_section'>
+                <div className='movie_header'>
                   <img
-                    className="cover"
-                    src="https://yts.mx/assets/images/movies/deadly_illusions_2021/large-cover.jpg"
-                    alt="cover"
+                    className='cover'
+                    src='https://yts.mx/assets/images/movies/deadly_illusions_2021/large-cover.jpg'
+                    alt='cover'
                   />
                   <h1>The Poker House</h1>
                   <h4>2017, David Ayer</h4>
-                  <span className="minutes">117 min</span>
-                  <p className="type">Action, Crime, Fantasy</p>
+                  <span className='minutes'>117 min</span>
+                  <p className='type'>Action, Crime, Fantasy</p>
                 </div>
-                <div className="movie_desc">
-                  <p className="text">
+                <div className='movie_desc'>
+                  <p className='text'>
                     Set in a world where fantasy creatures live side by side
                     with humans. A human cop is forced to work with an Orc to
                     find a weapon everyone is prepared to kill for.
                   </p>
                 </div>
               </div>
-              <div className="blur_back bright_back"></div>
-              <i className="las la-play-circle play_button" />
+              <div className='blur_back bright_back'></div>
+              <i className='las la-play-circle play_button' />
             </MyCard>
           ))}
-        </Suggestions>
+        </Suggestions> */}
       </Container>
     </MainContainer>
   );

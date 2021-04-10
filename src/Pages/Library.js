@@ -14,10 +14,14 @@ import {
   Button,
 } from "@material-ui/core";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { moviesAction } from "../services/moviesActions";
+import {
+  moviesListAction,
+  movieDetailsAction,
+} from "../services/moviesActions";
 import { HyperContext } from "../Context/context";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import { useHistory } from "react-router";
 
 const Container = styled.div`
   margin: 0 20px 20px 20px;
@@ -123,6 +127,7 @@ const MySlider = styled(Slider)`
 `;
 
 const MyCard = styled.div`
+  cursor: pointer;
   margin: 10px;
   width: 240px;
   height: 382px;
@@ -310,7 +315,6 @@ export default function Library() {
   const [movies, setMovies] = useState([]);
   const [page, setPage] = useState(1);
   const [radioValue, setRadioValue] = useState("like_count");
-  const [searching, setSearching] = useState(false);
   const [isloading, setIsloading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState({
@@ -320,9 +324,10 @@ export default function Library() {
   });
   const [hovered, setHovered] = useState(false);
   const toggleHover = (value) => setHovered(value);
+  let history = useHistory();
   // eslint-disable-next-line
 
-  // *FILTER HANDLERS
+  //* FILTER HANDLERS
 
   const handleReatingChange = (event, newvalue) => {
     setFilter({ ...filter, rating: newvalue });
@@ -336,35 +341,49 @@ export default function Library() {
 
   const handleSubmitFilter = () => {
     setIsloading(true);
-    setMovies([]);
     setPage(1);
     fetchMoviesWithSortFilterSearch(page, radioValue, filter, searchTerm);
   };
 
-  //  *SORT Handle
+  //* SORT HANDLERS
 
   const handleChangeRadio = (event) => {
     setRadioValue(event.target.value);
     setIsloading(true);
-    setMovies([]);
     setPage(1);
-    fetchMoviesWithSortFilterSearch(page, event.target.value, filter, searchTerm);
+    setMovies([]);
+    fetchMoviesWithSortFilterSearch(
+      page,
+      event.target.value,
+      filter,
+      searchTerm
+    );
   };
-
+  //* FETCH NORMAL
   const fetchMovies = async (page, sort, filter, search) => {
-    const res = await moviesAction(state.token, page, sort, filter, search);
+    const res = await moviesListAction(state.token, page, sort, filter, search);
 
-    if (res) {
+    if (res?.success === false) {
+      // PRINT ERROR ON SNACK BAR
+    } else {
       setMovies([...movies, ...res]);
       setTimeout(() => {
         setIsloading(false);
       }, 1500);
     }
   };
-  const fetchMoviesWithSortFilterSearch = async (page, sort, filter, search) => {
-    const res = await moviesAction(state.token, page, sort, filter, search);
+  //* FETCH MOVIES WITH SORT OR FILTER OR SEARCH
+  const fetchMoviesWithSortFilterSearch = async (
+    page,
+    sort,
+    filter,
+    search
+  ) => {
+    const res = await moviesListAction(state.token, page, sort, filter, search);
 
-    if (res) {
+    if (res?.success === false) {
+      // PRINT ERROR ON SNACK BAR
+    } else {
       setMovies(res);
       setTimeout(() => {
         setIsloading(false);
@@ -372,43 +391,36 @@ export default function Library() {
     }
   };
 
-  // *SEARCH HANDLE
+  //* SEARCH HANDLERS
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    setMovies([]);
+    !searchTerm ? setRadioValue("like_count") : setRadioValue("");
+    setFilter({
+      rating: 0,
+      quality: "",
+      genre: "",
+    });
     setPage(1);
+    setMovies([]);
     fetchMoviesWithSortFilterSearch(page, radioValue, filter, searchTerm);
-    // const searchMovies = async () => {
-    //   //     const res1 = axios.get(API_ONE);
-    //   // if (res.data) movies = res.data;
-    //   // else {
-    //   //   const res2 = axios.get(API_TWO);
-    //   //   res.data.forEach((e) => {
-    //   //     movies.push({
-    //   //       id: e.hash,
-    //   //       img: e.pic,
-    //   //     });
-    //   //   });
-    //   // }
-    //   const res = await axios.get(API_SEARCH);
-    //   let searchData =
-    //     res.data.data.movie_count === 0 ? [] : res.data.data.movies;
-    //   setmovies(searchData);
-    //   console.log("resultat de la recherche ", searchData);
-    // };
-    // searchMovies();
-    // setSearchTerm("");
   };
 
   const handleOnChange = (e) => {
-    setSearching(true);
     setSearchTerm(e.target.value);
   };
 
+  //* HANDLE SEND TITLE
+
+  const handleClickMovie = (id) => {
+    if (id) {
+      history.push("/stream?film_id=" + id);
+    }
+  };
   useEffect(() => {
     fetchMovies(page, radioValue, filter, searchTerm);
-  }, [page, radioValue]);
+    // eslint-disable-next-line
+  }, [page, radioValue, filter]);
 
   return (
     <MainContainer>
@@ -546,9 +558,12 @@ export default function Library() {
           </div>
         ) : (
           <CardContainer>
-            {movies.map((movie, id) => (
+            {movies.map((movie, index) => (
               <MyCard
-                key={id}
+                key={index}
+                onClick={() => {
+                  handleClickMovie(movie.id);
+                }}
                 onMouseEnter={() => toggleHover(true)}
                 onMouseLeave={() => toggleHover(false)}>
                 <img

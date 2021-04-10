@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
@@ -11,7 +11,7 @@ import Tab from "@material-ui/core/Tab";
 import SecurityTwoToneIcon from "@material-ui/icons/SecurityTwoTone";
 import PersonPinIcon from "@material-ui/icons/PersonPin";
 import { useForm } from "react-hook-form";
-import { Snackbar, Box, Avatar } from "@material-ui/core";
+import { Snackbar, Box } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import { HyperContext } from "../Context/context";
 
@@ -197,10 +197,12 @@ export default function Settings() {
             onClose={handleClose}>
             <div className={classes.root}>
               {profileMessage.success === true ? (
+                // eslint-disable-next-line
                 <Alert variant='outlined' severity='info' variant='filled'>
                   {profileMessage.message}
                 </Alert>
               ) : (
+                // eslint-disable-next-line
                 <Alert variant='outlined' severity='error' variant='filled'>
                   {profileMessage.error}
                 </Alert>
