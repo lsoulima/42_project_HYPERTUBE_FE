@@ -13,7 +13,8 @@ import Button from "@material-ui/core/Button";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { moviesAction } from "../services/moviesActions";
 import { HyperContext } from "../Context/context";
-import { set } from "js-cookie";
+import Loader from "react-loader-spinner";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 const Container = styled.div`
   margin: 0 20px 20px 20px;
@@ -270,6 +271,7 @@ const FilterCard = styled.div`
 `;
 const MainContainer = styled.div`
   background: ${(props) => props.theme.background};
+  min-height: 100%;
 `;
 const SearchCard = styled.div`
   background: transparent;
@@ -311,6 +313,7 @@ export default function Library() {
   const [imdb, setImdb] = useState(10);
   const [gapYear, setGapYear] = useState(2021);
   const [genre, setGenre] = useState("");
+  const [isloading, setIsloading] = useState(true);
   const toggleHover = (value) => setHovered(value);
   // eslint-disable-next-line
   // const [search, setSearchRes] = useState([]);
@@ -336,6 +339,8 @@ export default function Library() {
 
   const handleChangeRadio = (event) => {
     setRadioValue(event.target.value);
+    setIsloading(true);
+
     setMovies([]);
     setPage(1);
     fetchSortedMovies(page, event.target.value);
@@ -344,20 +349,23 @@ export default function Library() {
   const fetchMovies = async (page, sort, filter) => {
     const res = await moviesAction(state.token, page, sort, filter);
 
-    // if (res?.success === false) {
-    //   // Print error ( res.error )
-    // } else {
-    setMovies([...movies, ...res]);
-
+    if (res) {
+      setMovies([...movies, ...res]);
+      setTimeout(() => {
+        setIsloading(false);
+      }, 6000);
+    }
     // }
   };
   const fetchSortedMovies = async (page, sort, filter) => {
     const res = await moviesAction(state.token, page, sort, filter);
 
-    // if (res?.success === false) {
-    //   // Print error ( res.error )
-    // } else {
-    setMovies(res);
+    if (res) {
+      setMovies(res);
+      setTimeout(() => {
+        setIsloading(false);
+      }, 6000);
+    }
 
     // }
   };
@@ -508,64 +516,87 @@ export default function Library() {
         dataLength={movies.length} //This is important field to render the next data
         next={() => setPage(page + 1)}
         hasMore={true}>
-        <CardContainer>
-          {movies.map((movie, id) => (
-            <MyCard
-              key={id}
-              onMouseEnter={() => toggleHover(true)}
-              onMouseLeave={() => toggleHover(false)}>
-              <img
-                src={movie?.large_cover_image} //poster_big}
-                width='100%'
-                height='100%'
-                alt='cover'
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src = "https://t.ly/teEM";
-                }}
-              />
-              {movie.isWatched ? (
-                <div className='eye '>
-                  <i className='las la-eye'></i>
-                </div>
-              ) : (
-                ""
-              )}
-
-              <div className='backHover'>
-                <div className='imdbPlace'>
-                  <h6>{movie.rating}</h6>
-                </div>
-                <div className='watch'>
-                  <div
-                    className={
-                      hovered
-                        ? "watchBtn animate__animated  animate__backInDown animate__faster"
-                        : "watchBtn"
-                    }>
-                    Watch
+        {isloading ? (
+          <div
+            style={{
+              // background: "white",
+              padding: "10px 10px 10px 100px",
+              borderRadius: "15px",
+              height: "100vh",
+              display: "flex",
+              justifyContent: "center",
+              alignContent: "center",
+              marginTop: "100px",
+              marginLeft: "15px",
+              marginRight: "15px",
+            }}>
+            <Loader
+              type='Grid'
+              color='red'
+              height={200}
+              width={200}
+              timeout={6000}
+            />
+          </div>
+        ) : (
+          <CardContainer>
+            {movies.map((movie, id) => (
+              <MyCard
+                key={id}
+                onMouseEnter={() => toggleHover(true)}
+                onMouseLeave={() => toggleHover(false)}>
+                <img
+                  src={movie?.large_cover_image} //poster_big}
+                  width='100%'
+                  height='100%'
+                  alt='cover'
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = "https://t.ly/teEM";
+                  }}
+                />
+                {movie.isWatched ? (
+                  <div className='eye '>
+                    <i className='las la-eye'></i>
                   </div>
-                  <div
-                    className={
-                      hovered
-                        ? "test1 animate__animated  animate__backInLeft animate__faster"
-                        : "test1"
-                    }></div>
-                  <div
-                    className={
-                      hovered
-                        ? "test2 animate__animated  animate__backInRight animate__faster"
-                        : "test2"
-                    }></div>
+                ) : (
+                  ""
+                )}
+                <div className='backHover'>
+                  <div className='imdbPlace'>
+                    <h6>{movie.rating}</h6>
+                  </div>
+                  <div className='watch'>
+                    <div
+                      className={
+                        hovered
+                          ? "watchBtn animate__animated  animate__backInDown animate__faster"
+                          : "watchBtn"
+                      }>
+                      Watch
+                    </div>
+                    <div
+                      className={
+                        hovered
+                          ? "test1 animate__animated  animate__backInLeft animate__faster"
+                          : "test1"
+                      }></div>
+                    <div
+                      className={
+                        hovered
+                          ? "test2 animate__animated  animate__backInRight animate__faster"
+                          : "test2"
+                      }></div>
+                  </div>
+                  <div className='mvName'>
+                    <h4>{movie.title}</h4>
+                    <h6>{movie.year}</h6>
+                  </div>
                 </div>
-                <div className='mvName'>
-                  <h4>{movie.title}</h4>
-                  <h6>{movie.year}</h6>
-                </div>
-              </div>
-            </MyCard>
-          ))}
-        </CardContainer>
+              </MyCard>
+            ))}
+          </CardContainer>
+        )}
       </InfiniteScroll>
     </MainContainer>
   );
