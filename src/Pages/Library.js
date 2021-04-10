@@ -1,19 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
-import Typography from "@material-ui/core/Typography";
-import Slider from "@material-ui/core/Slider";
-import InputLabel from "@material-ui/core/InputLabel";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-import Button from "@material-ui/core/Button";
+import { Grid, Radio, RadioGroup, FormControlLabel, FormControl, Typography, Slider, InputLabel, Select, MenuItem, Button } from "@material-ui/core";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { moviesAction } from "../services/moviesActions";
 import { HyperContext } from "../Context/context";
-import { set } from "js-cookie";
 
 const Container = styled.div`
   margin: 0 20px 20px 20px;
@@ -224,6 +214,7 @@ const MyCard = styled.div`
 `;
 
 const FormControlMdf = styled(FormControl)`
+  width: 150px;
   .MuiFormLabel-root.Mui-focused {
     color: ${(props) => props.theme.text};
   }
@@ -303,14 +294,17 @@ const SearchCard = styled.div`
 export default function Library() {
   const { state } = useContext(HyperContext);
   const [movies, setMovies] = useState([]);
-  const [searching, setSearching] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
   const [page, setPage] = useState(1);
   const [radioValue, setRadioValue] = useState("like_count");
+  const [searching, setSearching] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [ filter, setFilter ] = useState({
+    rating: [0, 10],
+    year: [1950, 2021],
+    title: "",
+    genre: ""
+  })
   const [hovered, setHovered] = useState(false);
-  const [imdb, setImdb] = useState(10);
-  const [gapYear, setGapYear] = useState(2021);
-  const [genre, setGenre] = useState("");
   const toggleHover = (value) => setHovered(value);
   // eslint-disable-next-line
   // const [search, setSearchRes] = useState([]);
@@ -330,9 +324,9 @@ export default function Library() {
   // const handleGapYearChange = (event, newValue) => {
   //   setGapYear(newValue);
   // };
-  // const handleGenreChange = (event) => {
-  //   setGenre(event.target.value);
-  // };
+  const handleGenreChange = (event) => {
+    setFilter({ ...filter, genre: event.target.value });
+  };
 
   const handleChangeRadio = (event) => {
     setRadioValue(event.target.value);
@@ -433,50 +427,46 @@ export default function Library() {
             </RadioGroup>
           </FormControl>
         </FilterCard>
-        {/* <div className='filter_card'>
-          <div className='filter_row'>
-            <div className='firstDiv'>
-              <Typography id='range-slider' gutterBottom>
-                Imdb Rating
+        <div className='filter_card' style={{padding: "60px"}}>
+          <Grid container spacing={4}>
+            <Grid item xs={6}>
+              <Typography id='range-slider' gutterBottom style={{color: "#fff"}}>
+                Rating
               </Typography>
               <MySlider
-                value={imdb}
-                onChange={handleImdbChange}
-                aria-labelledby='continuous-slider'
+                value={filter.rating}
                 valueLabelDisplay='auto'
-                // step={1}
-                // marks
-                min={0}
-                max={10}
+                aria-labelledby="range-slider"
+                min={ 0}
+                max={ 10}
+                // onChange={handleImdbChange}
               />
-            </div>
-            <div className='secondDiv'>
-              <Typography id='range-slider' gutterBottom>
-                Gape of prod year
+            </Grid>
+            <Grid item xs={6}>
+              <Typography id='range-slider' gutterBottom style={{color: "#fff"}}>
+                Production year
               </Typography>
               <MySlider
-                value={gapYear}
-                onChange={handleGapYearChange}
-                aria-labelledby='continuous-slider'
+                value={filter.year}
                 valueLabelDisplay='auto'
-                // step={1}
-                // marks
-                min={1970}
+                aria-labelledby="range-slider"
+                min={1950}
                 max={2021}
+                // onChange={handleGapYearChange}
               />
-            </div>
-            <div className='filterByName'>
-              <form onSubmit={handleOnSubmit}>
-                <input
-                  className='filter'
-                  type='search'
-                  placeholder='Enter Name ...'
-                  value={searchTerm}
-                  onChange={handleOnChange}
-                />
-              </form>
-            </div>
-            <div className='genre'>
+            </Grid>
+            <Grid item xs={6}>
+              <div className='filterByName'>
+                  <input
+                    className='filter'
+                    type='search'
+                    placeholder='Enter Name ...'
+                    value={filter.title}
+                    // onChange={handleOnChange}
+                  />
+              </div>
+            </Grid>
+            <Grid item xs={6}>
               <FormControlMdf>
                 <InputLabel id='demo-simple-select-helper-label'>
                   Genre
@@ -484,25 +474,32 @@ export default function Library() {
                 <Select
                   labelId='demo-simple-select-helper-label'
                   id='demo-simple-select-helper'
-                  value={genre}
-                  onChange={handleGenreChange}>
-                  <MenuItem value=''>Romantic</MenuItem>
-                  <MenuItem value={10}>Comedy</MenuItem>
-                  <MenuItem value={20}>Drama</MenuItem>
-                  <MenuItem value={30}>Horror</MenuItem>
+                  value={filter.genre}
+                  onChange={handleGenreChange}
+                  >
+                  <MenuItem value="Romantic">Romantic</MenuItem>
+                  <MenuItem value="Comedy">Comedy</MenuItem>
+                  <MenuItem value="Drama">Drama</MenuItem>
+                  <MenuItem value="Horror">Horror</MenuItem>
+                  <MenuItem value="Action">Action</MenuItem>
+                  <MenuItem value="Crime">Crime</MenuItem>
                 </Select>
               </FormControlMdf>
-            </div>
-          </div>
+            </Grid>
+            <Grid item xs={12} style={{ textAlign: "center" }}>
+              <Button
+                type='submit'
+                variant='contained'
+                className='submit'
+                color='primary'
+                style={{ width: "150px", padding: "10px", fontSize: "16px" }}
+                >
+                Filter
+              </Button>
+            </Grid>
+          </Grid>
 
-          <Button
-            type='submit'
-            variant='contained'
-            className='submit'
-            color='primary'>
-            Filter
-          </Button>
-        </div> */}
+        </div>
       </Container>
       <InfiniteScroll
         dataLength={movies.length} //This is important field to render the next data
