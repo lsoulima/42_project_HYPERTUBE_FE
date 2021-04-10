@@ -13,6 +13,7 @@ import Button from "@material-ui/core/Button";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { moviesAction } from "../services/moviesActions";
 import { HyperContext } from "../Context/context";
+import { set } from "js-cookie";
 
 const Container = styled.div`
   margin: 0 20px 20px 20px;
@@ -302,7 +303,6 @@ const SearchCard = styled.div`
 export default function Library() {
   const { state } = useContext(HyperContext);
   const [movies, setMovies] = useState([]);
-  const [newMovies, setNewMovies] = useState("");
   const [searching, setSearching] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [page, setPage] = useState(1);
@@ -336,18 +336,30 @@ export default function Library() {
 
   const handleChangeRadio = (event) => {
     setRadioValue(event.target.value);
-    // setMovies([]);
-    // fetchMovies(page, event.target.value);
+    setMovies([]);
+    setPage(1);
+    fetchSortedMovies(page, event.target.value);
   };
 
   const fetchMovies = async (page, sort, filter) => {
     const res = await moviesAction(state.token, page, sort, filter);
 
-    if (res?.success === false) {
-      // Print error ( res.error )
-    } else {
-      setMovies(res);
-    }
+    // if (res?.success === false) {
+    //   // Print error ( res.error )
+    // } else {
+    setMovies([...movies, ...res]);
+
+    // }
+  };
+  const fetchSortedMovies = async (page, sort, filter) => {
+    const res = await moviesAction(state.token, page, sort, filter);
+
+    // if (res?.success === false) {
+    //   // Print error ( res.error )
+    // } else {
+    setMovies(res);
+
+    // }
   };
 
   useEffect(() => {
