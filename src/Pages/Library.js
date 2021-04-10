@@ -338,7 +338,7 @@ export default function Library() {
     setIsloading(true);
     setMovies([]);
     setPage(1);
-    fetchMoviesWithSortFilter(page, radioValue, filter);
+    fetchMoviesWithSortFilterSearch(page, radioValue, filter, searchTerm);
   };
 
   //  *SORT Handle
@@ -348,11 +348,11 @@ export default function Library() {
     setIsloading(true);
     setMovies([]);
     setPage(1);
-    fetchMoviesWithSortFilter(page, event.target.value);
+    fetchMoviesWithSortFilterSearch(page, event.target.value, filter, searchTerm);
   };
 
-  const fetchMovies = async (page, sort, filter) => {
-    const res = await moviesAction(state.token, page, sort, filter);
+  const fetchMovies = async (page, sort, filter, search) => {
+    const res = await moviesAction(state.token, page, sort, filter, search);
 
     if (res) {
       setMovies([...movies, ...res]);
@@ -361,8 +361,8 @@ export default function Library() {
       }, 1500);
     }
   };
-  const fetchMoviesWithSortFilter = async (page, sort, filter) => {
-    const res = await moviesAction(state.token, page, sort, filter);
+  const fetchMoviesWithSortFilterSearch = async (page, sort, filter, search) => {
+    const res = await moviesAction(state.token, page, sort, filter, search);
 
     if (res) {
       setMovies(res);
@@ -376,7 +376,9 @@ export default function Library() {
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
-
+    setMovies([]);
+    setPage(1);
+    fetchMoviesWithSortFilterSearch(page, radioValue, filter, searchTerm);
     // const searchMovies = async () => {
     //   //     const res1 = axios.get(API_ONE);
     //   // if (res.data) movies = res.data;
@@ -405,7 +407,7 @@ export default function Library() {
   };
 
   useEffect(() => {
-    fetchMovies(page, radioValue, filter);
+    fetchMovies(page, radioValue, filter, searchTerm);
   }, [page, radioValue]);
 
   return (
