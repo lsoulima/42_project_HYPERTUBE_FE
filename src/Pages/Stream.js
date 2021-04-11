@@ -3,7 +3,6 @@ import styled from "styled-components";
 import ReactPlayer from "react-player";
 import { HyperContext } from "../Context/context";
 import { movieDetailsAction } from "../services/moviesActions";
-// import Notfound from "./Pages/notFound";
 
 const Container = styled.div`
   padding-top: 100px;
@@ -309,6 +308,7 @@ export default function Stream() {
     const rminutes = Math.round(minutes);
     return rhours + " hour(s) " + rminutes + " minute(s).";
   };
+
   useEffect(() => {
     const loadMovieDetails = async () => {
       if (movieID) {
@@ -320,11 +320,8 @@ export default function Stream() {
         }
       } else {
         setError({
-          succes: false,
           error: "No movie id found !",
         });
-
-        console.log("No movie");
       }
     };
     loadMovieDetails();
@@ -341,8 +338,6 @@ export default function Stream() {
                 <h1>{error.error}</h1>
               </div>
             </div>
-            <div className='blur_back bright_back_error'></div>
-            <i className='las la-play-circle play_button' />
           </MyCard>
         </Container>
       ) : (

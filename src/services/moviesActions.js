@@ -27,8 +27,6 @@ export const moviesListAction = async (token, page, sort, filter, search) => {
 //* Movies data Details
 
 export const movieDetailsAction = async (token, movieId) => {
-  console.log(token, movieId);
-
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -37,6 +35,22 @@ export const movieDetailsAction = async (token, movieId) => {
   };
   try {
     const res = await axios.get(API_URL + "/id/" + movieId, config);
+    if (res) return res.data;
+  } catch (error) {
+    return error.response?.data;
+  }
+};
+
+//* Get Movies Suggestions
+export const movieSuggestions = async (token, movieId) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  try {
+    const res = await axios.get(API_URL + "/suggestions/id/" + movieId, config);
     if (res) return res.data;
   } catch (error) {
     return error.response?.data;
