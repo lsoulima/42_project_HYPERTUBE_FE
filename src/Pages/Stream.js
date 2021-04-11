@@ -47,10 +47,10 @@ const MyCard = styled.div`
     transform: scale(1.02);
     transition: all 0.4s;
     height: auto;
-    .movie_desc {
+    /* .movie_desc {
       display: block !important;
       transition: all 0.9s;
-    }
+    } */
   }
   .blur_back {
     position: absolute;
@@ -111,13 +111,13 @@ const MyCard = styled.div`
         margin-left: 10px;
       }
     }
-    .movie_desc {
+    /* .movie_desc {
       display: none;
       width: 100%;
       padding: 25px;
       height: 50%;
       transition: all 0.9s;
-    }
+    } */
   }
   :hover .play_button {
     opacity: 1;
@@ -385,13 +385,13 @@ export default function Stream() {
                   <span className="minutes">117 min</span>
                   <p className="type">Action, Crime, Fantasy</p>
                 </div>
-                <div className="movie_desc">
+                {/* <div className="movie_desc">
                   <p className="text">
                     Set in a world where fantasy creatures live side by side
                     with humans. A human cop is forced to work with an Orc to
                     find a weapon everyone is prepared to kill for.
                   </p>
-                </div>
+                </div> */}
               </div>
               <div className="blur_back bright_back"></div>
               <i className="las la-play-circle play_button" />

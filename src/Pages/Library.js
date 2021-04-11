@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import {
-  Grid,
   Radio,
   RadioGroup,
   FormControlLabel,
@@ -25,59 +24,52 @@ const Container = styled.div`
   display: flex;
   justify-content: space-between;
 
-  .filter_card {
-    flex-basis: 50%;
-    background-color: ${(props) => props.theme.cards};
-    border-radius: 15px;
-    /* height: 290px; */
+  .second_card {
+    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
-
-    .filter_row {
-      height: 100%;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-    }
-    .firstDiv {
-      text-align: center;
-      width: 10%;
-      color: ${(props) => props.theme.text};
-    }
-    .secondDiv {
-      text-align: center;
-      width: 20%;
-      color: ${(props) => props.theme.text};
-    }
-
-    .filterByName {
-      background: transparent;
-      display: flex;
-      justify-content: center;
-      /* width: 20%; */
-
-      .filter {
-        background: ${(props) => props.theme.cards};
-        border: 2px solid ${(props) => props.theme.border};
-        width: 300px;
-        border-radius: 50px;
-        color: ${(props) => props.theme.background};
-        font-family: inherit;
-        font-size: 0.8rem;
-        padding: 0.6rem 1.6rem;
-      }
-    }
+    justify-content: space-evenly;
+    flex-basis: 48%;
+    border-radius: 15px;
+    background-color: ${(props) => props.theme.cards};
     .submit {
-      margin: 25px 0px;
-      background: red;
+      background-color: red;
     }
   }
-  .genre {
+  .second_card__container {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+  }
+  .first_card {
+    padding: 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    flex-basis: 48%;
+    border-radius: 15px;
+    background-color: ${(props) => props.theme.cards};
+    height: 200px;
+    .MuiTypography-root {
+      color: ${(props) => props.theme.text};
+    }
+  }
+  .second_card__container > div {
+    text-align: center;
+    min-width: 100px;
+    color: ${(props) => props.theme.text};
+  }
+  .second_card__container > div:nth-child(2),
+  .second_card__container > div:nth-child(3) {
     .MuiFormControl-root {
-      min-width: 170px;
+      min-width: 100px;
       padding-bottom: 28px;
+    }
+    .MuiInputBase-root {
+      color: ${(props) => props.theme.text};
     }
   }
   .radioContainer {
@@ -87,33 +79,32 @@ const Container = styled.div`
     justify-content: space-around;
     color: ${(props) => props.theme.text};
   }
+
   @media (max-width: 768px) {
     flex-direction: column;
-    height: 300px;
-    .sort_card,
-    .filter_card {
-      margin-bottom: 200px;
-    }
-    div#loader {
-      margin-top: 200px;
+    .first_card,
+    .second_card {
+      margin-bottom: 20px;
     }
   }
-  @media (max-width: 425px) {
+
+  @media (max-width: 480px) {
+    .second_card__container {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  @media (max-width: 480px) {
     & {
       justify-content: center;
-      .first_card div:first-of-type {
-        width: auto !important;
-      }
-      .second_card div:first-of-type {
+      .second_card__container div {
         text-align: center;
         width: 90% !important;
-      }
-      .second_card {
-        flex-direction: column;
       }
     }
     .radioContainer {
       flex-direction: column;
+      align-items: center;
     }
   }
 `;
@@ -230,9 +221,8 @@ const MyCard = styled.div`
 `;
 
 const FormControlMdf = styled(FormControl)`
-  width: 150px;
   .MuiFormLabel-root.Mui-focused {
-    color: ${(props) => props.theme.text};
+    color: red; //${(props) => props.theme.text};
   }
   .MuiInput-underline:after {
     border: 1px solid #333;
@@ -241,6 +231,9 @@ const FormControlMdf = styled(FormControl)`
     border-bottom: 2px solid #333;
   }
   .MuiFormLabel-root {
+    color: red; //${(props) => props.theme.text};
+  }
+  .MuiSelect-icon {
     color: ${(props) => props.theme.text};
   }
 `;
@@ -253,35 +246,21 @@ const CardContainer = styled.div`
   margin: 0 auto;
   @media (max-width: 768px) {
     max-width: 100%;
-    margin-top: 200px;
   }
 `;
-
 const FilterCard = styled.div`
   .MuiRadio-colorSecondary.Mui-checked {
     color: red;
   }
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
-  flex-basis: 48%;
-  border-radius: 15px;
-  background-color: ${(props) => props.theme.cards};
-  height: 150px;
 `;
-
 const MainContainer = styled.div`
   background: ${(props) => props.theme.background};
-  min-height: 100%;
 `;
-
 const SearchCard = styled.div`
   background: transparent;
   display: flex;
   padding-top: 40px;
   justify-content: center;
-
   .search {
     background: ${(props) => props.theme.cards};
     border: 2px solid ${(props) => props.theme.border};
@@ -291,7 +270,6 @@ const SearchCard = styled.div`
     font-family: inherit;
     font-size: 1.2rem;
     padding: 0.6rem 1.6rem;
-
     @media (max-width: 768px) {
       width: auto;
       font-size: 0.8rem;
@@ -310,7 +288,7 @@ export default function Library() {
   const [movies, setMovies] = useState([]);
   const [page, setPage] = useState(1);
   const [radioValue, setRadioValue] = useState("like_count");
-  const [searching, setSearching] = useState(false);
+  // const [searching, setSearching] = useState(false);
   const [isloading, setIsloading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState({
@@ -320,7 +298,6 @@ export default function Library() {
   });
   const [hovered, setHovered] = useState(false);
   const toggleHover = (value) => setHovered(value);
-  // eslint-disable-next-line
 
   // *FILTER HANDLERS
 
@@ -348,7 +325,12 @@ export default function Library() {
     setIsloading(true);
     setMovies([]);
     setPage(1);
-    fetchMoviesWithSortFilterSearch(page, event.target.value, filter, searchTerm);
+    fetchMoviesWithSortFilterSearch(
+      page,
+      event.target.value,
+      filter,
+      searchTerm
+    );
   };
 
   const fetchMovies = async (page, sort, filter, search) => {
@@ -361,7 +343,12 @@ export default function Library() {
       }, 1500);
     }
   };
-  const fetchMoviesWithSortFilterSearch = async (page, sort, filter, search) => {
+  const fetchMoviesWithSortFilterSearch = async (
+    page,
+    sort,
+    filter,
+    search
+  ) => {
     const res = await moviesAction(state.token, page, sort, filter, search);
 
     if (res) {
@@ -375,34 +362,15 @@ export default function Library() {
   // *SEARCH HANDLE
 
   const handleOnSubmit = (e) => {
+    setIsloading(true);
     e.preventDefault();
     setMovies([]);
     setPage(1);
     fetchMoviesWithSortFilterSearch(page, radioValue, filter, searchTerm);
-    // const searchMovies = async () => {
-    //   //     const res1 = axios.get(API_ONE);
-    //   // if (res.data) movies = res.data;
-    //   // else {
-    //   //   const res2 = axios.get(API_TWO);
-    //   //   res.data.forEach((e) => {
-    //   //     movies.push({
-    //   //       id: e.hash,
-    //   //       img: e.pic,
-    //   //     });
-    //   //   });
-    //   // }
-    //   const res = await axios.get(API_SEARCH);
-    //   let searchData =
-    //     res.data.data.movie_count === 0 ? [] : res.data.data.movies;
-    //   setmovies(searchData);
-    //   console.log("resultat de la recherche ", searchData);
-    // };
-    // searchMovies();
-    // setSearchTerm("");
   };
 
   const handleOnChange = (e) => {
-    setSearching(true);
+    // setSearching(true);
     setSearchTerm(e.target.value);
   };
 
@@ -415,132 +383,131 @@ export default function Library() {
       <SearchCard>
         <form onSubmit={handleOnSubmit}>
           <input
-            className='search'
-            type='search'
-            placeholder='Search ...'
+            className="search"
+            type="search"
+            placeholder="Search ..."
             value={searchTerm}
             onChange={handleOnChange}
           />
         </form>
       </SearchCard>
       <Container>
-        <FilterCard>
-          <Typography gutterBottom style={{ color: "#fff" }}>
-            Sort by :
-          </Typography>
-          <FormControl error component='fieldset' style={{ width: "100%" }}>
-            <RadioGroup
-              value={radioValue}
-              onChange={(e) => handleChangeRadio(e)}
-              className='radioContainer'>
-              <FormControlLabel
-                value='like_count'
-                control={<Radio />}
-                label='Rating'
-              />
-              <FormControlLabel value='year' control={<Radio />} label='Year' />
-              <FormControlLabel
-                value='title'
-                control={<Radio />}
-                label='Title'
-              />
-            </RadioGroup>
-          </FormControl>
-        </FilterCard>
-        <div className='filter_card' style={{ padding: "30px" }}>
-          <Grid container spacing={4}>
-            <Grid item xs={4}>
-              <Typography
-                id='range-slider'
-                gutterBottom
-                style={{ color: "#fff" }}>
-                Rating
-              </Typography>
+        <div className="first_card">
+          <Typography>Sort by :</Typography>
+          <FilterCard style={{ width: "100%" }}>
+            <FormControl error component="fieldset" style={{ width: "100%" }}>
+              <RadioGroup
+                value={radioValue}
+                onChange={(e) => handleChangeRadio(e)}
+                className="radioContainer"
+              >
+                <FormControlLabel
+                  value="like_count"
+                  control={<Radio />}
+                  label="Popularity"
+                />
+                <FormControlLabel
+                  value="year"
+                  control={<Radio />}
+                  label="Year"
+                />
+                <FormControlLabel
+                  value="title"
+                  control={<Radio />}
+                  label="Title"
+                />
+              </RadioGroup>
+            </FormControl>
+          </FilterCard>
+        </div>
+        <div className="second_card">
+          <div className="second_card__container">
+            <div>
+              <Typography id="range-slider">Rating</Typography>
               <MySlider
                 value={filter.rating}
-                valueLabelDisplay='auto'
-                aria-labelledby='range-slider'
+                valueLabelDisplay="auto"
+                aria-labelledby="range-slider"
                 onChange={handleReatingChange}
                 max={9}
               />
-            </Grid>
-            <Grid item xs={4}>
+            </div>
+            <div>
               <FormControlMdf>
-                <InputLabel id='demo-simple-select-helper-label'>
-                  Quality
-                </InputLabel>
-                <Select
-                  labelId='demo-simple-select-helper-label'
-                  id='demo-simple-select-helper'
-                  value={filter.quality}
-                  onChange={handleQualityChange}>
-                  <MenuItem value='720p'>720p</MenuItem>
-                  <MenuItem value='1080p'>1080p</MenuItem>
-                  <MenuItem value='2160p'>2160p</MenuItem>
-                  <MenuItem value='3D'>3D</MenuItem>
-                </Select>
-              </FormControlMdf>
-            </Grid>
-            <Grid item xs={4}>
-              <FormControlMdf>
-                <InputLabel id='demo-simple-select-helper-label'>
+                <InputLabel id="demo-simple-select-helper-label">
                   Genre
                 </InputLabel>
                 <Select
-                  labelId='demo-simple-select-helper-label'
-                  id='demo-simple-select-helper'
+                  labelId="demo-simple-select-helper-label"
+                  id="demo-simple-select-helper"
                   value={filter.genre}
-                  onChange={handleGenreChange}>
-                  <MenuItem value='Action'>Action</MenuItem>
-                  <MenuItem value='Drama'>Drama</MenuItem>
-                  <MenuItem value='Horror'>Horror</MenuItem>
-                  <MenuItem value='Comedy'>Comedy</MenuItem>
-                  <MenuItem value='Crime'>Crime</MenuItem>
-                  <MenuItem value='Adventure'>Adventure</MenuItem>
-                  <MenuItem value='Biography'>Biography</MenuItem>
-                  <MenuItem value='Documentary'>Documentary</MenuItem>
-                  <MenuItem value='Family'>Family</MenuItem>
+                  onChange={handleGenreChange}
+                >
+                  <MenuItem value="Action">Action</MenuItem>
+                  <MenuItem value="Drama">Drama</MenuItem>
+                  <MenuItem value="Horror">Horror</MenuItem>
+                  <MenuItem value="Comedy">Comedy</MenuItem>
+                  <MenuItem value="Crime">Crime</MenuItem>
+                  <MenuItem value="Adventure">Adventure</MenuItem>
+                  <MenuItem value="Biography">Biography</MenuItem>
+                  <MenuItem value="Documentary">Documentary</MenuItem>
+                  <MenuItem value="Family">Family</MenuItem>
                 </Select>
               </FormControlMdf>
-            </Grid>
-            <Grid item xs={12} style={{ textAlign: "center" }}>
-              <Button
-                type='submit'
-                variant='contained'
-                className='submit'
-                color='primary'
-                style={{ width: "150px", padding: "10px", fontSize: "16px" }}
-                onClick={handleSubmitFilter}>
-                Filter
-              </Button>
-            </Grid>
-          </Grid>
+            </div>
+            <div>
+              <FormControlMdf>
+                <InputLabel id="demo-simple-select-helper-label">
+                  Quality
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-helper-label"
+                  id="demo-simple-select-helper"
+                  value={filter.quality}
+                  onChange={handleQualityChange}
+                >
+                  <MenuItem value="720p">720p</MenuItem>
+                  <MenuItem value="1080p">1080p</MenuItem>
+                  <MenuItem value="2160p">2160p</MenuItem>
+                  <MenuItem value="3D">3D</MenuItem>
+                </Select>
+              </FormControlMdf>
+            </div>
+          </div>
+          <Button
+            type="submit"
+            variant="contained"
+            className="submit"
+            color="primary"
+            // style={{ width: "150px", padding: "10px", fontSize: "16px" }}
+            onClick={handleSubmitFilter}
+          >
+            Filter
+          </Button>
         </div>
       </Container>
       <InfiniteScroll
         dataLength={movies.length} //This is important field to render the next data
         next={() => setPage(page + 1)}
-        hasMore={true}>
+        hasMore={true}
+      >
         {isloading ? (
           <div
-            id='loader'
+            id="loader"
             style={{
-              // background: "white",
-              padding: "10px 10px 10px 100px",
+              padding: "100px",
               borderRadius: "15px",
               height: "100vh",
               display: "flex",
               justifyContent: "center",
               alignContent: "center",
-              marginTop: "100px",
-              marginLeft: "15px",
-              marginRight: "15px",
-            }}>
+            }}
+          >
             <Loader
-              type='Grid'
-              color='red'
-              height={200}
-              width={200}
+              type="Grid"
+              color="red"
+              height={150}
+              width={150}
               timeout={1500}
             />
           </div>
@@ -550,35 +517,38 @@ export default function Library() {
               <MyCard
                 key={id}
                 onMouseEnter={() => toggleHover(true)}
-                onMouseLeave={() => toggleHover(false)}>
+                onMouseLeave={() => toggleHover(false)}
+              >
                 <img
                   src={movie?.large_cover_image} //poster_big}
-                  width='100%'
-                  height='100%'
-                  alt='cover'
+                  width="100%"
+                  height="100%"
+                  alt="cover"
                   onError={(e) => {
                     e.target.onerror = null;
                     e.target.src = "https://t.ly/teEM";
                   }}
                 />
                 {movie.isWatched ? (
-                  <div className='eye '>
-                    <i className='las la-eye'></i>
+                  <div className="eye ">
+                    <i className="las la-eye"></i>
                   </div>
                 ) : (
                   ""
                 )}
-                <div className='backHover'>
-                  <div className='imdbPlace'>
+
+                <div className="backHover">
+                  <div className="imdbPlace">
                     <h6>{movie.rating}</h6>
                   </div>
-                  <div className='watch'>
+                  <div className="watch">
                     <div
                       className={
                         hovered
                           ? "watchBtn animate__animated  animate__backInDown animate__faster"
                           : "watchBtn"
-                      }>
+                      }
+                    >
                       Watch
                     </div>
                     <div
@@ -586,15 +556,17 @@ export default function Library() {
                         hovered
                           ? "test1 animate__animated  animate__backInLeft animate__faster"
                           : "test1"
-                      }></div>
+                      }
+                    ></div>
                     <div
                       className={
                         hovered
                           ? "test2 animate__animated  animate__backInRight animate__faster"
                           : "test2"
-                      }></div>
+                      }
+                    ></div>
                   </div>
-                  <div className='mvName'>
+                  <div className="mvName">
                     <h4>{movie.title}</h4>
                     <h6>{movie.year}</h6>
                   </div>

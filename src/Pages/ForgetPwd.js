@@ -48,13 +48,13 @@ const Wrapper = styled.div`
 
     /* Set up proportionate scaling */
     width: 100%;
-    height: 100%;
+    height: fit-content;
     @media (max-width: 768px) {
       height: auto;
     }
   }
   .container {
-    padding-top: 100px;
+    padding: 300px 0;
     height: 100%;
     min-height: 100%;
     width: 100%;
@@ -101,48 +101,51 @@ export default function ForgetPwd() {
   };
   return (
     <Wrapper>
-      <div className='container'>
-        <Container component='main' maxWidth='xs'>
-          <div className='paper'>
+      <div className="container">
+        <Container component="main" maxWidth="xs">
+          <div className="paper">
             <Typography
-              component='h1'
-              variant='h5'
+              component="h1"
+              variant="h5"
               style={{
                 alignSelf: "start",
                 fontSize: "30px",
                 fontWeight: 600,
                 color: "#fff",
                 marginBottom: "20px",
-              }}>
+              }}
+            >
               Reset Password
             </Typography>
             <Snackbar
               anchorOrigin={{ vertical: "top", horizontal: "center" }}
               open={open}
               autoHideDuration={6000}
-              onClose={handleClose}>
+              onClose={handleClose}
+            >
               {message.success === true ? (
                 <Alert
                   onClose={handleClose}
-                  severity='success'
-                  variant='filled'>
+                  severity="success"
+                  variant="filled"
+                >
                   {message.message}
                 </Alert>
               ) : (
-                <Alert onClose={handleClose} severity='error' variant='filled'>
+                <Alert onClose={handleClose} severity="error" variant="filled">
                   {message.error}
                 </Alert>
               )}
             </Snackbar>
-            <form className='form' onSubmit={handleSubmit(onSubmit)}>
+            <form className="form" onSubmit={handleSubmit(onSubmit)}>
               <WhiteBorderTextField
-                variant='outlined'
-                margin='normal'
+                variant="outlined"
+                margin="normal"
                 fullWidth
-                id='email'
-                label='Email Address'
-                name='email'
-                autoComplete='email'
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
                 autoFocus
                 inputRef={register({
                   required:
@@ -150,16 +153,17 @@ export default function ForgetPwd() {
                 })}
               />
               {errors.email && (
-                <Box variant='filled' color='red' style={{ fontSize: "12px" }}>
+                <Box variant="filled" color="red" style={{ fontSize: "12px" }}>
                   {errors.email.message}
                 </Box>
               )}
               <Button
-                type='submit'
+                type="submit"
                 fullWidth
-                variant='contained'
-                color='primary'
-                className='submit'>
+                variant="contained"
+                color="primary"
+                className="submit"
+              >
                 Reset Password
               </Button>
             </form>

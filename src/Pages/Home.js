@@ -4,15 +4,16 @@ import { useHistory } from "react-router-dom";
 import Link from "@material-ui/core/Link";
 
 const Container = styled.div`
-  height: 100%;
+  height: fit-content;
   background: url("./img/net.jpg") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
   .container-tran {
-    height: 100%;
+    height: fit-content;
     width: 100%;
+    padding: 300px 0;
     background: rgba(51, 51, 51, 0.5);
   }
   h1 {
@@ -28,7 +29,7 @@ const Container = styled.div`
     margin-bottom: 20px;
   }
   .website-desc {
-    height: 100%;
+    height: fit-content;
     width: 100%;
     display: flex;
     align-items: center;
@@ -50,7 +51,7 @@ const Container = styled.div`
       flex-basis: 70%;
     }
     div:last-of-type {
-      flex-basis: 30%;
+      flex-basis: 35%;
     }
     input {
       width: 100%;
@@ -126,10 +127,10 @@ export default function Home() {
   audio.play();
   return (
     <Container>
-      <div className='container-tran'>
-        <div className='website-desc'>
+      <div className="container-tran">
+        <div className="website-desc">
           <div>
-            <h1 className='animate__animated animate__backInDown'>
+            <h1 className="animate__animated animate__backInDown">
               Unlimited movies, TV shows, and more.
             </h1>
             <h3>Watch anywhere. Cancel anytime.</h3>
@@ -138,7 +139,7 @@ export default function Home() {
               membership.
             </h3>
           </div>
-          <div className='input-home animate__animated animate__backInUp'>
+          <div className="input-home animate__animated animate__backInUp">
             {/* <div>
               <input type="email" placeholder="Email address" />
             </div> */}
@@ -146,9 +147,10 @@ export default function Home() {
               <Link
                 onClick={() => {
                   history.push("/register");
-                }}>
+                }}
+              >
                 <button>
-                  Get Started <i className='las la-angle-right'></i>
+                  Get Started <i className="las la-angle-right"></i>
                 </button>
               </Link>
             </div>

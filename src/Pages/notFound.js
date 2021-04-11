@@ -15,13 +15,13 @@ const Wrapper = styled.div`
 
     /* Set up proportionate scaling */
     width: 100%;
-    height: 100%;
+    height: fit-content;
     @media (max-width: 768px) {
       height: auto;
     }
   }
   .container {
-    padding-top: 100px;
+    padding: 300px 0;
     height: 100%;
     min-height: 100%;
     width: 100%;
@@ -51,28 +51,30 @@ const Wrapper = styled.div`
 export default function Notfound() {
   return (
     <Wrapper>
-      <div className='container'>
-        <Container component='main' maxWidth='xs'>
-          <div className='paper'>
+      <div className="container">
+        <Container component="main" maxWidth="xs">
+          <div className="paper">
             <Typography
-              component='h1'
-              variant='h5'
+              component="h1"
+              variant="h5"
               style={{
                 alignSelf: "start",
                 fontSize: "40px",
                 fontWeight: 600,
                 color: "#fff",
-              }}>
+              }}
+            >
               Sorry This Page Not Found 404 ...
             </Typography>
 
-            <form className='form'>
+            <form className="form">
               <Button
-                href='/home'
+                href="/home"
                 fullWidth
-                variant='contained'
-                color='primary'
-                className='submit'>
+                variant="contained"
+                color="primary"
+                className="submit"
+              >
                 back Home
               </Button>
             </form>
