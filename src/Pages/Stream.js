@@ -6,6 +6,13 @@ import {
   movieDetailsAction,
   movieSuggestions,
 } from "../services/moviesActions";
+import TextField from "@material-ui/core/TextField";
+import Alert from "@material-ui/lab/Alert";
+import { Snackbar, Box } from "@material-ui/core";
+import { Avatar, Grid, Paper } from "@material-ui/core";
+
+const pic =
+  "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260";
 
 const Container = styled.div`
   padding-top: 100px;
@@ -13,6 +20,7 @@ const Container = styled.div`
   flex-direction: column;
   flex-wrap: wrap;
   justify-content: space-between;
+  align-items: center;
   max-width: 90%;
   margin: 0 auto;
   .suggestions_like {
@@ -29,13 +37,80 @@ const Container = styled.div`
 `;
 const MyVideo = styled.div`
   height: 700px;
-  width: 100%;
+  width: 90%;
+  @media (max-width: 1440px) {
+    width: 100%;
+  }
+  @media (min-width: 2000px) {
+    width: 60%;
+  }
 `;
 const Suggestions = styled.div`
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
 `;
+
+const CommentSection = styled.div`
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  padding-top: 40px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  .title {
+    margin: 0;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 64px;
+    letter-spacing: -1px;
+    color: ${(props) => props.theme.text};
+    margin-top: 50px;
+    text-align: center;
+    position: relative;
+  }
+  .input_area {
+    width: 90%;
+    text-align: center;
+  }
+  .comment_input {
+    width: 90%;
+    height: 100px;
+    color: ${(props) => props.theme.background};
+    background: ${(props) => props.theme.cards};
+    border: 2px solid ${(props) => props.theme.border};
+    border-radius: 15px;
+    font-family: inherit;
+    font-size: 1.2rem;
+    padding: 0.6rem 1.6rem;
+    @media (max-width: 768px) {
+      /* width: auto; */
+      font-size: 0.8rem;
+    }
+  }
+  .comment_input:focus {
+    outline: none;
+  }
+  input.comment_input {
+    color: ${(props) => props.theme.text};
+  }
+
+  .comments_list {
+    width: 80%;
+    text-align: center;
+
+    .comment_item {
+      padding: 40px 20px;
+      margin: 30px 0;
+      border-radius: 15px;
+      background-color: ${(props) => props.theme.cards};
+      color: ${(props) => props.theme.text};
+      box-shadow: 0px 0px 12px #cdcdcd;
+    }
+  }
+`;
+
 const MyCard = styled.div`
   position: relative;
   display: block;
@@ -378,6 +453,7 @@ export default function Stream() {
               }}
             />
           </MyVideo>
+
           <MovieDetailes>
             <div className='movie_section'>
               <div>
@@ -400,9 +476,9 @@ export default function Stream() {
                     <div>{item}</div>
                   ))}
                 </div>
-              </div>
-              <div className=' divider detail_section_description'>
-                {details.description_intro}
+                <div className=' divider detail_section_description'>
+                  {details.description_intro}
+                </div>
               </div>
             </div>
           </MovieDetailes>
@@ -432,6 +508,39 @@ export default function Stream() {
               </MyCard>
             ))}
           </Suggestions>
+          <CommentSection>
+            <div className='title'>Comments</div>
+            <div className='comments_list'>
+              {[0, 1, 2].map((movie, id) => (
+                <Paper className='comment_item'>
+                  <Grid container wrap='nowrap' spacing={2}>
+                    <Grid item>
+                      <Avatar alt='UserProfile' src={pic} />
+                    </Grid>
+                    <Grid justifyContent='left' item xs zeroMinWidth>
+                      <h3 style={{ margin: 0, textAlign: "left" }}>
+                        User Name
+                      </h3>
+                      <p style={{ textAlign: "left" }}>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                      </p>
+                      <p style={{ textAlign: "left", color: "gray" }}>
+                        posted 1 minute ago
+                      </p>
+                    </Grid>
+                  </Grid>
+                </Paper>
+              ))}
+            </div>
+            <div className='input_area'>
+              <input
+                className='comment_input'
+                type='text'
+                placeholder='Comment ...'
+                // onChange={handleOnChange}
+              />
+            </div>
+          </CommentSection>
         </Container>
       )}
     </MainContainer>
