@@ -25,9 +25,9 @@ const Wrapper = styled.div`
     }
   }
   .container {
-    padding: 300px 0;
+    padding: 100px 0;
     height: 100%;
-    min-height: 100%;
+    min-height: 90vh;
     width: 100%;
     background: rgba(51, 51, 51, 0.5);
   }

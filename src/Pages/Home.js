@@ -12,8 +12,12 @@ const Container = styled.div`
   background-size: cover;
   .container-tran {
     height: fit-content;
+    min-height: 90vh;
     width: 100%;
-    padding: 300px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 100px 0;
     background: rgba(51, 51, 51, 0.5);
   }
   h1 {

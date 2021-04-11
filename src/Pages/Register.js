@@ -59,6 +59,7 @@ const Wrapper = styled.div`
   }
   .container {
     padding: 100px 0;
+    min-height: 90vh;
     height: 100%;
     width: 100%;
     background: rgba(51, 51, 51, 0.5);
