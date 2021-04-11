@@ -11,10 +11,8 @@ import Tab from "@material-ui/core/Tab";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import StarIcon from "@material-ui/icons/Star";
 import PersonPinIcon from "@material-ui/icons/PersonPin";
-import { useForm } from "react-hook-form";
 import { HyperContext } from "../Context/context";
 import { useHistory } from "react-router-dom";
-import { settingsAction, ProfileUpAction } from "../services/profile";
 import WatchedList from "./WatchedList";
 import FavoriteList from "./FavoriteList";
 
@@ -108,7 +106,7 @@ const Wrapper = styled.div`
 `;
 
 export default function Settings() {
-  const { state, userInfos, setUserInfos } = useContext(HyperContext);
+  const { userInfos } = useContext(HyperContext);
   const [tab, setTab] = useState(0);
   let history = useHistory();
 
@@ -120,39 +118,38 @@ export default function Settings() {
     const { children, value, index } = props;
 
     return (
-      <div role="tabpanel" hidden={value !== index}>
-        {value === index && <div className="paper">{children}</div>}
+      <div role='tabpanel' hidden={value !== index}>
+        {value === index && <div className='paper'>{children}</div>}
       </div>
     );
   };
 
   return (
     <Wrapper>
-      <div className="container">
-        <Container component="main" maxWidth="sm">
+      <div className='container'>
+        <Container component='main' maxWidth='sm'>
           <Paper elevation={5}>
             <Tabs
               value={tab}
               onChange={handleChange}
-              variant="fullWidth"
-              indicatorColor="secondary"
-              textcolor="primary"
+              variant='fullWidth'
+              indicatorColor='secondary'
+              textcolor='primary'
               TabIndicatorProps={{ style: { background: "red" } }}
-              style={{ background: "rgb(8, 7, 8)", color: "white" }}
-            >
+              style={{ background: "rgb(8, 7, 8)", color: "white" }}>
               <Tab
                 icon={<PersonPinIcon />}
-                label="Info"
+                label='Info'
                 style={{ padding: "20px 0" }}
               />
               <Tab
                 icon={<VisibilityIcon />}
-                label="Watched"
+                label='Watched'
                 style={{ padding: "20px 0" }}
               />
               <Tab
                 icon={<StarIcon />}
-                label="Favorite"
+                label='Favorite'
                 style={{ padding: "20px 0" }}
               />
             </Tabs>
@@ -160,42 +157,40 @@ export default function Settings() {
 
           <TabPanel value={tab} index={0}>
             <Typography
-              component="h1"
-              variant="h5"
+              component='h1'
+              variant='h5'
               style={{
                 fontSize: "40px",
                 fontWeight: 600,
                 color: "#fff",
-              }}
-            >
+              }}>
               {userInfos.username}
             </Typography>
-            <form className="form">
+            <form className='form'>
               <Grid container spacing={2}>
                 <Grid
                   item
                   xs={12}
-                  style={{ margin: "20px 0 20px 0", textAlign: "center" }}
-                >
-                  <LabelImage type="file">
+                  style={{ margin: "20px 0 20px 0", textAlign: "center" }}>
+                  <LabelImage type='file'>
                     <img
                       src={
                         userInfos.profile
                           ? userInfos.profile
                           : "./img/avatar.jpeg"
                       }
-                      alt="avatar"
+                      alt='avatar'
                     />
                   </LabelImage>
                 </Grid>
 
                 <Grid item xs={12} sm={6}>
                   <WhiteBorderTextField
-                    variant="outlined"
+                    variant='outlined'
                     defaultValue={userInfos.firstname}
-                    margin="normal"
+                    margin='normal'
                     fullWidth
-                    label="First Name"
+                    label='First Name'
                     InputProps={{
                       readOnly: true,
                     }}
@@ -203,26 +198,25 @@ export default function Settings() {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <WhiteBorderTextField
-                    variant="outlined"
-                    margin="normal"
+                    variant='outlined'
+                    margin='normal'
                     defaultValue={userInfos.lastname}
                     fullWidth
-                    label="Last Name"
+                    label='Last Name'
                     InputProps={{
                       readOnly: true,
                     }}
                   />
                 </Grid>
                 <Button
-                  type="submit"
+                  type='submit'
                   fullWidth
-                  variant="contained"
-                  color="primary"
-                  className="submit"
+                  variant='contained'
+                  color='primary'
+                  className='submit'
                   onClick={() => {
                     history.push("/library");
-                  }}
-                >
+                  }}>
                   Browse Movies
                 </Button>
               </Grid>

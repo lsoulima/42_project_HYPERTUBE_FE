@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Carousel from "react-elastic-carousel";
 import axios from "axios";
-import { HyperContext } from "../Context/context";
 
 const MyCard = styled.div`
   cursor: pointer;
@@ -203,9 +202,9 @@ const MessageCard = styled.div`
 `;
 
 const WatchedList = () => {
+  // eslint-disable-next-line
   const [hovered, setHovered] = useState(false);
   const toggleHover = (value) => setHovered(value);
-  const { userInfos } = useContext(HyperContext);
 
   const breakPoints = [
     { width: 1, itemsToShow: 1 },
@@ -232,9 +231,9 @@ const WatchedList = () => {
     <List>
       {movies.length === 0 ? (
         <MessageCard>
-          <div className="info_section">
-            <div className="movie_header">
-              <img className="cover" src="./img/watch.svg" alt="cover" />
+          <div className='info_section'>
+            <div className='movie_header'>
+              <img className='cover' src='./img/watch.svg' alt='cover' />
               <h1>Go watch some movies</h1>
             </div>
           </div>
@@ -244,8 +243,7 @@ const WatchedList = () => {
           autoPlaySpeed={2000}
           breakPoints={breakPoints}
           pagination={false}
-          enableAutoPlay
-        >
+          enableAutoPlay>
           {movies.map((movie, index) => (
             <MyCard
               key={index}
@@ -253,28 +251,27 @@ const WatchedList = () => {
               //   handleClickMovie(movie.id);
               // }}
               onMouseEnter={() => toggleHover(true)}
-              onMouseLeave={() => toggleHover(false)}
-            >
+              onMouseLeave={() => toggleHover(false)}>
               <img
                 src={movie?.poster_big}
-                width="100%"
-                height="100%"
-                alt="cover"
+                width='100%'
+                height='100%'
+                alt='cover'
                 onError={(e) => {
                   e.target.onerror = null;
                   e.target.src = "https://t.ly/teEM";
                 }}
               />
 
-              <div className="eye">
-                <i className="las la-eye  animate__animated animate__wobble animate__infinite"></i>
+              <div className='eye'>
+                <i className='las la-eye  animate__animated animate__wobble animate__infinite'></i>
               </div>
-              <div className="backHover">
-                <div className="imdbPlace">
+              <div className='backHover'>
+                <div className='imdbPlace'>
                   <h6>{movie.rating}</h6>
                 </div>
-                <i className="las la-play-circle play_button" />
-                <div className="mvName">
+                <i className='las la-play-circle play_button' />
+                <div className='mvName'>
                   <h4>{movie.title}</h4>
                   <h6>{movie.year}</h6>
                 </div>
