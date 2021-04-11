@@ -103,6 +103,7 @@ const MyCard = styled.div`
     color: #ffe600;
     font-size: 30px;
   }
+  @media (max-);
 `;
 const List = styled.div`
   width: 80%;
@@ -209,7 +210,7 @@ const FavoriteList = () => {
         `https://api.apiumadomain.com/list?sort=popularity&page=1`
       );
       console.log(res.data.MovieList);
-      setmovies(res.data.MovieList);
+      setmovies([]);
     }
     fetchMovies();
   }, []);
@@ -218,9 +219,9 @@ const FavoriteList = () => {
     <List>
       {movies.length === 0 ? (
         <MessageCard>
-          <div className='info_section'>
-            <div className='movie_header'>
-              <img className='cover' src='./img/favorite.svg' alt='cover' />
+          <div className="info_section">
+            <div className="movie_header">
+              <img className="cover" src="./img/favorite.svg" alt="cover" />
               <h1>Go Like some movies</h1>
             </div>
           </div>
@@ -230,7 +231,8 @@ const FavoriteList = () => {
           autoPlaySpeed={2000}
           breakPoints={breakPoints}
           pagination={false}
-          enableAutoPlay>
+          enableAutoPlay
+        >
           {movies.map((movie, index) => (
             <MyCard
               key={index}
@@ -238,27 +240,28 @@ const FavoriteList = () => {
               //   handleClickMovie(movie.id);
               // }}
               onMouseEnter={() => toggleHover(true)}
-              onMouseLeave={() => toggleHover(false)}>
+              onMouseLeave={() => toggleHover(false)}
+            >
               <img
                 src={movie?.poster_big}
-                width='100%'
-                height='100%'
-                alt='cover'
+                width="100%"
+                height="100%"
+                alt="cover"
                 onError={(e) => {
                   e.target.onerror = null;
                   e.target.src = "https://t.ly/teEM";
                 }}
               />
 
-              <div className='eye'>
-                <i className='las la-star  animate__animated animate__tada animate__infinite'></i>
+              <div className="eye">
+                <i className="las la-star  animate__animated animate__tada animate__infinite"></i>
               </div>
-              <div className='backHover'>
-                <div className='imdbPlace'>
+              <div className="backHover">
+                <div className="imdbPlace">
                   <h6>{movie.rating}</h6>
                 </div>
-                <i className='las la-play-circle play_button' />
-                <div className='mvName'>
+                <i className="las la-play-circle play_button" />
+                <div className="mvName">
                   <h4>{movie.title}</h4>
                   <h6>{movie.year}</h6>
                 </div>
