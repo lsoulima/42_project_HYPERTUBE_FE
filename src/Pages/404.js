@@ -50,28 +50,30 @@ const Wrapper = styled.div`
 export default function Notfound() {
   return (
     <Wrapper>
-      <div className='container'>
-        <Container component='main' maxWidth='xs'>
-          <div className='paper'>
+      <div className="container">
+        <Container component="main" maxWidth="xs">
+          <div className="paper">
             <Typography
-              component='h1'
-              variant='h5'
+              component="h1"
+              variant="h5"
               style={{
                 alignSelf: "start",
                 fontSize: "40px",
                 fontWeight: 600,
                 color: "#fff",
-              }}>
+              }}
+            >
               Sorry This Page Not Found 404 ...
             </Typography>
 
-            <form className='form'>
+            <form className="form">
               <Button
-                href='/library'
+                href="/library"
                 fullWidth
-                variant='contained'
-                color='primary'
-                className='submit'>
+                variant="contained"
+                color="primary"
+                className="submit"
+              >
                 back Home
               </Button>
             </form>

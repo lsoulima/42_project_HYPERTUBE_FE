@@ -18,7 +18,7 @@ import NewPassword from "./Pages/NewPwd";
 import Verify from "./Pages/Verify";
 import PublicRoute from "./Routing/PublicRoute";
 import PrivateRoute from "./Routing/PrivateRoute";
-import Notfound from "./Pages/NotFound";
+import Notfound from "./Pages/404";
 
 const App = () => {
   const [theme, setTheme] = useState({
