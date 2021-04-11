@@ -18,20 +18,22 @@ export const HyperProvider = ({ children }) => {
   const [authorized, setAuthorized] = useState(true);
   useEffect(() => {
     const getUserData = async () => {
-      const valideToken = await checkTokenAction(state.token);
-      if (valideToken) {
-        const userData = await getUser(state.token);
-        setUserInfos({
-          id: userData._id,
-          firstname: userData.firstname,
-          lastname: userData.lastname,
-          email: userData.email,
-          username: userData.username,
-          profile: userData.profile,
-        });
-      } else if (valideToken === false) {
-        setAuthorized(false);
-        await logout(state.token, dispatch);
+      if (state.token) {
+        const valideToken = await checkTokenAction(state.token);
+        if (valideToken) {
+          const userData = await getUser(state.token);
+          setUserInfos({
+            id: userData._id,
+            firstname: userData.firstname,
+            lastname: userData.lastname,
+            email: userData.email,
+            username: userData.username,
+            profile: userData.profile,
+          });
+        } else if (valideToken === false) {
+          setAuthorized(false);
+          await logout(state.token, dispatch);
+        }
       }
     };
     getUserData();
