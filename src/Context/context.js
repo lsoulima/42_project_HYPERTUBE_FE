@@ -30,9 +30,9 @@ export const HyperProvider = ({ children }) => {
             username: userData.username,
             profile: userData.profile,
           });
-        } else if (valideToken === false) {
-          setAuthorized(false);
+        } else {
           await logout(state.token, dispatch);
+          setAuthorized(false);
         }
       }
     };

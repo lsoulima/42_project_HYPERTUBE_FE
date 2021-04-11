@@ -119,30 +119,29 @@ const Wrapper = styled.div`
 `;
 
 export default function Login() {
-  const { dispatch, authorized } = useContext(HyperContext);
+  const { dispatch } = useContext(HyperContext);
   const [state, setState] = useState({});
-
   const { register, handleSubmit, errors } = useForm();
   const [open, setOpen] = useState(false);
   const handleClose = (reason) => {
     if (reason === "clickaway") {
       return;
     }
-
     setOpen(false);
   };
+
+  //* OAUTH ERROR
   const oauthError = window.location.search
     ?.split("=")[1]
     ?.split("-")
     .join(" ");
   let history = useHistory();
+
+  //* SUBMIT DATA TO LOGIN
   const onSubmit = async (data) => {
     const responce = await loginAction(data, dispatch);
     setState(responce);
     setOpen(true);
-    // if (responce.success === true && authorized) {
-    //   history.push("/library");
-    // }
   };
 
   return (

@@ -13,10 +13,7 @@ import {
   Button,
 } from "@material-ui/core";
 import InfiniteScroll from "react-infinite-scroll-component";
-import {
-  moviesListAction,
-  movieDetailsAction,
-} from "../services/moviesActions";
+import { moviesListAction } from "../services/moviesActions";
 import { HyperContext } from "../Context/context";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
@@ -116,6 +113,7 @@ const Container = styled.div`
 const MySlider = styled(Slider)`
   color: red;
 `;
+
 const MessageCard = styled.div`
   position: relative;
   display: block;
@@ -370,15 +368,18 @@ const CardContainer = styled.div`
     max-width: 100%;
   }
 `;
+
 const FilterCard = styled.div`
   .MuiRadio-colorSecondary.Mui-checked {
     color: red;
   }
 `;
+
 const MainContainer = styled.div`
   background: ${(props) => props.theme.background};
   min-height: 100vh;
 `;
+
 const SearchCard = styled.div`
   background: transparent;
   display: flex;
@@ -510,7 +511,7 @@ export default function Library() {
     setSearchTerm(e.target.value);
   };
 
-  //* HANDLE SEND TITLE
+  //* HANDLE CLICK MOVIES
 
   const handleClickMovie = (id) => {
     if (id) {

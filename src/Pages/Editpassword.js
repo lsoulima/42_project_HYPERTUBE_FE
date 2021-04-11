@@ -3,13 +3,11 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import styled from "styled-components";
 import Grid from "@material-ui/core/Grid";
-
 import { useForm } from "react-hook-form";
 import { Snackbar, Box } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import { changePassword } from "../services/profile";
 import { HyperContext } from "../Context/context";
-
 import { logout } from "../services/auth";
 
 const WhiteBorderTextField = styled(TextField)`
@@ -45,7 +43,6 @@ export default function Editpassword() {
   const [message, setMessage] = useState({});
   const { register, handleSubmit, errors } = useForm();
   const [open, setOpen] = useState(false);
-  //* Informations
 
   const handleClose = (reason) => {
     if (reason === "clickaway") {
@@ -54,6 +51,7 @@ export default function Editpassword() {
 
     setOpen(false);
   };
+  //*SUBMIT DATA TO EDIT PASSWORD
 
   const onSubmit = async (data) => {
     const editpassword = await changePassword(state.token, data);

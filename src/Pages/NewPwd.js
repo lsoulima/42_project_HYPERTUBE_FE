@@ -94,10 +94,13 @@ export default function NewPassword() {
 
     setOpen(false);
   };
-  const aToken = window.location.search.split("=")[1];
+  //* GET TOKEN FROM URL
+  const token = window.location.search.split("=")[1];
+
+  //* SUBMIT DATA TO NEW PASSWORD
   let history = useHistory();
   const onSubmit = async (data) => {
-    const responce = await newPwd(data, aToken);
+    const responce = await newPwd(data, token);
     setMessage(responce);
     setOpen(true);
     if (responce.success === true) {
@@ -107,51 +110,48 @@ export default function NewPassword() {
 
   return (
     <Wrapper>
-      <div className="container">
-        <Container component="main" maxWidth="xs">
-          <div className="paper">
+      <div className='container'>
+        <Container component='main' maxWidth='xs'>
+          <div className='paper'>
             <Typography
-              component="h1"
-              variant="h5"
+              component='h1'
+              variant='h5'
               style={{
                 alignSelf: "start",
                 fontSize: "40px",
                 fontWeight: 600,
                 color: "#fff",
-              }}
-            >
+              }}>
               New Password
             </Typography>
             <Snackbar
               anchorOrigin={{ vertical: "top", horizontal: "center" }}
               open={open}
               autoHideDuration={3000}
-              onClose={handleClose}
-            >
+              onClose={handleClose}>
               {message.success === true ? (
                 <Alert
                   onClose={handleClose}
-                  severity="success"
-                  variant="filled"
-                >
+                  severity='success'
+                  variant='filled'>
                   {message.message}
                 </Alert>
               ) : (
-                <Alert onClose={handleClose} severity="error" variant="filled">
+                <Alert onClose={handleClose} severity='error' variant='filled'>
                   {message.error}
                 </Alert>
               )}
             </Snackbar>
-            <form className="form" onSubmit={handleSubmit(onSubmit)}>
+            <form className='form' onSubmit={handleSubmit(onSubmit)}>
               <WhiteBorderTextField
-                variant="outlined"
-                margin="normal"
+                variant='outlined'
+                margin='normal'
                 fullWidth
-                name="newpassword"
-                label="NewPassword"
-                type="password"
-                id="newpassword"
-                autoComplete="current-password"
+                name='newpassword'
+                label='NewPassword'
+                type='password'
+                id='newpassword'
+                autoComplete='current-password'
                 inputRef={register({
                   required: "You must provide your Password!",
                   pattern: {
@@ -162,36 +162,35 @@ export default function NewPassword() {
                 })}
               />
               {errors.newpassword && (
-                <Box variant="filled" color="red" style={{ fontSize: "12px" }}>
+                <Box variant='filled' color='red' style={{ fontSize: "12px" }}>
                   {errors.newpassword.message}
                 </Box>
               )}
               <WhiteBorderTextField
-                variant="outlined"
-                margin="normal"
+                variant='outlined'
+                margin='normal'
                 fullWidth
-                name="confirmpassword"
-                label="Confirm_Password"
-                type="password"
-                id="confirmpassword"
-                autoComplete="current-password"
+                name='confirmpassword'
+                label='Confirm_Password'
+                type='password'
+                id='confirmpassword'
+                autoComplete='current-password'
                 inputRef={register({
                   required: "You must Confirm your Password!",
                 })}
               />
               {errors.confirmpassword && (
-                <Box variant="filled" color="red" style={{ fontSize: "12px" }}>
+                <Box variant='filled' color='red' style={{ fontSize: "12px" }}>
                   {errors.confirmpassword.message}
                 </Box>
               )}
 
               <Button
-                type="submit"
+                type='submit'
                 fullWidth
-                variant="contained"
-                color="primary"
-                className="submit"
-              >
+                variant='contained'
+                color='primary'
+                className='submit'>
                 Confirm
               </Button>
             </form>

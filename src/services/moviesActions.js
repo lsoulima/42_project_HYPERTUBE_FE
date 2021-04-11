@@ -56,3 +56,37 @@ export const movieSuggestions = async (token, movieId) => {
     return error.response?.data;
   }
 };
+
+//* Add Movies to Favorite list
+
+export const addMovieToFavorite = async (token, movieId) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  try {
+    const res = await axios.post(API_URL + "/favorite/id/" + movieId, config);
+    if (res) return res.data;
+  } catch (error) {
+    return error.response?.data;
+  }
+};
+
+//* Add Movies to Watched list
+
+export const addMovieToWatched = async (token, movieId) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  try {
+    const res = await axios.post(API_URL + "/watched/id/" + movieId, config);
+    if (res) return res.data;
+  } catch (error) {
+    return error.response?.data;
+  }
+};

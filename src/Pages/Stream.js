@@ -5,11 +5,11 @@ import { HyperContext } from "../Context/context";
 import {
   movieDetailsAction,
   movieSuggestions,
+  addMovieToFavorite,
+  addMovieToWatched,
 } from "../services/moviesActions";
-import TextField from "@material-ui/core/TextField";
-import Alert from "@material-ui/lab/Alert";
-import { Snackbar, Box } from "@material-ui/core";
-import { Avatar, Grid, Paper } from "@material-ui/core";
+import { useHistory } from "react-router";
+import { Avatar, Grid, Paper, Button } from "@material-ui/core";
 
 const pic =
   "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260";
@@ -112,6 +112,7 @@ const CommentSection = styled.div`
 `;
 
 const MyCard = styled.div`
+  cursor: pointer;
   position: relative;
   display: block;
   width: 480px;
@@ -385,10 +386,25 @@ export default function Stream() {
     const rminutes = Math.round(minutes);
     return rhours + " hour(s) " + rminutes + " minute(s).";
   };
-
+  //* LOAD MOVIES SUGGESTIONS
   const LoeadmovieSuggestions = async () => {
     const response = await movieSuggestions(state.token, movieID);
     setSuggestions(response);
+  };
+  //* HANDLE CLICK MOVIES SUGGESTIONS
+  let history = useHistory();
+  const handleClickMovie = (id) => {
+    if (id) {
+      history.push("/stream?film_id=" + id);
+    }
+  };
+  //* ADD MOVIE TO FAVORITE LIST
+  const handleAddToFavorite = async () => {
+    await addMovieToFavorite(state.token, movieID);
+  };
+  //* ADD MOVIE TO WATCHED LIST
+  const handleAddToWatched = async () => {
+    await addMovieToWatched(state.token, movieID);
   };
 
   useEffect(() => {
@@ -408,7 +424,7 @@ export default function Stream() {
     };
     loadMovieDetails();
     LoeadmovieSuggestions();
-  }, []);
+  }, [movieID]);
 
   return (
     <MainContainer>
@@ -459,7 +475,12 @@ export default function Stream() {
               <div>
                 <img src={details.large_cover_image} alt='cover' />
               </div>
-              <div>Add to Favorites</div>
+              <div
+                onClick={() => {
+                  handleAddToFavorite();
+                }}>
+                Add to Favorites
+              </div>
             </div>
             <div className='detail_section'>
               <div className='divider detail_section_name'>
@@ -480,12 +501,29 @@ export default function Stream() {
                   {details.description_intro}
                 </div>
               </div>
+              <div className='divider detail_section_movieInfo'>
+                <div className='detail_section_director'>
+                  <div className='director'>DIRECTOR</div>
+                  <div className='director_value'></div>
+                </div>
+                <div className='mini_divider'></div>
+                <div className='divider detail_section_director'>
+                  <div className='director'>STARRING</div>
+                  <div className='director_value'>
+                    Johnny Rey Diaz Erika Ringor Ciara Jiana Aliyah Conley
+                  </div>
+                </div>
+              </div>
             </div>
           </MovieDetailes>
           <div className='suggestions_like'>You May Also Like</div>
           <Suggestions>
             {suggestions.map((movie, id) => (
-              <MyCard key={id}>
+              <MyCard
+                key={id}
+                onClick={() => {
+                  handleClickMovie(movie.id);
+                }}>
                 <div className='info_section'>
                   <div className='movie_header'>
                     <img
