@@ -149,9 +149,7 @@ export default function Settings() {
   const onSubmit = async (data) => {
     const SettingsResponce = await settingsAction(state.token, data);
     // eslint-disable-next-line
-
     setMessage(SettingsResponce);
-
     setOpen(true);
   };
 
@@ -200,7 +198,7 @@ export default function Settings() {
             <div className={classes.root}>
               {profileMessage.success === true ? (
                 // eslint-disable-next-line
-                <Alert variant="outlined" severity="info" variant="filled">
+                <Alert variant="outlined" severity="success" variant="filled">
                   {profileMessage.message}
                 </Alert>
               ) : (
@@ -287,7 +285,7 @@ export default function Settings() {
                   {errors.firstname && (
                     <Box
                       variant="filled"
-                      color="primary"
+                      color="red"
                       style={{ fontSize: "12px" }}
                     >
                       {errors.firstname.message}
@@ -315,7 +313,7 @@ export default function Settings() {
                   {errors.lastname && (
                     <Box
                       variant="filled"
-                      color="primary"
+                      color="red"
                       style={{ fontSize: "12px" }}
                     >
                       {errors.lastname.message}
@@ -343,7 +341,7 @@ export default function Settings() {
                   {errors.username && (
                     <Box
                       variant="filled"
-                      color="primary"
+                      color="red"
                       style={{ fontSize: "12px" }}
                     >
                       {errors.username.message}
@@ -371,7 +369,7 @@ export default function Settings() {
                   {errors.email && (
                     <Box
                       variant="filled"
-                      color="primary"
+                      color="red"
                       style={{ fontSize: "12px" }}
                     >
                       {errors.email.message}
