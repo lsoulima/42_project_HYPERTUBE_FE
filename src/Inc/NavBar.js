@@ -404,12 +404,12 @@ function NavBar({ t, mytheme, settheme }) {
               ) : (
                 [
                   <NavButton>
-                    <Link key='7' className='link' to='/login'>
+                    <Link key='9' className='link' to='/login'>
                       {t("loginTr")}
                     </Link>
                   </NavButton>,
                   <NavButton>
-                    <Link key='8' className='link' to='/register'>
+                    <Link key='10' className='link' to='/register'>
                       {t("registerTr")}
                     </Link>
                   </NavButton>,

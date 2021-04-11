@@ -9,7 +9,7 @@ import {
   addMovieToWatched,
 } from "../services/moviesActions";
 import { useHistory } from "react-router";
-import { Avatar, Grid, Paper, Button } from "@material-ui/core";
+import { Avatar, Grid, Paper } from "@material-ui/core";
 
 const pic =
   "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260";
@@ -398,6 +398,7 @@ export default function Stream() {
     await addMovieToFavorite(state.token, movieID);
   };
   //* ADD MOVIE TO WATCHED LIST
+  // eslint-disable-next-line
   const handleAddToWatched = async () => {
     await addMovieToWatched(state.token, movieID);
   };
@@ -419,6 +420,7 @@ export default function Stream() {
     };
     loadMovieDetails();
     LoeadmovieSuggestions();
+    // eslint-disable-next-line
   }, [movieID]);
 
   return (
@@ -498,15 +500,12 @@ export default function Stream() {
               </div>
               <div className='divider detail_section_movieInfo'>
                 <div className='detail_section_director'>
-                  <div className='director'>DIRECTOR</div>
-                  <div className='director_value'></div>
-                </div>
-                <div className='mini_divider'></div>
-                <div className='divider detail_section_director'>
-                  <div className='director'>STARRING</div>
-                  <div className='director_value'>
-                    Johnny Rey Diaz Erika Ringor Ciara Jiana Aliyah Conley
-                  </div>
+                  <div className='director'>ACTORS</div>
+                  {details?.cast?.map((item) => (
+                    <div className='director_value'>
+                      <Avatar src={item.url_small_image} /> {item.name}
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -533,7 +532,12 @@ export default function Stream() {
                     </div>
                   </div>
                 </div>
-                <div className='blur_back bright_back'></div>
+
+                <div
+                  className='blur_back'
+                  style={{
+                    backgroundImage: `url(${movie.medium_cover_image})`,
+                  }}></div>
                 <i className='las la-play-circle play_button' />
               </MyCard>
             ))}
