@@ -304,6 +304,14 @@ export default function Stream() {
     setOpen(false);
   };
 
+  const timeConvert = (n) => {
+    const num = n;
+    const hours = num / 60;
+    const rhours = Math.floor(hours);
+    const minutes = (hours - rhours) * 60;
+    const rminutes = Math.round(minutes);
+    return rhours + " hour(s) " + rminutes + " minute(s).";
+  };
   useEffect(() => {
     const loadMovieDetails = async () => {
       if (movieID) {
@@ -363,7 +371,7 @@ export default function Stream() {
               </div>
             </div>
             <div className='detail_section_duration'>
-              <span>1 hr 43 min</span>
+              <span>{timeConvert(details.runtime)}</span>
               <div className='movie_genre'>
                 {details?.genres?.map((item) => (
                   <div>{item}</div>
