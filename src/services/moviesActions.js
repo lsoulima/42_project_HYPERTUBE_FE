@@ -27,7 +27,7 @@ export const moviesListAction = async (token, page, sort, filter, search) => {
 //* Movies data Details
 
 export const movieDetailsAction = async (token, movieId) => {
-  console.log(token);
+  console.log(token, movieId);
 
   const config = {
     headers: {
