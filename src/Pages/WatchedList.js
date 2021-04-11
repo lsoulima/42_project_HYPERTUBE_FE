@@ -127,6 +127,80 @@ const List = styled.div`
     border-radius: 0;
   }
 `;
+const MessageCard = styled.div`
+  position: relative;
+  display: block;
+  width: 100%;
+  min-height: 300px;
+  height: 100px;
+  margin: 40px 10px;
+  overflow: hidden;
+  border-radius: 10px;
+  transition: all 0.4s;
+  box-shadow: 0px 0px 80x -25px rgb(0 0 0 / 50%);
+  transition: all 0.4s;
+  :hover {
+    transform: scale(1.02);
+    transition: all 0.4s;
+    height: auto;
+  }
+  .blur_back {
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    height: 100%;
+    right: 0;
+    background-size: cover;
+    border-radius: 11px;
+    width: 100%;
+    background-position: 50% 50% !important;
+  }
+  .bright_back_error {
+    background: url("./img/404.svg");
+  }
+  .info_section {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-blend-mode: multiply;
+    z-index: 2;
+    border-radius: 10px;
+    background: linear-gradient(to top, #e5e6e6 50%, transparent 100%);
+    display: inline-grid;
+    .movie_header {
+      position: relative;
+      padding: 25px;
+      height: 40%;
+      width: 100%;
+      margin-top: 85px;
+      .cover {
+        position: relative;
+        float: left;
+        margin-right: 20px;
+        height: 120px;
+        box-shadow: 0 0 20px -10px rgb(0 0 0 / 50%);
+      }
+      h1 {
+        color: black;
+        font-weight: 400;
+      }
+      h4 {
+        color: #555;
+        font-weight: 400;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+  @media (max-width: 1024px) {
+    width: 50%;
+  }
+  @media (max-width: 1440px) {
+    width: 45%;
+  }
+`;
 
 const WatchedList = () => {
   const [hovered, setHovered] = useState(false);
@@ -156,62 +230,61 @@ const WatchedList = () => {
 
   return (
     <List>
-      <Carousel
-        autoPlaySpeed={2000}
-        breakPoints={breakPoints}
-        pagination={false}
-        enableAutoPlay
-      >
-        {movies.map((movie, index) => (
-          <MyCard
-            key={index}
-            // onClick={() => {
-            //   handleClickMovie(movie.id);
-            // }}
-            onMouseEnter={() => toggleHover(true)}
-            onMouseLeave={() => toggleHover(false)}
-          >
-            <img
-              src={movie?.poster_big}
-              width="100%"
-              height="100%"
-              alt="cover"
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = "https://t.ly/teEM";
-              }}
-            />
+      {movies.length === 0 ? (
+        <MessageCard>
+          <div className="info_section">
+            <div className="movie_header">
+              <img className="cover" src="./img/watch.svg" alt="cover" />
+              <h1>Go watch some movies</h1>
+            </div>
+          </div>
+        </MessageCard>
+      ) : (
+        <Carousel
+          autoPlaySpeed={2000}
+          breakPoints={breakPoints}
+          pagination={false}
+          enableAutoPlay
+        >
+          {movies.map((movie, index) => (
+            <MyCard
+              key={index}
+              // onClick={() => {
+              //   handleClickMovie(movie.id);
+              // }}
+              onMouseEnter={() => toggleHover(true)}
+              onMouseLeave={() => toggleHover(false)}
+            >
+              <img
+                src={movie?.poster_big}
+                width="100%"
+                height="100%"
+                alt="cover"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = "https://t.ly/teEM";
+                }}
+              />
 
-            <div className="eye">
-              <i className="las la-eye  animate__animated animate__wobble animate__infinite"></i>
-            </div>
-            <div className="backHover">
-              <div className="imdbPlace">
-                <h6>{movie.rating}</h6>
+              <div className="eye">
+                <i className="las la-eye  animate__animated animate__wobble animate__infinite"></i>
               </div>
-              <i className="las la-play-circle play_button" />
-              <div className="mvName">
-                <h4>{movie.title}</h4>
-                <h6>{movie.year}</h6>
+              <div className="backHover">
+                <div className="imdbPlace">
+                  <h6>{movie.rating}</h6>
+                </div>
+                <i className="las la-play-circle play_button" />
+                <div className="mvName">
+                  <h4>{movie.title}</h4>
+                  <h6>{movie.year}</h6>
+                </div>
               </div>
-            </div>
-          </MyCard>
-        ))}
-      </Carousel>
+            </MyCard>
+          ))}
+        </Carousel>
+      )}
     </List>
   );
 };
 
 export default WatchedList;
-
-// {error.error ? (
-//     <MessageCard>
-//             <div className='info_section'>
-//               <div className='movie_header'>
-//                 <img className='cover' src='./img/404.svg' alt='cover' />
-//                 <h1>No movies in this list</h1>
-//               </div>
-//             </div>
-//           </MessageCard>
-//         </Container>
-//       ) : (
