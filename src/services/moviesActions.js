@@ -1,7 +1,7 @@
 import axios from "axios";
 const API_URL = "http://localhost:3001/api/movies";
 
-//* MOVIES LIST
+//* Get Movies list
 export const moviesListAction = async (token, page, sort, filter, search) => {
   const config = {
     headers: {
@@ -24,7 +24,7 @@ export const moviesListAction = async (token, page, sort, filter, search) => {
   }
 };
 
-//* Movies data Details
+//* Get Movies data Details
 
 export const movieDetailsAction = async (token, movieId) => {
   const config = {
@@ -57,7 +57,7 @@ export const movieSuggestions = async (token, movieId) => {
   }
 };
 
-//* Add Movies to Favorite list
+//* Post Movies to Favorite list
 
 export const addMovieToFavorite = async (token, movieId) => {
   const config = {
@@ -74,7 +74,7 @@ export const addMovieToFavorite = async (token, movieId) => {
   }
 };
 
-//* Add Movies to Watched list
+//* Post Movies to Watched list
 
 export const addMovieToWatched = async (token, movieId) => {
   const config = {
@@ -85,6 +85,23 @@ export const addMovieToWatched = async (token, movieId) => {
   };
   try {
     const res = await axios.post(API_URL + "/watched/id/" + movieId, config);
+    if (res) return res.data;
+  } catch (error) {
+    return error.response?.data;
+  }
+};
+
+//* Post Comment
+
+export const addComment = async (token, movieId) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  try {
+    const res = await axios.post(API_URL + "/comment/id/" + movieId, config);
     if (res) return res.data;
   } catch (error) {
     return error.response?.data;

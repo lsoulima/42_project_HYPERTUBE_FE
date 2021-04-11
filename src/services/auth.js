@@ -4,7 +4,7 @@ import Cookie from "js-cookie";
 
 const API_URL = "http://localhost:3001/api/users/";
 
-//* REGISTER USER
+//* Resgister User Action
 export const registerAction = async (data) => {
   const config = {
     headers: {
@@ -20,7 +20,7 @@ export const registerAction = async (data) => {
   }
 };
 
-// //* LOGIN USER
+//* Login User Action
 
 export const loginAction = async (loginData, dispatch) => {
   const config = {
@@ -47,7 +47,8 @@ export const loginAction = async (loginData, dispatch) => {
   }
 };
 
-//* LOGOUT USER
+//* Logout User Action
+
 export const logout = async (token, dispatch) => {
   localStorage.removeItem("token");
   Cookie.remove("token");
@@ -74,7 +75,8 @@ export const logout = async (token, dispatch) => {
   }
 };
 
-//* VERIFY USER ACCOUNT
+//* Verify User Account Action
+
 export const verifyAccount = async (token) => {
   const config = {
     headers: {
@@ -95,7 +97,7 @@ export const verifyAccount = async (token) => {
   }
 };
 
-// //* VERIFY TOKEN OF USER
+//* Verify User Token Action
 
 export const checkTokenAction = async (token) => {
   const config = {
@@ -124,7 +126,7 @@ export const checkTokenAction = async (token) => {
   }
 };
 
-// * RESET PASSWORD
+// * Reset Password Action
 export const resetPwd = async (email) => {
   const config = {
     headers: {
@@ -140,7 +142,8 @@ export const resetPwd = async (email) => {
   }
 };
 
-// * NEW PASSWORD
+// * New Password Action
+
 export const newPwd = async (newPassData, token) => {
   let body = {
     token: token,

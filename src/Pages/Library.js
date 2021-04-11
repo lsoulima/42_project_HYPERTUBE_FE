@@ -482,8 +482,6 @@ export default function Library() {
     if (res?.success === false) {
       setError(res);
     } else {
-      console.log(res);
-
       setMovies(res);
       setTimeout(() => {
         setIsloading(false);

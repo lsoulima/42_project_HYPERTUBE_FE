@@ -38,6 +38,7 @@ export const HyperProvider = ({ children }) => {
     };
     getUserData();
   }, [state.token]);
+
   return (
     <HyperContext.Provider
       value={{ state, dispatch, userInfos, authorized, setUserInfos }}>

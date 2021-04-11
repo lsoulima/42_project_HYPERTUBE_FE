@@ -503,7 +503,7 @@ export default function Stream() {
                   <div className='director'>ACTORS</div>
                   {details?.cast?.map((item) => (
                     <div className='director_value'>
-                      <Avatar src={item.url_small_image} /> {item.name}
+                      <Avatar src={item?.url_small_image} /> {item?.name}
                     </div>
                   ))}
                 </div>
@@ -512,7 +512,7 @@ export default function Stream() {
           </MovieDetailes>
           <div className='suggestions_like'>You May Also Like</div>
           <Suggestions>
-            {suggestions.map((movie, id) => (
+            {suggestions?.map((movie, id) => (
               <MyCard
                 key={id}
                 onClick={() => {
@@ -522,7 +522,7 @@ export default function Stream() {
                   <div className='movie_header'>
                     <img
                       className='cover'
-                      src={movie.medium_cover_image}
+                      src={movie?.medium_cover_image}
                       alt='cover'
                     />
                     <h1>{movie?.title_long}</h1>
@@ -536,7 +536,7 @@ export default function Stream() {
                 <div
                   className='blur_back'
                   style={{
-                    backgroundImage: `url(${movie.medium_cover_image})`,
+                    backgroundImage: `url(${movie?.medium_cover_image})`,
                   }}></div>
                 <i className='las la-play-circle play_button' />
               </MyCard>
