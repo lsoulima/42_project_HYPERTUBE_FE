@@ -1,262 +1,241 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
 import styled from "styled-components";
-import Carousel from "react-elastic-carousel";
-import axios from "axios";
+import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import StarIcon from "@material-ui/icons/Star";
+import PersonPinIcon from "@material-ui/icons/PersonPin";
+import { useForm } from "react-hook-form";
 import { HyperContext } from "../Context/context";
-import { Typography } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
+import { settingsAction, ProfileUpAction } from "../services/profile";
+import WatchedList from "./WatchedList";
+import FavoriteList from "./FavoriteList";
 
-const MyCard = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 350px;
-  width: 100%;
-  margin: 15px;
+const LabelImage = styled.label`
+  cursor: pointer;
+  color: #fff;
+  border-radius: 50%;
+  input {
+    display: none;
+  }
+  text-align: center;
+  img {
+    border-radius: 100%;
+    width: 150px;
+    height: 150px;
+  }
+`;
 
-  position: relative;
-  border: 5px solid #fff;
-  transition: all 0.8s;
-  .backHover {
-    height: 100%;
+const WhiteBorderTextField = styled(TextField)`
+  & .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+    border-color: #fff !important;
+  }
+  & .MuiOutlinedInput-notchedOutline {
+    border-color: #fff;
+  }
+  & label.Mui-focused {
+    color: #fff;
+  }
+  & .MuiOutlinedInput-root {
+    &.Mui-focused fieldset {
+      border-color: #fff;
+    }
+  }
+  label {
+    color: #fff !important;
+    font-size: 13px;
+  }
+  input:hover {
+    border-color: red !important;
+  }
+  input {
+    border-color: #fff;
+    color: #fff;
+  }
+`;
+
+const Wrapper = styled.div`
+  & {
+    background: url("./img/net.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+
+    /* Set up proportionate scaling */
     width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
+    height: fit-content;
+
+    @media (max-width: 768px) {
+      & {
+        height: auto;
+      }
+    }
   }
-  &:hover .backHover {
-    background: rgba(54, 54, 54, 0.7);
-    box-shadow: 0px 0px 50px -25px rgba(255, 0, 0, 0.5);
-  }
-  &:hover {
-    transform: scale(1.05);
-    transition: all 0.7s;
-    border: 5px solid #ffffff;
-  }
-  &:hover .backHover {
-    opacity: 1;
-  }
-  &:hover .eye {
-    z-index: 100;
-  }
-  .backHover {
-    opacity: 0;
+  .container {
+    padding: 100px 0;
     height: 100%;
+    min-height: 90vh;
+    width: 100%;
+    background: rgba(51, 51, 51, 0.5);
+  }
+  .paper {
+    background-color: rgba(0, 0, 0, 0.75);
+    border-radius: 0 0 15px 15px;
+    padding: 50px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    .mvName {
-      width: 100%;
-      color: #fff;
-      padding: 10px;
-      text-align: center;
-      background: url("./img/mask-title.png");
-      h4,
-      h6 {
-        text-shadow: 0 0 10px rgb(0 0 0 / 60%);
-      }
-    }
-    .imdbPlace {
-      margin: 5px;
-      width: 40px;
-      height: 30px;
-      background: red;
-      align-self: flex-start;
-      border-radius: 10px;
-      text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      h6 {
-        font-family: ui-sans-serif;
-        color: #fff;
-        font-size: 15px;
-      }
-    }
-    .watch {
-      position: relative;
-      text-align: center;
-      .watchBtn {
-        width: 100px;
-        padding: 10px;
-        border: 2px solid red;
-        color: white;
-      }
-      .test1 {
-        height: 2px;
-        width: 50px;
-        background: red;
-        position: absolute;
-        top: 50%;
-        left: -40%;
-      }
-      .test2 {
-        height: 2px;
-        width: 50px;
-        background: red;
-        position: absolute;
-        top: 50%;
-        right: -40%;
-      }
-    }
   }
-  .eye {
-    position: absolute;
-    top: 0;
-    right: 10px;
-    color: #ffe600;
-    font-size: 30px;
+  .avatar {
+    margin: 50px;
+    background-color: red;
+  }
+  .form {
+    width: 100%; // Fix IE 11 issue.
+  }
+  .submit {
+    margin: 45px 0px;
+    background: red;
   }
 `;
 
-const Container = styled.div`
-  background: ${(props) => props.theme.background};
-  height: 100%;
-  width: 100%;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-`;
+export default function Settings() {
+  const { state, userInfos, setUserInfos } = useContext(HyperContext);
+  const [tab, setTab] = useState(0);
+  let history = useHistory();
 
-const UserProfile = styled.div`
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  background: ${(props) => props.theme.cards};
-  height: 60%;
-  flex-basis: 18%;
-  min-width: 150px;
-  border-radius: 30px;
-  box-shadow: 0px 0px 18px #cdcdcd;
-  padding-top: 100px;
-  /* margin: 0px 20px; */
+  const handleChange = (event, newValue) => {
+    setTab(newValue);
+  };
 
-  h1 {
-    margin-top: 40px;
-    font-size: 30px;
-    font-weight: 700;
-    line-height: 64px;
-    letter-spacing: -1px;
-    word-wrap: break-word;
-    color: ${(props) => props.theme.text};
-  }
-`;
+  const TabPanel = (props) => {
+    const { children, value, index } = props;
 
-const MovieList = styled.div`
-  /* background: green; */
-  flex-basis: 70%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  /* margin: 40px; */
-  .watchedList,
-  .favouriteList {
-    background: ${(props) => props.theme.cards};
-    width: 100%;
-    height: 450px;
-    margin: 20px;
-    display: flex;
-    align-items: center;
-    border-radius: 30px;
-    box-shadow: 0px 0px 18px #cdcdcd;
+    return (
+      <div role="tabpanel" hidden={value !== index}>
+        {value === index && <div className="paper">{children}</div>}
+      </div>
+    );
+  };
 
-    .rec.rec-arrow {
-      box-sizing: border-box;
-      -webkit-transition: all 0.3s ease;
-      transition: all 0.3s ease;
-      font-size: 1.6em;
-      background: none;
-      color: ${(props) => props.theme.text};
-      border: none;
-      padding: 0;
-      width: 20px;
-      /* height: 0; */
-      min-width: 20px;
-      line-height: 50px;
-      -webkit-align-self: center;
-      -ms-flex-item-align: center;
-      align-self: center;
-      cursor: pointer;
-      outline: none;
-      border-radius: 0;
-    }
-  }
-`;
-const Avatar = styled.img`
-  width: 150px;
-  height: 150px;
-  border-radius: 100%;
-`;
-
-export default function Profile() {
   return (
-    <Container>
-      <MovieList>
-        <div className="favouriteList">
-          <Carousel
-            breakPoints={breakPoints}
-            pagination={false}
-            // showArrows={false}
-            enableMouseSwipe
-            enableAutoPlay
-            autoPlaySpeed={1500}
-          >
-            {movies.map((movie, id) => (
-              <MyCard
-                key={id}
-                onMouseEnter={() => toggleHover(true)}
-                onMouseLeave={() => toggleHover(false)}
-              >
-                <img
-                  src={movie.poster_big}
-                  width="100%"
-                  height="100%"
-                  alt="cover"
-                />
+    <Wrapper>
+      <div className="container">
+        <Container component="main" maxWidth="sm">
+          <Paper elevation={5}>
+            <Tabs
+              value={tab}
+              onChange={handleChange}
+              variant="fullWidth"
+              indicatorColor="secondary"
+              textcolor="primary"
+              TabIndicatorProps={{ style: { background: "red" } }}
+              style={{ background: "rgb(8, 7, 8)", color: "white" }}
+            >
+              <Tab
+                icon={<PersonPinIcon />}
+                label="Info"
+                style={{ padding: "20px 0" }}
+              />
+              <Tab
+                icon={<VisibilityIcon />}
+                label="Watched"
+                style={{ padding: "20px 0" }}
+              />
+              <Tab
+                icon={<StarIcon />}
+                label="Favorite"
+                style={{ padding: "20px 0" }}
+              />
+            </Tabs>
+          </Paper>
 
-                <div className="eye ">
-                  <i className="las la-star  animate__animated animate__tada animate__infinite"></i>
-                </div>
-                <div className="backHover">
-                  <div className="imdbPlace">
-                    <h6>{movie.rating}</h6>
-                  </div>
-                  <div className="watch">
-                    <div
-                      className={
-                        hovered
-                          ? "watchBtn animate__animated  animate__backInDown animate__faster"
-                          : "watchBtn"
+          <TabPanel value={tab} index={0}>
+            <Typography
+              component="h1"
+              variant="h5"
+              style={{
+                fontSize: "40px",
+                fontWeight: 600,
+                color: "#fff",
+              }}
+            >
+              {userInfos.username}
+            </Typography>
+            <form className="form">
+              <Grid container spacing={2}>
+                <Grid
+                  item
+                  xs={12}
+                  style={{ margin: "20px 0 20px 0", textAlign: "center" }}
+                >
+                  <LabelImage type="file">
+                    <img
+                      src={
+                        userInfos.profile
+                          ? userInfos.profile
+                          : "./img/avatar.jpeg"
                       }
-                    >
-                      Watch
-                    </div>
-                    <div
-                      className={
-                        hovered
-                          ? "test1 animate__animated  animate__backInLeft animate__faster"
-                          : "test1"
-                      }
-                    ></div>
-                    <div
-                      className={
-                        hovered
-                          ? "test2 animate__animated  animate__backInRight animate__faster"
-                          : "test2"
-                      }
-                    ></div>
-                  </div>
-                  <div className="mvName">
-                    <h4>{movie.title}</h4>
-                    <h6>{movie.year}</h6>
-                  </div>
-                </div>
-              </MyCard>
-            ))}
-          </Carousel>
-        </div>
-      </MovieList>
-    </Container>
+                      alt="avatar"
+                    />
+                  </LabelImage>
+                </Grid>
+
+                <Grid item xs={12} sm={6}>
+                  <WhiteBorderTextField
+                    variant="outlined"
+                    defaultValue={userInfos.firstname}
+                    margin="normal"
+                    fullWidth
+                    label="First Name"
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <WhiteBorderTextField
+                    variant="outlined"
+                    margin="normal"
+                    defaultValue={userInfos.lastname}
+                    fullWidth
+                    label="Last Name"
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                  />
+                </Grid>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className="submit"
+                  onClick={() => {
+                    history.push("/library");
+                  }}
+                >
+                  Browse Movies
+                </Button>
+              </Grid>
+            </form>
+          </TabPanel>
+          <TabPanel value={tab} index={1}>
+            <WatchedList />
+          </TabPanel>
+          <TabPanel value={tab} index={2}>
+            <FavoriteList />
+          </TabPanel>
+        </Container>
+      </div>
+    </Wrapper>
   );
 }
