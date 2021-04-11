@@ -130,10 +130,6 @@ const MessageCard = styled.div`
     transform: scale(1.02);
     transition: all 0.4s;
     height: auto;
-    .movie_desc {
-      display: block !important;
-      transition: all 0.9s;
-    }
   }
   .blur_back {
     position: absolute;
@@ -145,9 +141,6 @@ const MessageCard = styled.div`
     border-radius: 11px;
     width: 100%;
     background-position: 50% 50% !important;
-  }
-  .bright_back {
-    background: url("https://yts.mx/assets/images/movies/deadly_illusions_2021/large-cover.jpg");
   }
   .bright_back_error {
     background: url("./img/404.svg");
@@ -182,45 +175,9 @@ const MessageCard = styled.div`
         color: #555;
         font-weight: 400;
       }
-      .minutes {
-        display: inline-block;
-        margin-top: 15px;
-        color: #555;
-        padding: 5px;
-        border-radius: 5px;
-        border: 1px solid rgba(0, 0, 0, 0.05);
-      }
-      .type {
-        display: inline-block;
-        color: #959595;
-        margin-left: 10px;
-      }
-    }
-    .movie_desc {
-      display: none;
-      width: 100%;
-      padding: 25px;
-      height: 50%;
-      transition: all 0.9s;
     }
   }
-  :hover .play_button {
-    opacity: 1;
-  }
-  .play_button {
-    font-size: 70px;
-    position: absolute;
-    top: 50%;
-    opacity: 0;
-    z-index: 100;
-    color: white;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    :hover {
-      color: #ff8585;
-      transition: all 0.9s;
-    }
-  }
+
   @media (max-width: 768px) {
     width: 100%;
   }
@@ -530,101 +487,105 @@ export default function Library() {
       <SearchCard>
         <form onSubmit={handleOnSubmit}>
           <input
-            className='search'
-            type='search'
-            placeholder='Search ...'
+            className="search"
+            type="search"
+            placeholder="Search ..."
             value={searchTerm}
             onChange={handleOnChange}
           />
         </form>
       </SearchCard>
       <Container>
-        <div className='first_card'>
+        <div className="first_card">
           <Typography>Sort by :</Typography>
           <FilterCard style={{ width: "100%" }}>
-            <FormControl error component='fieldset' style={{ width: "100%" }}>
+            <FormControl error component="fieldset" style={{ width: "100%" }}>
               <RadioGroup
                 value={radioValue}
                 onChange={(e) => handleChangeRadio(e)}
-                className='radioContainer'>
+                className="radioContainer"
+              >
                 <FormControlLabel
-                  value='like_count'
+                  value="like_count"
                   control={<Radio />}
-                  label='Popularity'
+                  label="Popularity"
                 />
                 <FormControlLabel
-                  value='year'
+                  value="year"
                   control={<Radio />}
-                  label='Year'
+                  label="Year"
                 />
                 <FormControlLabel
-                  value='title'
+                  value="title"
                   control={<Radio />}
-                  label='Title'
+                  label="Title"
                 />
               </RadioGroup>
             </FormControl>
           </FilterCard>
         </div>
-        <div className='second_card'>
-          <div className='second_card__container'>
+        <div className="second_card">
+          <div className="second_card__container">
             <div>
-              <Typography id='range-slider'>Rating</Typography>
+              <Typography id="range-slider">Rating</Typography>
               <MySlider
                 value={filter.rating}
-                valueLabelDisplay='auto'
-                aria-labelledby='range-slider'
+                valueLabelDisplay="auto"
+                aria-labelledby="range-slider"
                 onChange={handleReatingChange}
                 max={9}
               />
             </div>
             <div>
               <FormControlMdf>
-                <InputLabel id='demo-simple-select-helper-label'>
+                <InputLabel id="demo-simple-select-helper-label">
                   Genre
                 </InputLabel>
                 <Select
-                  labelId='demo-simple-select-helper-label'
-                  id='demo-simple-select-helper'
+                  labelId="demo-simple-select-helper-label"
+                  id="demo-simple-select-helper"
                   value={filter.genre}
-                  onChange={handleGenreChange}>
-                  <MenuItem value='Action'>Action</MenuItem>
-                  <MenuItem value='Drama'>Drama</MenuItem>
-                  <MenuItem value='Horror'>Horror</MenuItem>
-                  <MenuItem value='Comedy'>Comedy</MenuItem>
-                  <MenuItem value='Crime'>Crime</MenuItem>
-                  <MenuItem value='Adventure'>Adventure</MenuItem>
-                  <MenuItem value='Biography'>Biography</MenuItem>
-                  <MenuItem value='Documentary'>Documentary</MenuItem>
-                  <MenuItem value='Family'>Family</MenuItem>
+                  onChange={handleGenreChange}
+                >
+                  <MenuItem value="Action">Action</MenuItem>
+                  <MenuItem value="Drama">Drama</MenuItem>
+                  <MenuItem value="Horror">Horror</MenuItem>
+                  <MenuItem value="Comedy">Comedy</MenuItem>
+                  <MenuItem value="Crime">Crime</MenuItem>
+                  <MenuItem value="Adventure">Adventure</MenuItem>
+                  <MenuItem value="Biography">Biography</MenuItem>
+                  <MenuItem value="Documentary">Documentary</MenuItem>
+                  <MenuItem value="Family">Family</MenuItem>
                 </Select>
               </FormControlMdf>
             </div>
             <div>
               <FormControlMdf>
-                <InputLabel id='demo-simple-select-helper-label'>
+                <InputLabel id="demo-simple-select-helper-label">
                   Quality
                 </InputLabel>
                 <Select
-                  labelId='demo-simple-select-helper-label'
-                  id='demo-simple-select-helper'
+                  labelId="demo-simple-select-helper-label"
+                  id="demo-simple-select-helper"
                   value={filter.quality}
-                  onChange={handleQualityChange}>
-                  <MenuItem value='720p'>720p</MenuItem>
-                  <MenuItem value='1080p'>1080p</MenuItem>
-                  <MenuItem value='2160p'>2160p</MenuItem>
-                  <MenuItem value='3D'>3D</MenuItem>
+                  onChange={handleQualityChange}
+                >
+                  <MenuItem value="720p">720p</MenuItem>
+                  <MenuItem value="1080p">1080p</MenuItem>
+                  <MenuItem value="2160p">2160p</MenuItem>
+                  <MenuItem value="3D">3D</MenuItem>
                 </Select>
               </FormControlMdf>
             </div>
           </div>
           <Button
-            type='submit'
-            variant='contained'
-            className='submit'
-            color='primary'
+            type="submit"
+            variant="contained"
+            className="submit"
+            color="primary"
             // style={{ width: "150px", padding: "10px", fontSize: "16px" }}
-            onClick={handleSubmitFilter}>
+            onClick={handleSubmitFilter}
+          >
             Filter
           </Button>
         </div>
@@ -632,24 +593,24 @@ export default function Library() {
       {error.error ? (
         <Container>
           <MessageCard>
-            <div className='info_section'>
-              <div className='movie_header'>
-                <img className='cover' src='./img/404.svg' alt='cover' />
+            <div className="info_section">
+              <div className="movie_header">
+                <img className="cover" src="./img/404.svg" alt="cover" />
                 <h1>{error.error}</h1>
               </div>
             </div>
-            <div className='blur_back bright_back_error'></div>
-            <i className='las la-play-circle play_button' />
           </MessageCard>
         </Container>
       ) : (
         <InfiniteScroll
           dataLength={movies.length} //This is important field to render the next data
           next={() => setPage(page + 1)}
-          hasMore={true}>
+          hasMore={true}
+          style={{ display: "flex", justifyContent: "center" }}
+        >
           {isloading ? (
             <div
-              id='loader'
+              id="loader"
               style={{
                 padding: "100px",
                 borderRadius: "15px",
@@ -657,10 +618,11 @@ export default function Library() {
                 display: "flex",
                 justifyContent: "center",
                 alignContent: "center",
-              }}>
+              }}
+            >
               <Loader
-                type='Grid'
-                color='red'
+                type="Grid"
+                color="red"
                 height={150}
                 width={150}
                 timeout={1500}
@@ -669,9 +631,9 @@ export default function Library() {
           ) : movies.length === 0 ? (
             <Container>
               <MessageCard>
-                <div className='info_section'>
-                  <div className='movie_header'>
-                    <img className='cover' src='./img/404.svg' alt='cover' />
+                <div className="info_section">
+                  <div className="movie_header">
+                    <img className="cover" src="./img/404.svg" alt="cover" />
                     <h1>No movies found</h1>
                   </div>
                 </div>
@@ -686,36 +648,38 @@ export default function Library() {
                     handleClickMovie(movie.id);
                   }}
                   onMouseEnter={() => toggleHover(true)}
-                  onMouseLeave={() => toggleHover(false)}>
+                  onMouseLeave={() => toggleHover(false)}
+                >
                   <img
                     src={movie?.large_cover_image} //poster_big}
-                    width='100%'
-                    height='100%'
-                    alt='cover'
+                    width="100%"
+                    height="100%"
+                    alt="cover"
                     onError={(e) => {
                       e.target.onerror = null;
                       e.target.src = "https://t.ly/teEM";
                     }}
                   />
                   {movie.isWatched ? (
-                    <div className='eye '>
-                      <i className='las la-eye'></i>
+                    <div className="eye ">
+                      <i className="las la-eye"></i>
                     </div>
                   ) : (
                     ""
                   )}
 
-                  <div className='backHover'>
-                    <div className='imdbPlace'>
+                  <div className="backHover">
+                    <div className="imdbPlace">
                       <h6>{movie.rating}</h6>
                     </div>
-                    <div className='watch'>
+                    <div className="watch">
                       <div
                         className={
                           hovered
                             ? "watchBtn animate__animated  animate__backInDown animate__faster"
                             : "watchBtn"
-                        }>
+                        }
+                      >
                         Watch
                       </div>
                       <div
@@ -723,15 +687,17 @@ export default function Library() {
                           hovered
                             ? "test1 animate__animated  animate__backInLeft animate__faster"
                             : "test1"
-                        }></div>
+                        }
+                      ></div>
                       <div
                         className={
                           hovered
                             ? "test2 animate__animated  animate__backInRight animate__faster"
                             : "test2"
-                        }></div>
+                        }
+                      ></div>
                     </div>
-                    <div className='mvName'>
+                    <div className="mvName">
                       <h4>{movie.title}</h4>
                       <h6>{movie.year}</h6>
                     </div>

@@ -175,7 +175,7 @@ export default function Settings() {
               onChange={handleChange}
               variant="fullWidth"
               indicatorColor="secondary"
-              textColor="red"
+              textcolor="primary"
               TabIndicatorProps={{ style: { background: "red" } }}
               style={{ background: "rgb(8, 7, 8)", color: "white" }}
             >
@@ -287,7 +287,7 @@ export default function Settings() {
                   {errors.firstname && (
                     <Box
                       variant="filled"
-                      color="red"
+                      color="primary"
                       style={{ fontSize: "12px" }}
                     >
                       {errors.firstname.message}
@@ -315,7 +315,7 @@ export default function Settings() {
                   {errors.lastname && (
                     <Box
                       variant="filled"
-                      color="red"
+                      color="primary"
                       style={{ fontSize: "12px" }}
                     >
                       {errors.lastname.message}
@@ -343,7 +343,7 @@ export default function Settings() {
                   {errors.username && (
                     <Box
                       variant="filled"
-                      color="red"
+                      color="primary"
                       style={{ fontSize: "12px" }}
                     >
                       {errors.username.message}
@@ -371,7 +371,7 @@ export default function Settings() {
                   {errors.email && (
                     <Box
                       variant="filled"
-                      color="red"
+                      color="primary"
                       style={{ fontSize: "12px" }}
                     >
                       {errors.email.message}
