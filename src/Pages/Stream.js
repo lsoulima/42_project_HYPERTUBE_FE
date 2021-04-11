@@ -127,10 +127,6 @@ const MyCard = styled.div`
     transform: scale(1.02);
     transition: all 0.4s;
     height: auto;
-    .movie_desc {
-      display: block !important;
-      transition: all 0.9s;
-    }
   }
   .blur_back {
     position: absolute;
@@ -191,13 +187,6 @@ const MyCard = styled.div`
         margin-left: 10px;
       }
     }
-    .movie_desc {
-      display: none;
-      width: 100%;
-      padding: 25px;
-      height: 50%;
-      transition: all 0.9s;
-    }
   }
   :hover .play_button {
     opacity: 1;
@@ -233,6 +222,12 @@ const MovieDetailes = styled.div`
   justify-content: space-evenly;
   @media (max-width: 768px) {
     flex-direction: column-reverse;
+  }
+  @media (min-width: 1024px) {
+    width: 90%;
+  }
+  @media (min-width: 2000px) {
+    width: 60%;
   }
 `;
 
@@ -415,9 +410,9 @@ export default function Stream() {
       {error.error ? (
         <Container>
           <MyCard>
-            <div className='info_section'>
-              <div className='movie_header'>
-                <img className='cover' src='./img/404.svg' alt='cover' />
+            <div className="info_section">
+              <div className="movie_header">
+                <img className="cover" src="./img/404.svg" alt="cover" />
                 <h1>{error.error}</h1>
               </div>
             </div>
@@ -432,8 +427,8 @@ export default function Stream() {
                 { src: "foo.mkv", type: "video/mkv" },
               ]}
               controls={true}
-              width='100%'
-              height='100%'
+              width="100%"
+              height="100%"
               config={{
                 file: {
                   tracks: [
@@ -455,43 +450,43 @@ export default function Stream() {
           </MyVideo>
 
           <MovieDetailes>
-            <div className='movie_section'>
+            <div className="movie_section">
               <div>
-                <img src={details.large_cover_image} alt='cover' />
+                <img src={details.large_cover_image} alt="cover" />
               </div>
               <div>Add to Favorites</div>
             </div>
-            <div className='detail_section'>
-              <div className='divider detail_section_name'>
+            <div className="detail_section">
+              <div className="divider detail_section_name">
                 <h1>{details?.title_long}</h1>
                 <div>
                   <span>Rating: </span>
                   <span>{details?.rating}</span>
                 </div>
               </div>
-              <div className='detail_section_duration'>
+              <div className="detail_section_duration">
                 <span>{timeConvert(details.runtime)}</span>
-                <div className='movie_genre'>
+                <div className="movie_genre">
                   {details?.genres?.map((item) => (
                     <div>{item}</div>
                   ))}
                 </div>
-                <div className=' divider detail_section_description'>
+                <div className=" divider detail_section_description">
                   {details.description_intro}
                 </div>
               </div>
             </div>
           </MovieDetailes>
-          <div className='suggestions_like'>You May Also Like</div>
+          <div className="suggestions_like">You May Also Like</div>
           <Suggestions>
             {suggestions.map((movie, id) => (
               <MyCard key={id}>
-                <div className='info_section'>
-                  <div className='movie_header'>
+                <div className="info_section">
+                  <div className="movie_header">
                     <img
-                      className='cover'
+                      className="cover"
                       src={movie.medium_cover_image}
-                      alt='cover'
+                      alt="cover"
                     />
                     <h1>{movie?.title_long}</h1>
                     <div>
@@ -499,25 +494,22 @@ export default function Stream() {
                       <span>{movie?.rating}</span>
                     </div>
                   </div>
-                  <div className='movie_desc'>
-                    <p className='text'>{movie.summary}</p>
-                  </div>
                 </div>
-                <div className='blur_back bright_back'></div>
-                <i className='las la-play-circle play_button' />
+                <div className="blur_back bright_back"></div>
+                <i className="las la-play-circle play_button" />
               </MyCard>
             ))}
           </Suggestions>
           <CommentSection>
-            <div className='title'>Comments</div>
-            <div className='comments_list'>
+            <div className="title">Comments</div>
+            <div className="comments_list">
               {[0, 1, 2].map((movie, id) => (
-                <Paper className='comment_item'>
-                  <Grid container wrap='nowrap' spacing={2}>
+                <Paper className="comment_item">
+                  <Grid container wrap="nowrap" spacing={2}>
                     <Grid item>
-                      <Avatar alt='UserProfile' src={pic} />
+                      <Avatar alt="UserProfile" src={pic} />
                     </Grid>
-                    <Grid justifyContent='left' item xs zeroMinWidth>
+                    <Grid justifyContent="left" item xs zeroMinWidth>
                       <h3 style={{ margin: 0, textAlign: "left" }}>
                         User Name
                       </h3>
@@ -532,11 +524,11 @@ export default function Stream() {
                 </Paper>
               ))}
             </div>
-            <div className='input_area'>
+            <div className="input_area">
               <input
-                className='comment_input'
-                type='text'
-                placeholder='Comment ...'
+                className="comment_input"
+                type="text"
+                placeholder="Comment ..."
                 // onChange={handleOnChange}
               />
             </div>
