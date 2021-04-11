@@ -16,7 +16,7 @@ export const registerAction = async (data) => {
     if (res) return res.data;
     return false;
   } catch (error) {
-    return error.response.data;
+    return error.response?.data;
   }
 };
 
@@ -31,7 +31,6 @@ export const loginAction = async (loginData, dispatch) => {
 
   try {
     const res = await axios.post(API_URL + "login", loginData, config);
-    console.log(res);
 
     localStorage.setItem("token", res.data.token);
 
@@ -44,7 +43,7 @@ export const loginAction = async (loginData, dispatch) => {
 
     if (res.data) return res.data;
   } catch (error) {
-    return error.response.data;
+    return error.response?.data;
   }
 };
 
@@ -71,7 +70,7 @@ export const logout = async (token, dispatch) => {
 
     if (res.data) return res.data;
   } catch (error) {
-    return error.response.data;
+    return error.response?.data;
   }
 };
 
@@ -92,15 +91,13 @@ export const verifyAccount = async (token) => {
 
     if (res.data) return res.data;
   } catch (error) {
-    return error.response.data;
+    return error.response?.data;
   }
 };
 
 // //* VERIFY TOKEN OF USER
 
 export const checkTokenAction = async (token) => {
-  // console.log(aToken);
-
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -139,7 +136,7 @@ export const resetPwd = async (email) => {
 
     if (res.data) return res.data;
   } catch (error) {
-    return error.response.data;
+    return error.response?.data;
   }
 };
 
@@ -161,6 +158,6 @@ export const newPwd = async (newPassData, token) => {
 
     if (res.data) return res.data;
   } catch (error) {
-    return error.response.data;
+    return error.response?.data;
   }
 };

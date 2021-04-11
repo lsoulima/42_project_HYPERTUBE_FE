@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
@@ -199,10 +199,12 @@ export default function Settings() {
           >
             <div className={classes.root}>
               {profileMessage.success === true ? (
+                // eslint-disable-next-line
                 <Alert variant="outlined" severity="info" variant="filled">
                   {profileMessage.message}
                 </Alert>
               ) : (
+                // eslint-disable-next-line
                 <Alert variant="outlined" severity="error" variant="filled">
                   {profileMessage.error}
                 </Alert>

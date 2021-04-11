@@ -62,7 +62,7 @@ const App = () => {
             <PublicRoute path="/forgetpwd" component={ForgetPwd} />
             <PrivateRoute path="/settings" component={Settings} />
             <PrivateRoute path="/library" component={Library} />
-            <PrivateRoute path="/stream" component={Stream} />
+            <PrivateRoute path="/stream" component={Stream} exact />
             <PrivateRoute path="/profile" component={Profile} />
             <PublicRoute path="/" component={Home} />
             <Route component={Notfound} />
