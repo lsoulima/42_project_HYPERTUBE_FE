@@ -2,7 +2,10 @@ import React, { useEffect, useContext, useState } from "react";
 import styled from "styled-components";
 import ReactPlayer from "react-player";
 import { HyperContext } from "../Context/context";
-import { movieDetailsAction } from "../services/moviesActions";
+import {
+  movieDetailsAction,
+  movieSuggestions,
+} from "../services/moviesActions";
 
 const Container = styled.div`
   padding-top: 100px;
@@ -65,9 +68,7 @@ const MyCard = styled.div`
     width: 100%;
     background-position: 50% 50% !important;
   }
-  .bright_back {
-    background: url("https://yts.mx/assets/images/movies/deadly_illusions_2021/large-cover.jpg");
-  }
+
   .bright_back_error {
     background: url("./img/404.svg");
   }
@@ -297,6 +298,7 @@ const MainContainer = styled.div`
 export default function Stream() {
   const { state } = useContext(HyperContext);
   const [details, setDetails] = useState({});
+  const [suggestions, setSuggestions] = useState([]);
   const [error, setError] = useState({});
   const movieID = window.location.search.split("=")[1];
 
@@ -307,6 +309,11 @@ export default function Stream() {
     const minutes = (hours - rhours) * 60;
     const rminutes = Math.round(minutes);
     return rhours + " hour(s) " + rminutes + " minute(s).";
+  };
+
+  const LoeadmovieSuggestions = async () => {
+    const response = await movieSuggestions(state.token, movieID);
+    setSuggestions(response);
   };
 
   useEffect(() => {
@@ -325,6 +332,7 @@ export default function Stream() {
       }
     };
     loadMovieDetails();
+    LoeadmovieSuggestions();
   }, []);
 
   return (
@@ -400,26 +408,23 @@ export default function Stream() {
           </MovieDetailes>
           <div className='suggestions_like'>You May Also Like</div>
           <Suggestions>
-            {[0, 1, 2, 3, 4, 5].map((movie, id) => (
+            {suggestions.map((movie, id) => (
               <MyCard key={id}>
                 <div className='info_section'>
                   <div className='movie_header'>
                     <img
                       className='cover'
-                      src='https://yts.mx/assets/images/movies/deadly_illusions_2021/large-cover.jpg'
+                      src={movie.medium_cover_image}
                       alt='cover'
                     />
-                    <h1>The Poker House</h1>
-                    <h4>2017, David Ayer</h4>
-                    <span className='minutes'>117 min</span>
-                    <p className='type'>Action, Crime, Fantasy</p>
+                    <h1>{movie?.title_long}</h1>
+                    <div>
+                      <span>Rating: </span>
+                      <span>{movie?.rating}</span>
+                    </div>
                   </div>
                   <div className='movie_desc'>
-                    <p className='text'>
-                      Set in a world where fantasy creatures live side by side
-                      with humans. A human cop is forced to work with an Orc to
-                      find a weapon everyone is prepared to kill for.
-                    </p>
+                    <p className='text'>{movie.summary}</p>
                   </div>
                 </div>
                 <div className='blur_back bright_back'></div>
