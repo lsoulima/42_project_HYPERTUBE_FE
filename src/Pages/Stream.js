@@ -12,7 +12,7 @@ import { useHistory } from "react-router";
 import { Avatar, Grid, Paper } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import { Snackbar } from "@material-ui/core";
-import ComplexGrid from "./Quality";
+
 const pic =
   "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260";
 

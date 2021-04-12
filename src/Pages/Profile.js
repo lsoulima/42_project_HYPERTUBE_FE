@@ -252,7 +252,6 @@ export default function Settings() {
 
             <Button
               type='submit'
-              fullWidth
               variant='contained'
               color='primary'
               className='submit'
