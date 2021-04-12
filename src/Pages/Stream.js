@@ -10,6 +10,10 @@ import {
 } from "../services/moviesActions";
 import { useHistory } from "react-router";
 import { Avatar, Grid, Paper } from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/Delete";
+import Favorite from "@material-ui/icons/Favorite";
+import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
+
 import Alert from "@material-ui/lab/Alert";
 import { Snackbar } from "@material-ui/core";
 
@@ -522,13 +526,13 @@ export default function Stream() {
           <MovieDetailes>
             <div className='movie_section'>
               <div>
-                <img src={details.image} alt='cover' />
+                <img src={details?.image} alt='cover' />
               </div>
               <div
                 onClick={() => {
                   handleAddToFavorite();
                 }}>
-                Add to Favorites
+                Add To Favorite
               </div>
             </div>
             <div className='detail_section'>
