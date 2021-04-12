@@ -38,6 +38,37 @@ const Container = styled.div`
   }
 `;
 const MyVideo = styled.div`
+  .quality {
+    display: flex;
+    justify-content: center;
+    color: ${(props) => props.theme.background_grey_5};
+    padding: 25px 0 !important;
+
+    .quality_item {
+      display: flex;
+      flex-wrap: wrap;
+      div {
+        cursor: pointer;
+        background: ${(props) => props.theme.background_grey_2};
+        color: #fff;
+        padding: 10px 15px;
+        font-size: 12px;
+        margin-right: 15px;
+        border-radius: 25px;
+        :hover {
+          transform: scale(1.02);
+          transition: all 0.4s;
+          height: auto;
+          box-shadow: 0px 0px 12px #cdcdcd;
+          background-color: red;
+        }
+      }
+    }
+  }
+  .divider {
+    width: 100%;
+    border-bottom: 1px solid ${(props) => props.theme.background_grey_2};
+  }
   height: 700px;
   width: 90%;
   @media (max-width: 1440px) {
@@ -57,9 +88,9 @@ const CommentSection = styled.div`
   background: transparent;
   display: flex;
   flex-direction: column;
-  padding-top: 40px;
   justify-content: center;
   align-items: center;
+  margin-bottom: 100px;
   width: 100%;
   .title {
     margin: 0;
@@ -77,6 +108,7 @@ const CommentSection = styled.div`
     text-align: center;
   }
   .comment_input {
+    cursor: pointer;
     width: 90%;
     height: 100px;
     color: ${(props) => props.theme.background};
@@ -218,9 +250,10 @@ const MyCard = styled.div`
     width: 45%;
   }
 `;
+
 const MovieDetailes = styled.div`
   width: 100%;
-  margin-top: 50px;
+  margin-top: 115px;
   display: flex;
   justify-content: space-evenly;
   @media (max-width: 768px) {
@@ -237,6 +270,10 @@ const MovieDetailes = styled.div`
 const MainContainer = styled.div`
   background: ${(props) => props.theme.background};
   min-height: 100vh;
+  .divider {
+    width: 100%;
+    border-bottom: 1px solid ${(props) => props.theme.background_grey_2};
+  }
   .movie_section {
     height: 100%;
     flex-basis: 11%;
@@ -265,10 +302,7 @@ const MainContainer = styled.div`
     display: flex;
     flex-direction: column;
     flex-basis: 70%;
-    .divider {
-      width: 100%;
-      border-bottom: 1px solid ${(props) => props.theme.background_grey_2};
-    }
+
     .detail_section_name {
       display: flex;
       justify-content: space-between;
@@ -287,9 +321,9 @@ const MainContainer = styled.div`
       }
       h1 {
         margin: 0;
-        font-size: 67px;
-        font-weight: 700;
-        line-height: 64px;
+        font-size: 55px;
+        font-weight: 600;
+        line-height: 70px;
         letter-spacing: -1px;
         color: ${(props) => props.theme.text};
       }
@@ -307,7 +341,7 @@ const MainContainer = styled.div`
         margin: 0 3px;
       }
       .movie_genre {
-        margin-top: 10px;
+        margin: 20px 0;
         display: flex;
         flex-wrap: wrap;
         div {
@@ -465,9 +499,9 @@ export default function Stream() {
       {error.error ? (
         <Container>
           <MyCard>
-            <div className='info_section'>
-              <div className='movie_header'>
-                <img className='cover' src='./img/404.svg' alt='cover' />
+            <div className="info_section">
+              <div className="movie_header">
+                <img className="cover" src="./img/404.svg" alt="cover" />
                 <h1>{error.error}</h1>
               </div>
             </div>
@@ -479,13 +513,14 @@ export default function Stream() {
             anchorOrigin={{ vertical: "top", horizontal: "center" }}
             open={open}
             autoHideDuration={3000}
-            onClose={handleClose}>
+            onClose={handleClose}
+          >
             {favorite.success === true ? (
-              <Alert onClose={handleClose} severity='success' variant='filled'>
+              <Alert onClose={handleClose} severity="success" variant="filled">
                 {favorite.message}
               </Alert>
             ) : (
-              <Alert onClose={handleClose} severity='info' variant='filled'>
+              <Alert onClose={handleClose} severity="info" variant="filled">
                 {favorite.error}
               </Alert>
             )}
@@ -497,8 +532,8 @@ export default function Stream() {
                 { src: "foo.mkv", type: "video/mkv" },
               ]}
               controls={true}
-              width='100%'
-              height='100%'
+              width="100%"
+              height="100%"
               config={{
                 file: {
                   tracks: [
@@ -517,59 +552,67 @@ export default function Stream() {
                 },
               }}
             />
+            <div className="divider quality">
+              <div className="quality_item">
+                {details?.torrents?.map((item) => (
+                  <div>{item.quality}</div>
+                ))}
+              </div>
+            </div>
           </MyVideo>
-
           <MovieDetailes>
-            <div className='movie_section'>
+            <div className="movie_section">
               <div>
-                <img src={details.image} alt='cover' />
+                <img src={details.image} alt="cover" />
               </div>
               <div
                 onClick={() => {
                   handleAddToFavorite();
-                }}>
+                }}
+              >
                 Add to Favorites
               </div>
             </div>
-            <div className='detail_section'>
-              <div className='divider detail_section_name'>
+            <div className="detail_section">
+              <div className="divider detail_section_name">
                 <h1>{details?.title_long}</h1>
                 <div>
                   <span>Rating: </span>
                   <span>{details?.rating}</span>
                 </div>
               </div>
-              <div className='detail_section_duration'>
+              <div className="detail_section_duration">
                 <span>{timeConvert(details?.runtime)}</span>
-                <div className='movie_genre'>
+                <div className="movie_genre">
                   {details?.genres?.map((item) => (
                     <div>{item}</div>
                   ))}
                 </div>
-                <div className=' divider detail_section_description'>
+                <div className=" divider detail_section_description">
                   {details?.descripton}
                 </div>
               </div>
 
-              <div className='divider detail_section_movieInfo'>
-                <div className='detail_section_director'>
-                  <div className='director'>ACTORS</div>
-                  <div className='director_value'>{details?.actors}</div>
+              <div className=" detail_section_movieInfo">
+                <div className="detail_section_director">
+                  <div className="director">ACTORS</div>
+                  <div className="director_value">{details?.actors}</div>
                 </div>
               </div>
             </div>
           </MovieDetailes>
-          <div className='suggestions_like'>You May Also Like</div>
+          <div className="suggestions_like">You May Also Like</div>
           <Suggestions>
             {suggestions?.map((movie, id) => (
               <MyCard
                 key={id}
                 onClick={() => {
                   handleClickMovie(movie.id);
-                }}>
-                <div className='info_section'>
-                  <div className='movie_header'>
-                    <img className='cover' src={movie?.image} alt='cover' />
+                }}
+              >
+                <div className="info_section">
+                  <div className="movie_header">
+                    <img className="cover" src={movie?.image} alt="cover" />
                     <h1>{movie?.title}</h1>
                     <div>
                       <span>Rating: </span>
@@ -578,24 +621,25 @@ export default function Stream() {
                   </div>
                 </div>
                 <div
-                  className='blur_back'
+                  className="blur_back"
                   style={{
                     backgroundImage: `url(${movie?.image})`,
-                  }}></div>
-                <i className='las la-play-circle play_button' />
+                  }}
+                ></div>
+                <i className="las la-play-circle play_button" />
               </MyCard>
             ))}
           </Suggestions>
           <CommentSection>
-            <div className='title'>Comments</div>
-            <div className='comments_list'>
+            <div className="title">Comments</div>
+            <div className="comments_list">
               {[0, 1, 2].map((movie, id) => (
-                <Paper className='comment_item'>
-                  <Grid container wrap='nowrap' spacing={2}>
+                <Paper className="comment_item">
+                  <Grid container wrap="nowrap" spacing={2}>
                     <Grid item>
-                      <Avatar alt='UserProfile' src={pic} />
+                      <Avatar alt="UserProfile" src={pic} />
                     </Grid>
-                    <Grid justifyContent='left' item xs zeroMinWidth>
+                    <Grid justifyContent="left" item xs zeroMinWidth>
                       <h3 style={{ margin: 0, textAlign: "left" }}>
                         User Name
                       </h3>
@@ -610,11 +654,11 @@ export default function Stream() {
                 </Paper>
               ))}
             </div>
-            <div className='input_area'>
+            <div className="input_area">
               <input
-                className='comment_input'
-                type='text'
-                placeholder='Comment ...'
+                className="comment_input"
+                type="text"
+                placeholder="Comment ..."
                 // onChange={handleOnChange}
               />
             </div>
