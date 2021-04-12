@@ -301,7 +301,7 @@ const MainContainer = styled.div`
       height: 50px;
       text-align: center;
       line-height: 70px;
-      color: red;
+      color: #ffe600;
       border-radius: 5px;
       cursor: pointer;
     }
@@ -588,7 +588,7 @@ export default function Stream() {
               {details?.favorite ? (
                 <div
                   onClick={() => {
-                    handleAddToFavorite();
+                    handleRemoveFromFavorite();
                   }}
                 >
                   <StarHalfIcon fontSize="large" />
