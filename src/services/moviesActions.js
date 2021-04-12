@@ -67,16 +67,20 @@ export const addMovieToFavorite = async (token, movieInfo) => {
     },
   };
   try {
-    const res = await axios.post(API_URL + "/favorite/", movieInfo, config);
+    const res = await axios.post(
+      API_URL + "/add/tofavorite",
+      movieInfo,
+      config
+    );
+
     if (res) return res.data;
   } catch (error) {
     return error.response?.data;
   }
 };
+//* Get Favorite list Movies
 
-//* Post Movies to Watched list
-
-export const addMovieToWatched = async (token, movieId) => {
+export const getFavoriteMovies = async (token) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -84,7 +88,24 @@ export const addMovieToWatched = async (token, movieId) => {
     },
   };
   try {
-    const res = await axios.post(API_URL + "/watched/id/" + movieId, config);
+    const res = await axios.get(API_URL + "/favorite", config);
+
+    if (res) return res.data;
+  } catch (error) {
+    return error.response?.data;
+  }
+};
+//* Post Movies to Watched list
+
+export const addMovieToWatched = async (token, movieInfo) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  try {
+    const res = await axios.post(API_URL + "/add/towatch", movieInfo, config);
     if (res) return res.data;
   } catch (error) {
     return error.response?.data;
@@ -104,6 +125,6 @@ export const addComment = async (token, movieId) => {
     const res = await axios.post(API_URL + "/comment/id/" + movieId, config);
     if (res) return res.data;
   } catch (error) {
-    return error.response?.data;
+    return error.response.data;
   }
 };
