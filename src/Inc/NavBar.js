@@ -257,8 +257,14 @@ function NavBar({ t, mytheme, settheme }) {
             <Link key='5' className='link' to='/profile'>
               <MenuItem>Profile</MenuItem>
             </Link>,
-            <Link key='6' className='link' to='/logout'>
-              <MenuItem>Logout</MenuItem>
+            <Link key='6' className='link' to='/login'>
+              <MenuItem
+                onClick={() => {
+                  handleMenuClose();
+                  handleLogout();
+                }}>
+                Logout
+              </MenuItem>
             </Link>,
           ]
         : [

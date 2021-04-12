@@ -7,6 +7,7 @@ import {
   movieSuggestions,
   addMovieToFavorite,
   addMovieToWatched,
+  DeleteFavoriteMovies,
 } from "../services/moviesActions";
 import { useHistory } from "react-router";
 import { Avatar, Grid, Paper } from "@material-ui/core";
@@ -458,9 +459,21 @@ export default function Stream() {
 
     if (responce) {
       setFavorite(responce);
+      setDetails({ ...details, favorite: true });
       setOpen(true);
     }
   };
+  //* DELETE MOVIE FROM FAVORITE LIST
+  const handleRemoveFromFavorite = async () => {
+    const responce = await DeleteFavoriteMovies(state.token, details.id);
+
+    if (responce) {
+      setFavorite(responce);
+      setDetails({ ...details, favorite: false });
+      setOpen(true);
+    }
+  };
+
   //* ADD MOVIE TO WATCHED LIST
   // eslint-disable-next-line
   const handleAddToWatched = async () => {
@@ -586,7 +599,6 @@ export default function Stream() {
                     handleAddToFavorite();
                   }}
                 >
-                  {/* Add To Favorite */}
                   <StarIcon fontSize="large" />
                 </div>
               )}

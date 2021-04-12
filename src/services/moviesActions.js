@@ -95,6 +95,26 @@ export const getFavoriteMovies = async (token) => {
     return error.response?.data;
   }
 };
+//* Delete Favorite list Movies
+
+export const DeleteFavoriteMovies = async (token, movieId) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  try {
+    const res = await axios.delete(
+      API_URL + "/delete/fromfavorite/" + movieId,
+      config
+    );
+
+    if (res) return res.data;
+  } catch (error) {
+    return error.response?.data;
+  }
+};
 //* Post Movies to Watched list
 
 export const addMovieToWatched = async (token, movieInfo) => {

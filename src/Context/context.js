@@ -14,6 +14,9 @@ export const HyperProvider = ({ children }) => {
     email: "",
     username: "",
     profile: "",
+    fortyTwoId: "",
+    githubId: "",
+    googleId: "",
   });
   const [authorized, setAuthorized] = useState(true);
   useEffect(() => {
@@ -29,6 +32,9 @@ export const HyperProvider = ({ children }) => {
             email: userData.email,
             username: userData.username,
             profile: userData.profile,
+            fortyTwoId: userData.fortyTwoId,
+            githubId: userData.githubId,
+            googleId: userData.googleId,
           });
         } else {
           await logout(state.token, dispatch);

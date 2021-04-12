@@ -140,6 +140,7 @@ export default function Login() {
   //* SUBMIT DATA TO LOGIN
   const onSubmit = async (data) => {
     const responce = await loginAction(data, dispatch);
+
     setState(responce);
     setOpen(true);
   };
@@ -165,16 +166,16 @@ export default function Login() {
               open={open}
               autoHideDuration={3000}
               onClose={handleClose}>
-              {state.success === true ? (
+              {state?.success === true ? (
                 <Alert
                   onClose={handleClose}
                   severity='success'
                   variant='filled'>
-                  {state.message}
+                  {state?.message}
                 </Alert>
               ) : (
                 <Alert onClose={handleClose} severity='error' variant='filled'>
-                  {state.error}
+                  {state?.error}
                 </Alert>
               )}
             </Snackbar>

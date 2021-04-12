@@ -181,11 +181,17 @@ export default function Settings() {
                 label='Info'
                 style={{ padding: "20px 0" }}
               />
-              <Tab
-                icon={<SecurityTwoToneIcon />}
-                label='Password'
-                style={{ padding: "20px 0" }}
-              />
+              {userInfos.googleId ||
+              userInfos.fortyTwoId ||
+              userInfos.githubId ? (
+                <></>
+              ) : (
+                <Tab
+                  icon={<SecurityTwoToneIcon />}
+                  label='Password'
+                  style={{ padding: "20px 0" }}
+                />
+              )}
             </Tabs>
           </Paper>
           <Snackbar
