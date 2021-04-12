@@ -19,6 +19,7 @@ import StarHalfIcon from "@material-ui/icons/StarHalf";
 import moment from "moment";
 import Alert from "@material-ui/lab/Alert";
 import { Snackbar } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 const pic =
   "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260";
@@ -706,8 +707,22 @@ export default function Stream() {
                       <Avatar alt='UserProfile' src={comment.userId.profile} />
                     </Grid>
                     <Grid justifycontent='left' item xs>
-                      <h3 style={{ margin: 0, textAlign: "left" }}>
-                        {comment.userId.username}
+                      <h3
+                        style={{
+                          margin: 0,
+                          textAlign: "left",
+                          cursor: "pointer",
+                          color: "black",
+                        }}>
+                        <Link
+                          to={
+                            comment.userId.username === userInfos.username
+                              ? "/profile"
+                              : `/profile/${comment.userId.username}`
+                          }
+                          style={{ color: "gray" }}>
+                          {comment.userId.username}
+                        </Link>
                       </h3>
                       <p style={{ textAlign: "left", width: "100%" }}>
                         {comment.content}
