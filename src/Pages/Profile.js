@@ -16,7 +16,7 @@ import FavoriteList from "./FavoriteList";
 
 const Wrapper = styled.div`
   & {
-    background: url("./img/1.jpg") no-repeat center center fixed;
+    background: url("./img/back.jpg") no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -233,7 +233,7 @@ export default function Settings() {
                 <i className='las la-user  animate__animated animate__wobble animate__infinite'></i>
               </div>
               <div className='backHover'>
-                <div className='imdbPlace'>
+                <div className='mvName'>
                   <h3>{userInfos.username}</h3>
                 </div>
                 <i

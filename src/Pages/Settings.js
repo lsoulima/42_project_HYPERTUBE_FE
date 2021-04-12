@@ -64,7 +64,7 @@ const WhiteBorderTextField = styled(TextField)`
 
 const Wrapper = styled.div`
   & {
-    background: url("./img/net.jpg") no-repeat center center fixed;
+    background: url("./img/back.jpg") no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -157,34 +157,33 @@ export default function Settings() {
     const { children, value, index } = props;
 
     return (
-      <div role="tabpanel" hidden={value !== index}>
-        {value === index && <div className="paper">{children}</div>}
+      <div role='tabpanel' hidden={value !== index}>
+        {value === index && <div className='paper'>{children}</div>}
       </div>
     );
   };
 
   return (
     <Wrapper>
-      <div className="container">
-        <Container component="main" maxWidth="sm">
+      <div className='container'>
+        <Container component='main' maxWidth='sm'>
           <Paper elevation={5}>
             <Tabs
               value={tab}
               onChange={handleChange}
-              variant="fullWidth"
-              indicatorColor="secondary"
-              textcolor="primary"
+              variant='fullWidth'
+              indicatorColor='secondary'
+              textcolor='primary'
               TabIndicatorProps={{ style: { background: "red" } }}
-              style={{ background: "rgb(8, 7, 8)", color: "white" }}
-            >
+              style={{ background: "rgb(8, 7, 8)", color: "white" }}>
               <Tab
                 icon={<PersonPinIcon />}
-                label="Info"
+                label='Info'
                 style={{ padding: "20px 0" }}
               />
               <Tab
                 icon={<SecurityTwoToneIcon />}
-                label="Password"
+                label='Password'
                 style={{ padding: "20px 0" }}
               />
             </Tabs>
@@ -193,17 +192,16 @@ export default function Settings() {
             anchorOrigin={{ vertical: "top", horizontal: "center" }}
             open={done}
             autoHideDuration={2000}
-            onClose={handleClose}
-          >
+            onClose={handleClose}>
             <div className={classes.root}>
               {profileMessage.success === true ? (
                 // eslint-disable-next-line
-                <Alert variant="outlined" severity="success" variant="filled">
+                <Alert variant='outlined' severity='success' variant='filled'>
                   {profileMessage.message}
                 </Alert>
               ) : (
                 // eslint-disable-next-line
-                <Alert variant="outlined" severity="error" variant="filled">
+                <Alert variant='outlined' severity='error' variant='filled'>
                   {profileMessage.error}
                 </Alert>
               )}
@@ -214,49 +212,46 @@ export default function Settings() {
             anchorOrigin={{ vertical: "top", horizontal: "center" }}
             open={open}
             autoHideDuration={2000}
-            onClose={handleClose}
-          >
+            onClose={handleClose}>
             {message.success === true ? (
-              <Alert onClose={handleClose} severity="success" variant="filled">
+              <Alert onClose={handleClose} severity='success' variant='filled'>
                 {message.message}
               </Alert>
             ) : (
-              <Alert onClose={handleClose} severity="error" variant="filled">
+              <Alert onClose={handleClose} severity='error' variant='filled'>
                 {message.error}
               </Alert>
             )}
           </Snackbar>
           <TabPanel value={tab} index={0}>
             <Typography
-              component="h1"
-              variant="h5"
+              component='h1'
+              variant='h5'
               style={{
                 fontSize: "40px",
                 fontWeight: 600,
                 color: "#fff",
-              }}
-            >
+              }}>
               {userInfos.username}
             </Typography>
-            <form className="form" onSubmit={handleSubmit(onSubmit)}>
+            <form className='form' onSubmit={handleSubmit(onSubmit)}>
               <Grid container spacing={2}>
                 <Grid
                   item
                   xs={12}
-                  style={{ margin: "20px 0 20px 0", textAlign: "center" }}
-                >
-                  <LabelImage type="file">
+                  style={{ margin: "20px 0 20px 0", textAlign: "center" }}>
+                  <LabelImage type='file'>
                     <img
                       src={
                         userInfos.profile
                           ? userInfos.profile
                           : "./img/avatar.jpeg"
                       }
-                      alt="avatar"
+                      alt='avatar'
                     />
                     <input
-                      type="file"
-                      accept="image/*"
+                      type='file'
+                      accept='image/*'
                       onChange={(e) => onFileChange(e.target.files[0])}
                     />
                   </LabelImage>
@@ -264,14 +259,14 @@ export default function Settings() {
 
                 <Grid item xs={12} sm={6}>
                   <WhiteBorderTextField
-                    variant="outlined"
+                    variant='outlined'
                     defaultValue={userInfos.firstname}
-                    margin="normal"
+                    margin='normal'
                     fullWidth
-                    id="firstname"
-                    label="First Name"
-                    name="firstname"
-                    autoComplete="firstname"
+                    id='firstname'
+                    label='First Name'
+                    name='firstname'
+                    autoComplete='firstname'
                     autoFocus
                     inputRef={register({
                       required: "You must provide your firstname!",
@@ -284,23 +279,22 @@ export default function Settings() {
                   />
                   {errors.firstname && (
                     <Box
-                      variant="filled"
-                      color="red"
-                      style={{ fontSize: "12px" }}
-                    >
+                      variant='filled'
+                      color='red'
+                      style={{ fontSize: "12px" }}>
                       {errors.firstname.message}
                     </Box>
                   )}
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <WhiteBorderTextField
-                    variant="outlined"
-                    margin="normal"
+                    variant='outlined'
+                    margin='normal'
                     defaultValue={userInfos.lastname}
                     fullWidth
-                    id="lastname"
-                    label="Last Name"
-                    name="lastname"
+                    id='lastname'
+                    label='Last Name'
+                    name='lastname'
                     inputRef={register({
                       required: "You must provide your lastname!",
                       pattern: {
@@ -312,23 +306,22 @@ export default function Settings() {
                   />
                   {errors.lastname && (
                     <Box
-                      variant="filled"
-                      color="red"
-                      style={{ fontSize: "12px" }}
-                    >
+                      variant='filled'
+                      color='red'
+                      style={{ fontSize: "12px" }}>
                       {errors.lastname.message}
                     </Box>
                   )}
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <WhiteBorderTextField
-                    variant="outlined"
-                    margin="normal"
+                    variant='outlined'
+                    margin='normal'
                     defaultValue={userInfos.username}
                     fullWidth
-                    id="username"
-                    label="User Name"
-                    name="username"
+                    id='username'
+                    label='User Name'
+                    name='username'
                     inputRef={register({
                       required: "You must provide your username!",
                       pattern: {
@@ -340,24 +333,23 @@ export default function Settings() {
                   />
                   {errors.username && (
                     <Box
-                      variant="filled"
-                      color="red"
-                      style={{ fontSize: "12px" }}
-                    >
+                      variant='filled'
+                      color='red'
+                      style={{ fontSize: "12px" }}>
                       {errors.username.message}
                     </Box>
                   )}
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <WhiteBorderTextField
-                    variant="outlined"
-                    margin="normal"
+                    variant='outlined'
+                    margin='normal'
                     fullWidth
                     defaultValue={userInfos.email}
-                    id="email"
-                    label="Email Address"
-                    name="email"
-                    autoComplete="email"
+                    id='email'
+                    label='Email Address'
+                    name='email'
+                    autoComplete='email'
                     inputRef={register({
                       required: "You must provide your email!",
                       pattern: {
@@ -368,21 +360,19 @@ export default function Settings() {
                   />
                   {errors.email && (
                     <Box
-                      variant="filled"
-                      color="red"
-                      style={{ fontSize: "12px" }}
-                    >
+                      variant='filled'
+                      color='red'
+                      style={{ fontSize: "12px" }}>
                       {errors.email.message}
                     </Box>
                   )}
                 </Grid>
                 <Button
-                  type="submit"
+                  type='submit'
                   fullWidth
-                  variant="contained"
-                  color="primary"
-                  className="submit"
-                >
+                  variant='contained'
+                  color='primary'
+                  className='submit'>
                   Save
                 </Button>
               </Grid>
