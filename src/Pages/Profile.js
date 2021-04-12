@@ -42,7 +42,7 @@ const Wrapper = styled.div`
   .paper {
     background-color: rgba(0, 0, 0, 0.75);
     border-radius: 0 0 15px 15px;
-    padding: 50px;
+    padding: 50px 0;
     display: flex;
     flex-direction: column;
     align-items: center;

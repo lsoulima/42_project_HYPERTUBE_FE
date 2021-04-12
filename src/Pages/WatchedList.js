@@ -189,16 +189,6 @@ const MessageCard = styled.div`
       }
     }
   }
-
-  @media (max-width: 768px) {
-    width: 100%;
-  }
-  @media (max-width: 1024px) {
-    width: 50%;
-  }
-  @media (max-width: 1440px) {
-    width: 45%;
-  }
 `;
 
 const WatchedList = () => {
@@ -222,7 +212,7 @@ const WatchedList = () => {
         `https://api.apiumadomain.com/list?sort=popularity&page=1`
       );
       console.log(res.data.MovieList);
-      setmovies(res.data.MovieList);
+      setmovies([]);
     }
     fetchMovies();
   }, []);
@@ -231,10 +221,10 @@ const WatchedList = () => {
     <List>
       {movies.length === 0 ? (
         <MessageCard>
-          <div className='info_section'>
-            <div className='movie_header'>
-              <img className='cover' src='./img/watch.svg' alt='cover' />
-              <h1>Go watch some movies</h1>
+          <div className="info_section">
+            <div className="movie_header">
+              <img className="cover" src="./img/watch.svg" alt="cover" />
+              <h1>Go see some movies</h1>
             </div>
           </div>
         </MessageCard>
@@ -243,7 +233,8 @@ const WatchedList = () => {
           autoPlaySpeed={2000}
           breakPoints={breakPoints}
           pagination={false}
-          enableAutoPlay>
+          enableAutoPlay
+        >
           {movies.map((movie, index) => (
             <MyCard
               key={index}
@@ -251,27 +242,28 @@ const WatchedList = () => {
               //   handleClickMovie(movie.id);
               // }}
               onMouseEnter={() => toggleHover(true)}
-              onMouseLeave={() => toggleHover(false)}>
+              onMouseLeave={() => toggleHover(false)}
+            >
               <img
                 src={movie?.poster_big}
-                width='100%'
-                height='100%'
-                alt='cover'
+                width="100%"
+                height="100%"
+                alt="cover"
                 onError={(e) => {
                   e.target.onerror = null;
                   e.target.src = "https://t.ly/teEM";
                 }}
               />
 
-              <div className='eye'>
-                <i className='las la-eye  animate__animated animate__wobble animate__infinite'></i>
+              <div className="eye">
+                <i className="las la-eye  animate__animated animate__wobble animate__infinite"></i>
               </div>
-              <div className='backHover'>
-                <div className='imdbPlace'>
+              <div className="backHover">
+                <div className="imdbPlace">
                   <h6>{movie.rating}</h6>
                 </div>
-                <i className='las la-play-circle play_button' />
-                <div className='mvName'>
+                <i className="las la-play-circle play_button" />
+                <div className="mvName">
                   <h4>{movie.title}</h4>
                   <h6>{movie.year}</h6>
                 </div>
