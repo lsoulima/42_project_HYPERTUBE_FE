@@ -528,12 +528,23 @@ export default function Stream() {
               <div>
                 <img src={details?.image} alt='cover' />
               </div>
-              <div
-                onClick={() => {
-                  handleAddToFavorite();
-                }}>
-                Add To Favorite
-              </div>
+              {details?.favorite ? (
+                <div
+                  onClick={() => {
+                    handleAddToFavorite();
+                  }}>
+                  {/* Remove From Favorite{" "} */}
+                  <Favorite color='secondary' fontSize='large' />
+                </div>
+              ) : (
+                <div
+                  onClick={() => {
+                    handleAddToFavorite();
+                  }}>
+                  {/* Add To Favorite */}
+                  <FavoriteBorder color='secondary' fontSize='large' />
+                </div>
+              )}
             </div>
             <div className='detail_section'>
               <div className='divider detail_section_name'>
