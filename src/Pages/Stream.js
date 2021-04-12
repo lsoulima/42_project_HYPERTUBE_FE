@@ -86,11 +86,6 @@ const MyVideo = styled.div`
     width: 60%;
   }
 `;
-const Suggestions = styled.div`
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-`;
 
 const CommentSection = styled.div`
   background: transparent;
@@ -156,6 +151,13 @@ const CommentSection = styled.div`
       box-shadow: 0px 0px 12px #cdcdcd;
     }
   }
+`;
+
+const Suggestions = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
 `;
 
 const MyCard = styled.div`
@@ -253,14 +255,26 @@ const MyCard = styled.div`
       transition: all 0.9s;
     }
   }
-  @media (max-width: 768px) {
+
+  @media (min-width: 300px) {
     width: 100%;
+    .movie_header {
+      h1 {
+        font-size: 1.5rem;
+      }
+      div {
+        font-size: 1rem;
+      }
+    }
   }
-  @media (max-width: 1024px) {
-    width: 50%;
-  }
-  @media (max-width: 1440px) {
+  @media (min-width: 768px) {
     width: 45%;
+  }
+  @media (min-width: 1440px) {
+    width: 30%;
+  }
+  @media (min-width: 2500px) {
+    width: 20%;
   }
 `;
 
@@ -705,53 +719,19 @@ export default function Stream() {
           <CommentSection>
             <div className="title">Comments</div>
             <div className="comments_list">
-              {[0, 1, 2].map((movie, id) => (
-                <Paper className="comment_item">
-                  <Grid container wrap="nowrap" spacing={2}>
-                    <Grid item>
-                      <Avatar alt="UserProfile" src={pic} />
-                    </Grid>
-                    <Grid justifyContent="left" item xs zeroMinWidth>
-                      <h3 style={{ margin: 0, textAlign: "left" }}>
-                        User Name
-                      </h3>
-                      <p style={{ textAlign: "left" }}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      </p>
-                      <p style={{ textAlign: "left", color: "gray" }}>
-                        posted 1 minute ago
-                      </p>
-                    </Grid>
-                  </Grid>
-                </Paper>
-              ))}
-            </div>
-            <div className="input_area">
-              <input
-                className="comment_input"
-                type="text"
-                placeholder="Comment ..."
-                // onChange={handleOnChange}
-              />
-            </div>
-          </CommentSection>
-
-          {/* <CommentSection>
-            <div className="title">Comments</div>
-            <div className="comments_list">
               {comments.map((comment, index) => (
                 <Paper className="comment_item" key={index}>
                   <Grid container wrap="nowrap" spacing={2}>
                     <Grid item>
                       <Avatar alt="UserProfile" src={comment.userId.profile} />
                     </Grid>
-                    <Grid lg>
+                    <Grid justifycontent="left" item xs zeroMinWidth>
                       <h3
                         style={{
                           margin: 0,
                           textAlign: "left",
                           cursor: "pointer",
-                          color: "black",
+                          // color: "black",
                         }}
                       >
                         <Link
@@ -765,14 +745,12 @@ export default function Stream() {
                           {comment.userId.username}
                         </Link>
                       </h3>
-                      <p style={{ textAlign: "left", width: "100%" }}>
-                        {comment.content}
-                      </p>
+                      <p style={{ textAlign: "left" }}>{comment.content}</p>
                       <p style={{ textAlign: "right", color: "gray" }}>
                         {moment(comment.createdAt).from()}
                       </p>
                     </Grid>
-                    <Grid md>
+                    <Grid>
                       {userInfos.id === comment.userId._id ? (
                         <i
                           className="las la-trash"
@@ -798,7 +776,7 @@ export default function Stream() {
                 />
               </form>
             </div>
-          </CommentSection> */}
+          </CommentSection>
         </Container>
       )}
     </MainContainer>

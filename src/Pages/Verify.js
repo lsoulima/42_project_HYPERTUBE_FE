@@ -11,7 +11,7 @@ import { Snackbar } from "@material-ui/core";
 
 const Wrapper = styled.div`
   & {
-    background: url("./img/net.jpg") no-repeat center center fixed;
+    background: url("./img/login.jpg") no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -75,45 +75,49 @@ export default function Verify() {
 
   return (
     <Wrapper>
-      <div className='container'>
-        <Container component='main' maxWidth='xs'>
-          <div className='paper'>
+      <div className="container">
+        <Container component="main" maxWidth="xs">
+          <div className="paper">
             <Snackbar
               anchorOrigin={{ vertical: "top", horizontal: "center" }}
               open={open}
               autoHideDuration={3000}
-              onClose={handleClose}>
+              onClose={handleClose}
+            >
               {state.success === true ? (
                 <Alert
                   onClose={handleClose}
-                  severity='success'
-                  variant='filled'>
+                  severity="success"
+                  variant="filled"
+                >
                   {state.message}
                 </Alert>
               ) : (
-                <Alert onClose={handleClose} severity='error' variant='filled'>
+                <Alert onClose={handleClose} severity="error" variant="filled">
                   {state.error}
                 </Alert>
               )}
             </Snackbar>
             <Typography
-              component='h1'
-              variant='h5'
+              component="h1"
+              variant="h5"
               style={{
                 alignSelf: "start",
                 fontSize: "40px",
                 fontWeight: 600,
                 color: "#fff",
-              }}>
+              }}
+            >
               {state.message}
             </Typography>
-            <form className='form'>
+            <form className="form">
               <Button
-                href='/login'
+                href="/login"
                 fullWidth
-                variant='contained'
-                color='primary'
-                className='submit'>
+                variant="contained"
+                color="primary"
+                className="submit"
+              >
                 login
               </Button>
             </form>
