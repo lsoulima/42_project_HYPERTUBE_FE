@@ -574,8 +574,8 @@ export default function Stream() {
             />
             <div className="divider quality">
               <div className="quality_item">
-                {details?.torrents?.map((item) => (
-                  <div>{item.quality}</div>
+                {details?.torrents?.map((item, id) => (
+                  <div key={id}>{item.quality}</div>
                 ))}
               </div>
             </div>
@@ -614,8 +614,8 @@ export default function Stream() {
               <div className="detail_section_duration">
                 <span>{timeConvert(details?.runtime)}</span>
                 <div className="movie_genre">
-                  {details?.genres?.map((item) => (
-                    <div>{item}</div>
+                  {details?.genres?.map((item, id) => (
+                    <div key={id}>{item}</div>
                   ))}
                 </div>
                 <div className=" divider detail_section_description">
@@ -664,12 +664,12 @@ export default function Stream() {
             <div className="title">Comments</div>
             <div className="comments_list">
               {[0, 1, 2].map((movie, id) => (
-                <Paper className="comment_item">
+                <Paper key={id} className="comment_item">
                   <Grid container wrap="nowrap" spacing={2}>
                     <Grid item>
                       <Avatar alt="UserProfile" src={pic} />
                     </Grid>
-                    <Grid justifyContent="left" item xs zeroMinWidth>
+                    <Grid item xs zeroMinWidth>
                       <h3 style={{ margin: 0, textAlign: "left" }}>
                         User Name
                       </h3>
