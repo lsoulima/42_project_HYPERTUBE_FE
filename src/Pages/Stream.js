@@ -42,6 +42,37 @@ const Container = styled.div`
   }
 `;
 const MyVideo = styled.div`
+  .quality {
+    display: flex;
+    justify-content: center;
+    color: ${(props) => props.theme.background_grey_5};
+    padding: 25px 0 !important;
+
+    .quality_item {
+      display: flex;
+      flex-wrap: wrap;
+      div {
+        cursor: pointer;
+        background: ${(props) => props.theme.background_grey_2};
+        color: #fff;
+        padding: 10px 15px;
+        font-size: 12px;
+        margin-right: 15px;
+        border-radius: 25px;
+        :hover {
+          transform: scale(1.02);
+          transition: all 0.4s;
+          height: auto;
+          box-shadow: 0px 0px 12px #cdcdcd;
+          background-color: red;
+        }
+      }
+    }
+  }
+  .divider {
+    width: 100%;
+    border-bottom: 1px solid ${(props) => props.theme.background_grey_2};
+  }
   height: 700px;
   width: 90%;
   @media (max-width: 1440px) {
@@ -61,9 +92,9 @@ const CommentSection = styled.div`
   background: transparent;
   display: flex;
   flex-direction: column;
-  padding-top: 40px;
   justify-content: center;
   align-items: center;
+  margin-bottom: 100px;
   width: 100%;
   .title {
     margin: 0;
@@ -81,7 +112,8 @@ const CommentSection = styled.div`
     text-align: center;
   }
   .comment_input {
-    width: 90%;
+    cursor: pointer;
+    width: 88%;
     height: 100px;
     color: ${(props) => props.theme.background};
     background: ${(props) => props.theme.cards};
@@ -93,6 +125,11 @@ const CommentSection = styled.div`
     @media (max-width: 768px) {
       /* width: auto; */
       font-size: 0.8rem;
+    }
+    :hover {
+      transform: scale(1.02);
+      transition: all 0.4s;
+      box-shadow: 0px 0px 12px #cdcdcd;
     }
   }
   .comment_input:focus {
@@ -222,9 +259,10 @@ const MyCard = styled.div`
     width: 45%;
   }
 `;
+
 const MovieDetailes = styled.div`
   width: 100%;
-  margin-top: 50px;
+  margin-top: 115px;
   display: flex;
   justify-content: space-evenly;
   @media (max-width: 768px) {
@@ -241,6 +279,10 @@ const MovieDetailes = styled.div`
 const MainContainer = styled.div`
   background: ${(props) => props.theme.background};
   min-height: 100vh;
+  .divider {
+    width: 100%;
+    border-bottom: 1px solid ${(props) => props.theme.background_grey_2};
+  }
   .movie_section {
     height: 100%;
     flex-basis: 11%;
@@ -269,10 +311,7 @@ const MainContainer = styled.div`
     display: flex;
     flex-direction: column;
     flex-basis: 70%;
-    .divider {
-      width: 100%;
-      border-bottom: 1px solid ${(props) => props.theme.background_grey_2};
-    }
+
     .detail_section_name {
       display: flex;
       justify-content: space-between;
@@ -291,9 +330,9 @@ const MainContainer = styled.div`
       }
       h1 {
         margin: 0;
-        font-size: 67px;
-        font-weight: 700;
-        line-height: 64px;
+        font-size: 55px;
+        font-weight: 600;
+        line-height: 70px;
         letter-spacing: -1px;
         color: ${(props) => props.theme.text};
       }
@@ -311,7 +350,7 @@ const MainContainer = styled.div`
         margin: 0 3px;
       }
       .movie_genre {
-        margin-top: 10px;
+        margin: 20px 0;
         display: flex;
         flex-wrap: wrap;
         div {
@@ -521,12 +560,18 @@ export default function Stream() {
                 },
               }}
             />
+            <div className='divider quality'>
+              <div className='quality_item'>
+                {details?.torrents?.map((item) => (
+                  <div>{item.quality}</div>
+                ))}
+              </div>
+            </div>
           </MyVideo>
-
           <MovieDetailes>
             <div className='movie_section'>
               <div>
-                <img src={details?.image} alt='cover' />
+                <img src={details.image} alt='cover' />
               </div>
               {details?.favorite ? (
                 <div
@@ -566,7 +611,7 @@ export default function Stream() {
                 </div>
               </div>
 
-              <div className='divider detail_section_movieInfo'>
+              <div className=' detail_section_movieInfo'>
                 <div className='detail_section_director'>
                   <div className='director'>ACTORS</div>
                   <div className='director_value'>{details?.actors}</div>
