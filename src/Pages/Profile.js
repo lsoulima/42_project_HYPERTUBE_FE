@@ -16,7 +16,7 @@ import FavoriteList from "./FavoriteList";
 
 const Wrapper = styled.div`
   & {
-    background: url("./img/net.jpg") no-repeat center center fixed;
+    background: url("./img/1.jpg") no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;

@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import { useHistory } from "react-router-dom";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import LocalMoviesOutlinedIcon from "@material-ui/icons/LocalMoviesOutlined";
+import { BiCameraMovie } from "react-icons/bi";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import { Link } from "react-router-dom";
 import { withNamespaces } from "react-i18next";
@@ -55,8 +55,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   logo: {
-    width: "40px",
-    height: "40px",
+    width: "25px",
+    height: "25px",
     marginRight: "8px",
   },
 
@@ -329,9 +329,12 @@ function NavBar({ t, mytheme, settheme }) {
                 history.push("/");
               }}>
               {/* <img src='./img/logo.png' className={classes.logo} alt='logo' /> */}
+              <BiCameraMovie
+                className={classes.logo}
+                style={{ color: "red" }}
+              />
               <Typography className={classes.title} variant='h5'>
                 HYPERTUBE
-                <LocalMoviesOutlinedIcon />
               </Typography>
             </div>
             <Snackbar

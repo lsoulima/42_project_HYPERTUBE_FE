@@ -12,6 +12,7 @@ import { useHistory } from "react-router";
 import { Avatar, Grid, Paper } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import { Snackbar } from "@material-ui/core";
+import ComplexGrid from "./Quality";
 const pic =
   "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260";
 
@@ -539,16 +540,17 @@ export default function Stream() {
                 </div>
               </div>
               <div className='detail_section_duration'>
-                <span>{timeConvert(details.runtime)}</span>
+                <span>{timeConvert(details?.runtime)}</span>
                 <div className='movie_genre'>
                   {details?.genres?.map((item) => (
                     <div>{item}</div>
                   ))}
                 </div>
                 <div className=' divider detail_section_description'>
-                  {details.description}
+                  {details?.descripton}
                 </div>
               </div>
+
               <div className='divider detail_section_movieInfo'>
                 <div className='detail_section_director'>
                   <div className='director'>ACTORS</div>
@@ -578,7 +580,7 @@ export default function Stream() {
                 <div
                   className='blur_back'
                   style={{
-                    backgroundImage: `url(${movie?.medium_cover_image})`,
+                    backgroundImage: `url(${movie?.image})`,
                   }}></div>
                 <i className='las la-play-circle play_button' />
               </MyCard>
