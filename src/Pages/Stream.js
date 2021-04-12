@@ -10,7 +10,8 @@ import {
 } from "../services/moviesActions";
 import { useHistory } from "react-router";
 import { Avatar, Grid, Paper } from "@material-ui/core";
-
+import Alert from "@material-ui/lab/Alert";
+import { Snackbar } from "@material-ui/core";
 const pic =
   "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260";
 
@@ -371,11 +372,16 @@ export default function Stream() {
   const [details, setDetails] = useState({});
   const [suggestions, setSuggestions] = useState([]);
   const [error, setError] = useState({});
-
+  const [favorite, setFavorite] = useState({});
+  const [open, setOpen] = useState(false);
   const movieKey = window.location.search.split("=")[0];
-
   const movieID = window.location.search.split("=")[1];
-
+  const handleClose = (reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
   const timeConvert = (n) => {
     const num = n;
     const hours = num / 60;
@@ -405,12 +411,31 @@ export default function Stream() {
       image: details.image,
       rating: details.rating,
     };
-    console.log(movieInfo);
-    // await addMovieToFavorite(state.token, movieInfo);
+
+    const responce = await addMovieToFavorite(state.token, movieInfo);
+
+    if (responce) {
+      setFavorite(responce);
+      setOpen(true);
+    }
   };
   //* ADD MOVIE TO WATCHED LIST
   // eslint-disable-next-line
   const handleAddToWatched = async () => {
+    const movieInfo = {
+      movieId: details.id,
+      title: details.title,
+      year: details.year,
+      image: details.image,
+      rating: details.rating,
+    };
+
+    const responce = await addMovieToWatched(state.token, movieInfo);
+
+    if (responce) {
+      setFavorite(responce);
+      setOpen(true);
+    }
     // await addMovieToWatched(state.token, movieID);
   };
 
@@ -449,6 +474,21 @@ export default function Stream() {
         </Container>
       ) : (
         <Container>
+          <Snackbar
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            open={open}
+            autoHideDuration={3000}
+            onClose={handleClose}>
+            {favorite.success === true ? (
+              <Alert onClose={handleClose} severity='success' variant='filled'>
+                {favorite.message}
+              </Alert>
+            ) : (
+              <Alert onClose={handleClose} severity='info' variant='filled'>
+                {favorite.error}
+              </Alert>
+            )}
+          </Snackbar>
           <MyVideo>
             <ReactPlayer
               url={[
