@@ -10,9 +10,13 @@ import {
 } from "../services/moviesActions";
 import { useHistory } from "react-router";
 import { Avatar, Grid, Paper } from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/Delete";
+import Favorite from "@material-ui/icons/Favorite";
+import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
+
 import Alert from "@material-ui/lab/Alert";
 import { Snackbar } from "@material-ui/core";
-import ComplexGrid from "./Quality";
+
 const pic =
   "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260";
 
@@ -109,7 +113,7 @@ const CommentSection = styled.div`
   }
   .comment_input {
     cursor: pointer;
-    width: 90%;
+    width: 88%;
     height: 100px;
     color: ${(props) => props.theme.background};
     background: ${(props) => props.theme.cards};
@@ -121,6 +125,11 @@ const CommentSection = styled.div`
     @media (max-width: 768px) {
       /* width: auto; */
       font-size: 0.8rem;
+    }
+    :hover {
+      transform: scale(1.02);
+      transition: all 0.4s;
+      box-shadow: 0px 0px 12px #cdcdcd;
     }
   }
   .comment_input:focus {

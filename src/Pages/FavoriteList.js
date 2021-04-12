@@ -4,6 +4,7 @@ import Carousel from "react-elastic-carousel";
 import axios from "axios";
 import { HyperContext } from "../Context/context";
 import { getFavoriteMovies } from "../services/moviesActions";
+import { useHistory } from "react-router";
 
 const MyCard = styled.div`
   cursor: pointer;
@@ -205,11 +206,15 @@ const FavoriteList = () => {
     { width: 1024, itemsToShow: 5 },
     { width: 1440, itemsToShow: 6 },
   ];
-
+  //* HANDLE CLICK ON FAVORITE MOVIES
+  let history = useHistory();
+  const handleClickMovie = (id) => {
+    if (id) {
+      history.push("/stream?film_id=" + id);
+    }
+  };
   const getFavoriteMoviesList = async () => {
     const res = await getFavoriteMovies(state.token);
-    console.log(res);
-
     setFavoriteMovies(res);
   };
   useEffect(() => {
@@ -236,9 +241,9 @@ const FavoriteList = () => {
           {favoriteMovies?.map((movie, id) => (
             <MyCard
               key={id}
-              // onClick={() => {
-              //   handleClickMovie(movie.id);
-              // }}
+              onClick={() => {
+                handleClickMovie(movie.movieId);
+              }}
               onMouseEnter={() => toggleHover(true)}
               onMouseLeave={() => toggleHover(false)}>
               <img
@@ -274,15 +279,3 @@ const FavoriteList = () => {
 };
 
 export default FavoriteList;
-
-// {error.error ? (
-//     <MessageCard>
-//             <div className='info_section'>
-//               <div className='movie_header'>
-//                 <img className='cover' src='./img/404.svg' alt='cover' />
-//                 <h1>No movies in this list</h1>
-//               </div>
-//             </div>
-//           </MessageCard>
-//         </Container>
-//       ) : (
