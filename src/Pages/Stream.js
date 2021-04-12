@@ -371,6 +371,9 @@ export default function Stream() {
   const [details, setDetails] = useState({});
   const [suggestions, setSuggestions] = useState([]);
   const [error, setError] = useState({});
+
+  const movieKey = window.location.search.split("=")[0];
+
   const movieID = window.location.search.split("=")[1];
 
   const timeConvert = (n) => {
@@ -395,17 +398,25 @@ export default function Stream() {
   };
   //* ADD MOVIE TO FAVORITE LIST
   const handleAddToFavorite = async () => {
-    await addMovieToFavorite(state.token, movieID);
+    const movieInfo = {
+      movieId: details.id,
+      title: details.title,
+      year: details.year,
+      image: details.image,
+      rating: details.rating,
+    };
+    console.log(movieInfo);
+    // await addMovieToFavorite(state.token, movieInfo);
   };
   //* ADD MOVIE TO WATCHED LIST
   // eslint-disable-next-line
   const handleAddToWatched = async () => {
-    await addMovieToWatched(state.token, movieID);
+    // await addMovieToWatched(state.token, movieID);
   };
 
   useEffect(() => {
     const loadMovieDetails = async () => {
-      if (movieID) {
+      if (movieID && movieKey === "?film_id") {
         const response = await movieDetailsAction(state.token, movieID);
         if (response?.success === false) {
           setError(response);
@@ -470,7 +481,7 @@ export default function Stream() {
           <MovieDetailes>
             <div className='movie_section'>
               <div>
-                <img src={details.large_cover_image} alt='cover' />
+                <img src={details.image} alt='cover' />
               </div>
               <div
                 onClick={() => {
@@ -495,17 +506,13 @@ export default function Stream() {
                   ))}
                 </div>
                 <div className=' divider detail_section_description'>
-                  {details.description_intro}
+                  {details.description}
                 </div>
               </div>
               <div className='divider detail_section_movieInfo'>
                 <div className='detail_section_director'>
                   <div className='director'>ACTORS</div>
-                  {details?.cast?.map((item) => (
-                    <div className='director_value'>
-                      <Avatar src={item?.url_small_image} /> {item?.name}
-                    </div>
-                  ))}
+                  <div className='director_value'>{details?.actors}</div>
                 </div>
               </div>
             </div>
@@ -520,19 +527,14 @@ export default function Stream() {
                 }}>
                 <div className='info_section'>
                   <div className='movie_header'>
-                    <img
-                      className='cover'
-                      src={movie?.medium_cover_image}
-                      alt='cover'
-                    />
-                    <h1>{movie?.title_long}</h1>
+                    <img className='cover' src={movie?.image} alt='cover' />
+                    <h1>{movie?.title}</h1>
                     <div>
                       <span>Rating: </span>
                       <span>{movie?.rating}</span>
                     </div>
                   </div>
                 </div>
-
                 <div
                   className='blur_back'
                   style={{

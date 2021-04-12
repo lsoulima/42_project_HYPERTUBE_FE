@@ -77,7 +77,7 @@ const WhiteBorderTextField = styled(TextField)`
 
 const Wrapper = styled.div`
   & {
-    background: url("./img/net.jpg") no-repeat center center fixed;
+    background: url("./img/login.jpg") no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;

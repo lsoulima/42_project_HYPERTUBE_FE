@@ -127,6 +127,7 @@ export const checkTokenAction = async (token) => {
 };
 
 // * Reset Password Action
+
 export const resetPwd = async (email) => {
   const config = {
     headers: {

@@ -5,7 +5,7 @@ import Link from "@material-ui/core/Link";
 
 const Container = styled.div`
   height: fit-content;
-  background: url("./img/net.jpg") no-repeat center center fixed;
+  background: url("./img/back.jpg") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -131,10 +131,10 @@ export default function Home() {
   audio.play();
   return (
     <Container>
-      <div className="container-tran">
-        <div className="website-desc">
+      <div className='container-tran'>
+        <div className='website-desc'>
           <div>
-            <h1 className="animate__animated animate__backInDown">
+            <h1 className='animate__animated animate__backInDown'>
               Unlimited movies, TV shows, and more.
             </h1>
             <h3>Watch anywhere. Cancel anytime.</h3>
@@ -143,7 +143,7 @@ export default function Home() {
               membership.
             </h3>
           </div>
-          <div className="input-home animate__animated animate__backInUp">
+          <div className='input-home animate__animated animate__backInUp'>
             {/* <div>
               <input type="email" placeholder="Email address" />
             </div> */}
@@ -151,10 +151,9 @@ export default function Home() {
               <Link
                 onClick={() => {
                   history.push("/register");
-                }}
-              >
+                }}>
                 <button>
-                  Get Started <i className="las la-angle-right"></i>
+                  Get Started <i className='las la-angle-right'></i>
                 </button>
               </Link>
             </div>

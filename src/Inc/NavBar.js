@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import { useHistory } from "react-router-dom";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-
+import LocalMoviesOutlinedIcon from "@material-ui/icons/LocalMoviesOutlined";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import { Link } from "react-router-dom";
 import { withNamespaces } from "react-i18next";
@@ -328,9 +328,10 @@ function NavBar({ t, mytheme, settheme }) {
               onClick={() => {
                 history.push("/");
               }}>
-              <img src='./img/logo.png' className={classes.logo} alt='logo' />
-              <Typography className={classes.title} variant='h4' noWrap>
-                yperTube
+              {/* <img src='./img/logo.png' className={classes.logo} alt='logo' /> */}
+              <Typography className={classes.title} variant='h5'>
+                HYPERTUBE
+                <LocalMoviesOutlinedIcon />
               </Typography>
             </div>
             <Snackbar

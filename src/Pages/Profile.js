@@ -1,10 +1,8 @@
 import React, { useState, useContext } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import styled from "styled-components";
-import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -12,52 +10,9 @@ import VisibilityIcon from "@material-ui/icons/Visibility";
 import StarIcon from "@material-ui/icons/Star";
 import PersonPinIcon from "@material-ui/icons/PersonPin";
 import { HyperContext } from "../Context/context";
-import { useHistory } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 import WatchedList from "./WatchedList";
 import FavoriteList from "./FavoriteList";
-
-const LabelImage = styled.label`
-  cursor: pointer;
-  color: #fff;
-  border-radius: 50%;
-  input {
-    display: none;
-  }
-  text-align: center;
-  img {
-    border-radius: 100%;
-    width: 150px;
-    height: 150px;
-  }
-`;
-
-const WhiteBorderTextField = styled(TextField)`
-  & .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
-    border-color: #fff !important;
-  }
-  & .MuiOutlinedInput-notchedOutline {
-    border-color: #fff;
-  }
-  & label.Mui-focused {
-    color: #fff;
-  }
-  & .MuiOutlinedInput-root {
-    &.Mui-focused fieldset {
-      border-color: #fff;
-    }
-  }
-  label {
-    color: #fff !important;
-    font-size: 13px;
-  }
-  input:hover {
-    border-color: red !important;
-  }
-  input {
-    border-color: #fff;
-    color: #fff;
-  }
-`;
 
 const Wrapper = styled.div`
   & {
@@ -104,11 +59,114 @@ const Wrapper = styled.div`
     background: red;
   }
 `;
+const MyCard = styled.div`
+  cursor: pointer;
+  margin: 10px;
+  width: 400px;
+  height: 400px;
+  position: relative;
+  /* border: 5px solid #fff; */
+  transition: all 0.8s;
+  border-radius: 7px;
+  box-shadow: 0px 4px 15px ${(props) => props.theme.background_grey_2};
+  img {
+    border-radius: 7px;
+  }
+  :focus {
+    outline: none;
+  }
+  .backHover {
+    border-radius: 7px;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  &:hover .backHover {
+    background: rgba(54, 54, 54, 0.7);
+    box-shadow: 0px 0px 50px -25px rgba(255, 0, 0, 0.8);
+  }
+  &:hover {
+    transform: scale(1.05);
+    transition: all 0.7s;
+    /* border: 5px solid #ffffff; */
+  }
+  &:hover .backHover {
+    opacity: 1;
+  }
+  &:hover .eye {
+    z-index: 100;
+  }
+  .backHover {
+    opacity: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    .mvName {
+      width: 100%;
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+      border-radius: 7px;
+      background: url("./img/mask-title.png");
+      h4,
+      h6 {
+        text-shadow: 0 0 10px rgb(0 0 0 / 60%);
+      }
+    }
+    .imdbPlace {
+      margin: 5px;
+      width: 40px;
+      height: 30px;
+      background: red;
+      align-self: flex-start;
+      border-radius: 7px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      h3 {
+        font-family: ui-sans-serif;
+        color: #fff;
+        font-size: 15px;
+      }
+    }
+    :hover .play_button {
+      opacity: 1;
+    }
+    .play_button {
+      font-size: 70px;
+      position: absolute;
+      top: 50%;
+      opacity: 0;
+      z-index: 100;
+      color: white;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      :hover {
+        color: #ff8585;
+        transition: all 0.9s;
+      }
+    }
+  }
+  .eye {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    color: #ffe600;
+    font-size: 30px;
+  }
+`;
 
 export default function Settings() {
   const { userInfos } = useContext(HyperContext);
   const [tab, setTab] = useState(0);
   let history = useHistory();
+  const [hovered, setHovered] = useState(false);
+  const toggleHover = (value) => setHovered(value);
 
   const handleChange = (event, newValue) => {
     setTab(newValue);
@@ -154,73 +212,55 @@ export default function Settings() {
               />
             </Tabs>
           </Paper>
-
           <TabPanel value={tab} index={0}>
-            <Typography
-              component='h1'
-              variant='h5'
-              style={{
-                fontSize: "40px",
-                fontWeight: 600,
-                color: "#fff",
-              }}>
-              {userInfos.username}
-            </Typography>
-            <form className='form'>
-              <Grid container spacing={2}>
-                <Grid
-                  item
-                  xs={12}
-                  style={{ margin: "20px 0 20px 0", textAlign: "center" }}>
-                  <LabelImage type='file'>
-                    <img
-                      src={
-                        userInfos.profile
-                          ? userInfos.profile
-                          : "./img/avatar.jpeg"
-                      }
-                      alt='avatar'
-                    />
-                  </LabelImage>
-                </Grid>
-
-                <Grid item xs={12} sm={6}>
-                  <WhiteBorderTextField
-                    variant='outlined'
-                    defaultValue={userInfos.firstname}
-                    margin='normal'
-                    fullWidth
-                    label='First Name'
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <WhiteBorderTextField
-                    variant='outlined'
-                    margin='normal'
-                    defaultValue={userInfos.lastname}
-                    fullWidth
-                    label='Last Name'
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                  />
-                </Grid>
-                <Button
-                  type='submit'
-                  fullWidth
-                  variant='contained'
-                  color='primary'
-                  className='submit'
+            <MyCard
+              key={1}
+              onMouseEnter={() => toggleHover(true)}
+              onMouseLeave={() => toggleHover(false)}>
+              <img
+                src={
+                  userInfos.profile ? userInfos.profile : "./img/avatar.jpeg"
+                }
+                width='100%'
+                height='100%'
+                alt='cover'
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = "https://t.ly/teEM";
+                }}
+              />
+              <div className='eye'>
+                <i className='las la-user  animate__animated animate__wobble animate__infinite'></i>
+              </div>
+              <div className='backHover'>
+                <div className='imdbPlace'>
+                  <h3>{userInfos.username}</h3>
+                </div>
+                <i
+                  className='las la-edit play_button'
                   onClick={() => {
-                    history.push("/library");
-                  }}>
-                  Browse Movies
-                </Button>
-              </Grid>
-            </form>
+                    history.push("/settings");
+                  }}
+                />
+                <div className='mvName'>
+                  <h3>{userInfos.firstname}</h3>
+                  <h3>{userInfos.lastname}</h3>
+                  <h3>{userInfos.email}</h3>
+                </div>
+              </div>
+            </MyCard>
+
+            <Button
+              type='submit'
+              fullWidth
+              variant='contained'
+              color='primary'
+              className='submit'
+              onClick={() => {
+                history.push("/library");
+              }}>
+              Browse Movies
+            </Button>
           </TabPanel>
           <TabPanel value={tab} index={1}>
             <WatchedList />

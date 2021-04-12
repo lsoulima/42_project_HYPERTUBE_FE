@@ -59,7 +59,7 @@ export const movieSuggestions = async (token, movieId) => {
 
 //* Post Movies to Favorite list
 
-export const addMovieToFavorite = async (token, movieId) => {
+export const addMovieToFavorite = async (token, movieInfo) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -67,7 +67,7 @@ export const addMovieToFavorite = async (token, movieId) => {
     },
   };
   try {
-    const res = await axios.post(API_URL + "/favorite/id/" + movieId, config);
+    const res = await axios.post(API_URL + "/favorite/", movieInfo, config);
     if (res) return res.data;
   } catch (error) {
     return error.response?.data;

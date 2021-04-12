@@ -4,7 +4,7 @@ import Link from "@material-ui/core/Link";
 import styled from "styled-components";
 
 const Container = styled.div`
-  height: 100px;
+  height: 70px;
   background: #202026;
   color: #fff;
   display: flex;
@@ -14,12 +14,12 @@ const Container = styled.div`
 export default function Footer() {
   return (
     <Container>
-      <Typography variant="body2" align="center">
+      <Typography variant='body2' align='center'>
         {"Copyright © "}
-        <Link color="inherit" href="https://localhost:3000/">
+        <Link color='inherit' href='https://localhost:3000/'>
           HyperTube
+          {new Date().getFullYear()}
         </Link>
-        {new Date().getFullYear()}
       </Typography>
     </Container>
   );
