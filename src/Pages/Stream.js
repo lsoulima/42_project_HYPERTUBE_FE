@@ -10,9 +10,8 @@ import {
 } from "../services/moviesActions";
 import { useHistory } from "react-router";
 import { Avatar, Grid, Paper } from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
-import Favorite from "@material-ui/icons/Favorite";
-import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
+import StarIcon from "@material-ui/icons/Star";
+import StarHalfIcon from "@material-ui/icons/StarHalf";
 
 import Alert from "@material-ui/lab/Alert";
 import { Snackbar } from "@material-ui/core";
@@ -300,9 +299,8 @@ const MainContainer = styled.div`
       background: ${(props) => props.theme.background_btn};
       height: 50px;
       text-align: center;
-      vertical-align: middle;
-      line-height: 50px;
-      color: ${(props) => props.theme.text_background};
+      line-height: 70px;
+      color: red;
       border-radius: 5px;
       cursor: pointer;
     }
@@ -508,9 +506,9 @@ export default function Stream() {
       {error.error ? (
         <Container>
           <MyCard>
-            <div className='info_section'>
-              <div className='movie_header'>
-                <img className='cover' src='./img/404.svg' alt='cover' />
+            <div className="info_section">
+              <div className="movie_header">
+                <img className="cover" src="./img/404.svg" alt="cover" />
                 <h1>{error.error}</h1>
               </div>
             </div>
@@ -522,13 +520,14 @@ export default function Stream() {
             anchorOrigin={{ vertical: "top", horizontal: "center" }}
             open={open}
             autoHideDuration={3000}
-            onClose={handleClose}>
+            onClose={handleClose}
+          >
             {favorite.success === true ? (
-              <Alert onClose={handleClose} severity='success' variant='filled'>
+              <Alert onClose={handleClose} severity="success" variant="filled">
                 {favorite.message}
               </Alert>
             ) : (
-              <Alert onClose={handleClose} severity='info' variant='filled'>
+              <Alert onClose={handleClose} severity="info" variant="filled">
                 {favorite.error}
               </Alert>
             )}
@@ -540,8 +539,8 @@ export default function Stream() {
                 { src: "foo.mkv", type: "video/mkv" },
               ]}
               controls={true}
-              width='100%'
-              height='100%'
+              width="100%"
+              height="100%"
               config={{
                 file: {
                   tracks: [
@@ -560,8 +559,8 @@ export default function Stream() {
                 },
               }}
             />
-            <div className='divider quality'>
-              <div className='quality_item'>
+            <div className="divider quality">
+              <div className="quality_item">
                 {details?.torrents?.map((item) => (
                   <div>{item.quality}</div>
                 ))}
@@ -569,67 +568,69 @@ export default function Stream() {
             </div>
           </MyVideo>
           <MovieDetailes>
-            <div className='movie_section'>
+            <div className="movie_section">
               <div>
-                <img src={details.image} alt='cover' />
+                <img src={details.image} alt="cover" />
               </div>
               {details?.favorite ? (
                 <div
                   onClick={() => {
                     handleAddToFavorite();
-                  }}>
-                  {/* Remove From Favorite{" "} */}
-                  <Favorite color='secondary' fontSize='large' />
+                  }}
+                >
+                  <StarHalfIcon fontSize="large" />
                 </div>
               ) : (
                 <div
                   onClick={() => {
                     handleAddToFavorite();
-                  }}>
+                  }}
+                >
                   {/* Add To Favorite */}
-                  <FavoriteBorder color='secondary' fontSize='large' />
+                  <StarIcon fontSize="large" />
                 </div>
               )}
             </div>
-            <div className='detail_section'>
-              <div className='divider detail_section_name'>
+            <div className="detail_section">
+              <div className="divider detail_section_name">
                 <h1>{details?.title_long}</h1>
                 <div>
                   <span>Rating: </span>
                   <span>{details?.rating}</span>
                 </div>
               </div>
-              <div className='detail_section_duration'>
+              <div className="detail_section_duration">
                 <span>{timeConvert(details?.runtime)}</span>
-                <div className='movie_genre'>
+                <div className="movie_genre">
                   {details?.genres?.map((item) => (
                     <div>{item}</div>
                   ))}
                 </div>
-                <div className=' divider detail_section_description'>
+                <div className=" divider detail_section_description">
                   {details?.descripton}
                 </div>
               </div>
 
-              <div className=' detail_section_movieInfo'>
-                <div className='detail_section_director'>
-                  <div className='director'>ACTORS</div>
-                  <div className='director_value'>{details?.actors}</div>
+              <div className=" detail_section_movieInfo">
+                <div className="detail_section_director">
+                  <div className="director">ACTORS</div>
+                  <div className="director_value">{details?.actors}</div>
                 </div>
               </div>
             </div>
           </MovieDetailes>
-          <div className='suggestions_like'>You May Also Like</div>
+          <div className="suggestions_like">You May Also Like</div>
           <Suggestions>
             {suggestions?.map((movie, id) => (
               <MyCard
                 key={id}
                 onClick={() => {
                   handleClickMovie(movie.id);
-                }}>
-                <div className='info_section'>
-                  <div className='movie_header'>
-                    <img className='cover' src={movie?.image} alt='cover' />
+                }}
+              >
+                <div className="info_section">
+                  <div className="movie_header">
+                    <img className="cover" src={movie?.image} alt="cover" />
                     <h1>{movie?.title}</h1>
                     <div>
                       <span>Rating: </span>
@@ -638,24 +639,25 @@ export default function Stream() {
                   </div>
                 </div>
                 <div
-                  className='blur_back'
+                  className="blur_back"
                   style={{
                     backgroundImage: `url(${movie?.image})`,
-                  }}></div>
-                <i className='las la-play-circle play_button' />
+                  }}
+                ></div>
+                <i className="las la-play-circle play_button" />
               </MyCard>
             ))}
           </Suggestions>
           <CommentSection>
-            <div className='title'>Comments</div>
-            <div className='comments_list'>
+            <div className="title">Comments</div>
+            <div className="comments_list">
               {[0, 1, 2].map((movie, id) => (
-                <Paper className='comment_item'>
-                  <Grid container wrap='nowrap' spacing={2}>
+                <Paper className="comment_item">
+                  <Grid container wrap="nowrap" spacing={2}>
                     <Grid item>
-                      <Avatar alt='UserProfile' src={pic} />
+                      <Avatar alt="UserProfile" src={pic} />
                     </Grid>
-                    <Grid justifyContent='left' item xs zeroMinWidth>
+                    <Grid justifyContent="left" item xs zeroMinWidth>
                       <h3 style={{ margin: 0, textAlign: "left" }}>
                         User Name
                       </h3>
@@ -670,11 +672,11 @@ export default function Stream() {
                 </Paper>
               ))}
             </div>
-            <div className='input_area'>
+            <div className="input_area">
               <input
-                className='comment_input'
-                type='text'
-                placeholder='Comment ...'
+                className="comment_input"
+                type="text"
+                placeholder="Comment ..."
                 // onChange={handleOnChange}
               />
             </div>

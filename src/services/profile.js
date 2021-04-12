@@ -13,7 +13,6 @@ export const getUser = async (token) => {
   };
   try {
     const res = await axios.get(API_URL + "profile", config);
-
     if (res.data) return res.data.data;
   } catch (error) {
     return false;
