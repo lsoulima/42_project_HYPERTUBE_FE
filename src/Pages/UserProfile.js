@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
@@ -11,12 +11,11 @@ import Tab from "@material-ui/core/Tab";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import StarIcon from "@material-ui/icons/Star";
 import PersonPinIcon from "@material-ui/icons/PersonPin";
-import { useForm } from "react-hook-form";
 import { HyperContext } from "../Context/context";
 import { useHistory } from "react-router-dom";
-import { settingsAction, ProfileUpAction } from "../services/profile";
 import WatchedList from "./WatchedList";
 import FavoriteList from "./FavoriteList";
+import { findProfileByUsername } from "../services/profile";
 
 const LabelImage = styled.label`
   cursor: pointer;
@@ -63,7 +62,7 @@ const WhiteBorderTextField = styled(TextField)`
 
 const Wrapper = styled.div`
   & {
-    background: url("./img/net.jpg") no-repeat center center fixed;
+    background: url("./img/back.jpg") no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -107,9 +106,87 @@ const Wrapper = styled.div`
   }
 `;
 
-export default function Settings() {
-  const { state, userInfos, setUserInfos } = useContext(HyperContext);
+const MessageCard = styled.div`
+  position: relative;
+  display: block;
+  width: 480px;
+  min-height: 300px;
+  height: 100px;
+  margin: 40px 10px;
+  overflow: hidden;
+  border-radius: 10px;
+  transition: all 0.4s;
+  box-shadow: 0px 0px 80x -25px rgb(0 0 0 / 50%);
+  transition: all 0.4s;
+  :hover {
+    transform: scale(1.02);
+    transition: all 0.4s;
+    height: auto;
+  }
+  .blur_back {
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    height: 100%;
+    right: 0;
+    background-size: cover;
+    border-radius: 11px;
+    width: 100%;
+    background-position: 50% 50% !important;
+  }
+  .bright_back_error {
+    background: url("./img/404.svg");
+  }
+  .info_section {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-blend-mode: multiply;
+    z-index: 2;
+    border-radius: 10px;
+    background: linear-gradient(to top, #e5e6e6 50%, transparent 100%);
+    display: inline-grid;
+    .movie_header {
+      position: relative;
+      padding: 25px;
+      height: 40%;
+      width: 100%;
+      margin-top: 85px;
+      .cover {
+        position: relative;
+        float: left;
+        margin-right: 20px;
+        height: 120px;
+        box-shadow: 0 0 20px -10px rgb(0 0 0 / 50%);
+      }
+      h1 {
+        color: black;
+        font-weight: 400;
+      }
+      h4 {
+        color: #555;
+        font-weight: 400;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+  @media (max-width: 1024px) {
+    width: 50%;
+  }
+  @media (max-width: 1440px) {
+    width: 45%;
+  }
+`;
+
+export default function UserProfile(props) {
+  const { state } = useContext(HyperContext);
   const [tab, setTab] = useState(0);
+  const [profile, setProfile] = useState({});
+  const [error, setError] = useState({});
+
   let history = useHistory();
 
   const handleChange = (event, newValue) => {
@@ -120,121 +197,135 @@ export default function Settings() {
     const { children, value, index } = props;
 
     return (
-      <div role="tabpanel" hidden={value !== index}>
-        {value === index && <div className="paper">{children}</div>}
+      <div role='tabpanel' hidden={value !== index}>
+        {value === index && <div className='paper'>{children}</div>}
       </div>
     );
   };
 
+  useEffect(() => {
+    const username = props.match.params.username;
+
+    const findProfile = async () => {
+      if (username) {
+        const response = await findProfileByUsername(state.token, username);
+        if (response?.success === false) {
+          setError(response);
+        } else {
+          setProfile(response);
+        }
+      } else {
+        setError({
+          error: "No username found !",
+        });
+      }
+    };
+    findProfile();
+
+    // eslint-disable-next-line
+  }, []);
   return (
     <Wrapper>
-      <div className="container">
-        <Container component="main" maxWidth="sm">
-          <Paper elevation={5}>
-            <Tabs
-              value={tab}
-              onChange={handleChange}
-              variant="fullWidth"
-              indicatorColor="secondary"
-              textcolor="primary"
-              TabIndicatorProps={{ style: { background: "red" } }}
-              style={{ background: "rgb(8, 7, 8)", color: "white" }}
-            >
-              <Tab
-                icon={<PersonPinIcon />}
-                label="Info"
-                style={{ padding: "20px 0" }}
-              />
-              <Tab
-                icon={<VisibilityIcon />}
-                label="Watched"
-                style={{ padding: "20px 0" }}
-              />
-              <Tab
-                icon={<StarIcon />}
-                label="Favorite"
-                style={{ padding: "20px 0" }}
-              />
-            </Tabs>
-          </Paper>
+      <div className='container'>
+        {error.error ? (
+          <Container>
+            <MessageCard>
+              <div className='info_section'>
+                <div className='movie_header'>
+                  <img className='cover' src='./img/1.jpg' alt='cover' />
+                  <h1>{error.error}</h1>
+                </div>
+              </div>
+            </MessageCard>
+          </Container>
+        ) : (
+          <Container component='main' maxWidth='sm'>
+            <Paper elevation={5}>
+              <Tabs
+                value={tab}
+                onChange={handleChange}
+                variant='fullWidth'
+                indicatorColor='secondary'
+                textcolor='primary'
+                TabIndicatorProps={{ style: { background: "red" } }}
+                style={{ background: "rgb(8, 7, 8)", color: "white" }}>
+                <Tab
+                  icon={<PersonPinIcon />}
+                  label='Info'
+                  style={{ padding: "20px 0" }}
+                />
+              </Tabs>
+            </Paper>
 
-          <TabPanel value={tab} index={0}>
-            <Typography
-              component="h1"
-              variant="h5"
-              style={{
-                fontSize: "40px",
-                fontWeight: 600,
-                color: "#fff",
-              }}
-            >
-              {userInfos.username}
-            </Typography>
-            <form className="form">
-              <Grid container spacing={2}>
-                <Grid
-                  item
-                  xs={12}
-                  style={{ margin: "20px 0 20px 0", textAlign: "center" }}
-                >
-                  <LabelImage type="file">
-                    <img
-                      src={
-                        userInfos.profile
-                          ? userInfos.profile
-                          : "./img/avatar.jpeg"
-                      }
-                      alt="avatar"
+            <TabPanel value={tab} index={0}>
+              <Typography
+                component='h1'
+                variant='h5'
+                style={{
+                  fontSize: "40px",
+                  fontWeight: 600,
+                  color: "#fff",
+                }}>
+                {profile.username}
+              </Typography>
+              <form className='form'>
+                <Grid container spacing={2}>
+                  <Grid
+                    item
+                    xs={12}
+                    style={{ margin: "20px 0 20px 0", textAlign: "center" }}>
+                    <LabelImage type='file'>
+                      <img
+                        src={
+                          profile.profile
+                            ? profile.profile
+                            : "./img/avatar.jpeg"
+                        }
+                        alt='avatar'
+                      />
+                    </LabelImage>
+                  </Grid>
+
+                  <Grid item xs={12} sm={6}>
+                    <WhiteBorderTextField
+                      variant='outlined'
+                      defaultValue={profile.firstname}
+                      margin='normal'
+                      fullWidth
+                      label='First Name'
+                      InputProps={{
+                        readOnly: true,
+                      }}
                     />
-                  </LabelImage>
-                </Grid>
-
-                <Grid item xs={12} sm={6}>
-                  <WhiteBorderTextField
-                    variant="outlined"
-                    defaultValue={userInfos.firstname}
-                    margin="normal"
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <WhiteBorderTextField
+                      variant='outlined'
+                      margin='normal'
+                      defaultValue={profile.lastname}
+                      fullWidth
+                      label='Last Name'
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                    />
+                  </Grid>
+                  <Button
+                    type='submit'
                     fullWidth
-                    label="First Name"
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                  />
+                    variant='contained'
+                    color='primary'
+                    className='submit'
+                    onClick={() => {
+                      history.push("/library");
+                    }}>
+                    Browse Movies
+                  </Button>
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                  <WhiteBorderTextField
-                    variant="outlined"
-                    margin="normal"
-                    defaultValue={userInfos.lastname}
-                    fullWidth
-                    label="Last Name"
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                  />
-                </Grid>
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  className="submit"
-                  onClick={() => {
-                    history.push("/library");
-                  }}
-                >
-                  Browse Movies
-                </Button>
-              </Grid>
-            </form>
-          </TabPanel>
-          <TabPanel value={tab} index={1}>
-            <WatchedList />
-          </TabPanel>
-          <TabPanel value={tab} index={2}>
-            <FavoriteList />
-          </TabPanel>
-        </Container>
+              </form>
+            </TabPanel>
+          </Container>
+        )}
       </div>
     </Wrapper>
   );

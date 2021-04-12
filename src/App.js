@@ -19,6 +19,7 @@ import Verify from "./Pages/Verify";
 import PublicRoute from "./Routing/PublicRoute";
 import PrivateRoute from "./Routing/PrivateRoute";
 import Notfound from "./Pages/404";
+import UserProfile from "./Pages/UserProfile";
 
 const App = () => {
   const [theme, setTheme] = useState({
@@ -64,6 +65,11 @@ const App = () => {
             <PrivateRoute path='/library' component={Library} exact />
             <PrivateRoute path='/stream' component={Stream} />
             <PrivateRoute path='/profile' component={Profile} exact />
+            <PrivateRoute
+              path='/profile/:username'
+              component={UserProfile}
+              exact
+            />
             <PublicRoute path='/' component={Home} exact />
             <Route component={Notfound} />
             <Notfound default />

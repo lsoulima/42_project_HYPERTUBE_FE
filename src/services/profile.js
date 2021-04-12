@@ -33,7 +33,7 @@ export const findProfileByUsername = async (token, username) => {
 
     if (res.data) return res.data.data;
   } catch (error) {
-    return false;
+    return error.response.data;
   }
 };
 
