@@ -439,6 +439,7 @@ export default function Stream() {
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
   const [open, setOpen] = useState(false);
+  const [magnetsrc, setMagnetsrc] = useState("");
   const movieKey = window.location.search.split("=")[0];
   const movieID = window.location.search.split("=")[1];
   const handleClose = (reason) => {
@@ -550,6 +551,12 @@ export default function Stream() {
       setComments(comments.filter((item) => item._id !== commentid));
     }
   };
+
+  //* HANDLE STREAM VIDEO
+  const handleQuality = async ( magnet ) => {
+    setMagnetsrc( magnet );
+  }
+
   useEffect(() => {
     const loadMovieDetails = async () => {
       if (movieID && movieKey === "?film_id") {
@@ -558,6 +565,7 @@ export default function Stream() {
           setError(response);
         } else {
           setDetails(response);
+          setMagnetsrc( response.torrents[0].magnet )
         }
       } else {
         setError({
@@ -604,8 +612,8 @@ export default function Stream() {
           <MyVideo>
             <ReactPlayer
               url={[
-                { src: "movie.mp4" },
-                { src: "foo.mkv", type: "video/mkv" },
+                { src: "http://localhost:3001/api/movies/stream/" + magnetsrc  },
+                // { src: "foo.mkv", type: "video/mkv" },
               ]}
               controls={true}
               width="100%"
@@ -631,7 +639,7 @@ export default function Stream() {
             <div className="divider quality">
               <div className="quality_item">
                 {details?.torrents?.map((item, index) => (
-                  <div key={index}>{item.quality}</div>
+                  <div key={index} onClick={ () => handleQuality( item.magnet ) }>{item.quality}</div>
                 ))}
               </div>
             </div>
