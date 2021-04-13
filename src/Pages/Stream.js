@@ -612,7 +612,7 @@ export default function Stream() {
           <MyVideo>
             <ReactPlayer
               url={[
-                { src: "http://localhost:3001/api/movies/stream/" + magnetsrc  },
+                { src: magnetsrc ? "http://localhost:3001/api/movies/stream/" + magnetsrc : "" },
                 // { src: "foo.mkv", type: "video/mkv" },
               ]}
               controls={true}
