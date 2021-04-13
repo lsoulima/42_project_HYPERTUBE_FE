@@ -13,6 +13,8 @@ import Alert from "@material-ui/lab/Alert";
 import { Snackbar, Box } from "@material-ui/core";
 import { HyperContext } from "../Context/context";
 
+import { useTranslation } from "react-i18next";
+
 const API_URL = "http://localhost:3001/api/users/";
 
 const ButtonAuth = styled.button`
@@ -119,6 +121,8 @@ const Wrapper = styled.div`
 `;
 
 export default function Login() {
+  const { t } = useTranslation();
+
   const { dispatch } = useContext(HyperContext);
   const [state, setState] = useState({});
   const { register, handleSubmit, errors } = useForm();
@@ -147,83 +151,87 @@ export default function Login() {
 
   return (
     <Wrapper>
-      <div className='container'>
-        <Container component='main' maxWidth='xs'>
-          <div className='paper'>
+      <div className="container">
+        <Container component="main" maxWidth="xs">
+          <div className="paper">
             <Typography
-              component='h1'
-              variant='h5'
+              component="h1"
+              variant="h5"
               style={{
                 alignSelf: "start",
                 fontSize: "40px",
                 fontWeight: 600,
                 color: "#fff",
-              }}>
-              Sign in
+              }}
+            >
+              {t("loginTr")}
             </Typography>
             <Snackbar
               anchorOrigin={{ vertical: "top", horizontal: "center" }}
               open={open}
               autoHideDuration={3000}
-              onClose={handleClose}>
+              onClose={handleClose}
+            >
               {state?.success === true ? (
                 <Alert
                   onClose={handleClose}
-                  severity='success'
-                  variant='filled'>
+                  severity="success"
+                  variant="filled"
+                >
                   {state?.message}
                 </Alert>
               ) : (
-                <Alert onClose={handleClose} severity='error' variant='filled'>
+                <Alert onClose={handleClose} severity="error" variant="filled">
                   {state?.error}
                 </Alert>
               )}
             </Snackbar>
-            <form className='form' onSubmit={handleSubmit(onSubmit)}>
+            <form className="form" onSubmit={handleSubmit(onSubmit)}>
               <WhiteBorderTextField
-                variant='outlined'
-                margin='normal'
+                variant="outlined"
+                margin="normal"
                 fullWidth
-                id='username'
-                label='username'
-                name='username'
-                autoComplete='username'
+                id="username"
+                label={t("username")}
+                name="username"
+                autoComplete="username"
                 autoFocus
                 inputRef={register({
-                  required: "You must provide your username to login!",
+                  required: t("You must provide your username to login!"),
                 })}
               />
               {errors.username && (
-                <Box variant='filled' color='red' style={{ fontSize: "12px" }}>
+                <Box variant="filled" color="red" style={{ fontSize: "12px" }}>
                   {errors.username.message}
                 </Box>
               )}
               <WhiteBorderTextField
-                variant='outlined'
-                margin='normal'
+                variant="outlined"
+                margin="normal"
                 fullWidth
-                name='password'
-                label='Password'
-                type='password'
-                id='password'
-                autoComplete='current-password'
+                name="password"
+                label={t("password")}
+                type="password"
+                id="password"
+                autoComplete="current-password"
                 inputRef={register({
-                  required: "You must provide your Password to login!",
+                  required: t("You must provide your Password to login!"),
                 })}
               />
               {errors.password && (
-                <Box variant='filled' color='red' style={{ fontSize: "12px" }}>
+                <Box variant="filled" color="red" style={{ fontSize: "12px" }}>
                   {errors.password.message}
                 </Box>
               )}
 
               <Button
-                type='submit'
+                type="submit"
                 fullWidth
-                variant='contained'
-                color='primary'
-                className='submit'>
-                Sign In
+                variant="contained"
+                color="primary"
+                className="submit"
+              >
+                {t("loginTr")}
               </Button>
               <h4
                 style={{
@@ -231,10 +239,11 @@ export default function Login() {
                   textAlign: "center",
                   marginTop: "20px",
                   marginBottom: "20px",
-                }}>
-                OR
+                }}
+              >
+                {t("OR")}
               </h4>
-              <Box variant='filled' color='red' style={{ fontSize: "12px" }}>
+              <Box variant="filled" color="red" style={{ fontSize: "12px" }}>
                 {oauthError}
               </Box>
             </form>
@@ -243,44 +252,46 @@ export default function Login() {
               <Link href={`${API_URL}auth/42`}>
                 <ButtonAuth>
                   <i>42</i>
-                  <span>Continue With Intra</span>
+                  <span>{t("Continue With")} Intra</span>
                 </ButtonAuth>
               </Link>
 
               <Link href={`${API_URL}auth/google`}>
                 <ButtonAuth>
-                  <i className='lab la-google-plus-g'></i>
-                  <span>Continue With Google</span>
+                  <i className="lab la-google-plus-g"></i>
+                  <span>{t("Continue With")} Google</span>
                 </ButtonAuth>
               </Link>
               <Link href={`${API_URL}auth/linkedin`}>
                 <ButtonAuth>
-                  <i className='lab la-linkedin'></i>
-                  <span>Continue With Linkedin</span>
+                  <i className="lab la-linkedin"></i>
+                  <span>{t("Continue With")} Linkedin</span>
                 </ButtonAuth>
               </Link>
             </Grid>
             <Grid container>
               <Grid item xs>
                 <Link
-                  href='#'
-                  variant='body2'
+                  href="#"
+                  variant="body2"
                   style={{ color: "#fff" }}
                   onClick={() => {
                     history.push("/forgetpwd");
-                  }}>
-                  Forgot password?
+                  }}
+                >
+                  {t("Forgot password?")}
                 </Link>
               </Grid>
               <Grid item>
                 <Link
-                  href='#'
-                  variant='body2'
+                  href="#"
+                  variant="body2"
                   style={{ color: "#fff" }}
                   onClick={() => {
                     history.push("/register");
-                  }}>
-                  {"Sign Up"}
+                  }}
+                >
+                  {t("registerTr")}
                 </Link>
               </Grid>
             </Grid>

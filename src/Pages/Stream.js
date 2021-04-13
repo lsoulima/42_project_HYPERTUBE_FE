@@ -20,6 +20,7 @@ import moment from "moment";
 import Alert from "@material-ui/lab/Alert";
 import { Snackbar } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const pic =
   "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260";
@@ -429,6 +430,7 @@ const MainContainer = styled.div`
 `;
 
 export default function Stream() {
+  const { t } = useTranslation();
   const { state } = useContext(HyperContext);
   const { userInfos } = useContext(HyperContext);
   const [details, setDetails] = useState({});
@@ -671,7 +673,7 @@ export default function Stream() {
               <div className="divider detail_section_name">
                 <h1>{details?.title_long}</h1>
                 <div>
-                  <span>Rating: </span>
+                  <span>{t("Rating")}: </span>
                   <span>{details?.rating}</span>
                 </div>
               </div>
@@ -689,13 +691,13 @@ export default function Stream() {
 
               <div className=" detail_section_movieInfo">
                 <div className="detail_section_director">
-                  <div className="director">ACTORS</div>
+                  <div className="director">{t("ACTORS")}</div>
                   <div className="director_value">{details?.actors}</div>
                 </div>
               </div>
             </div>
           </MovieDetailes>
-          <div className="suggestions_like">You May Also Like</div>
+          <div className="suggestions_like">{t("You May Also Like")}</div>
           <Suggestions>
             {suggestions?.map((movie, id) => (
               <MyCard
@@ -725,7 +727,7 @@ export default function Stream() {
             ))}
           </Suggestions>
           <CommentSection>
-            <div className="title">Comments</div>
+            <div className="title">{t("Comments")}</div>
             <div className="comments_list">
               {comments.map((comment, index) => (
                 <Paper className="comment_item" key={index}>
@@ -779,7 +781,7 @@ export default function Stream() {
                   className="comment_input"
                   type="Comment"
                   value={comment}
-                  placeholder="Comment ..."
+                  placeholder={t("Comment")}
                   onChange={handleOnChange}
                 />
               </form>
