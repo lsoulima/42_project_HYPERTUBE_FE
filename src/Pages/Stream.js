@@ -21,9 +21,6 @@ import Alert from "@material-ui/lab/Alert";
 import { Snackbar } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
-const pic =
-  "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260";
-
 const Container = styled.div`
   padding-top: 100px;
   display: flex;
@@ -435,6 +432,7 @@ export default function Stream() {
   const [suggestions, setSuggestions] = useState([]);
   const [error, setError] = useState({});
   const [favorite, setFavorite] = useState({});
+  // eslint-disable-next-line
   const [watched, setWatched] = useState({});
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
@@ -553,9 +551,9 @@ export default function Stream() {
   };
 
   //* HANDLE STREAM VIDEO
-  const handleQuality = async ( magnet ) => {
-    setMagnetsrc( magnet );
-  }
+  const handleQuality = async (magnet) => {
+    setMagnetsrc(magnet);
+  };
 
   useEffect(() => {
     const loadMovieDetails = async () => {
@@ -565,7 +563,7 @@ export default function Stream() {
           setError(response);
         } else {
           setDetails(response);
-          setMagnetsrc( response.torrents[0].magnet )
+          setMagnetsrc(response.torrents[0].magnet);
         }
       } else {
         setError({
@@ -583,9 +581,9 @@ export default function Stream() {
       {error.error ? (
         <Container>
           <MyCard>
-            <div className="info_section">
-              <div className="movie_header">
-                <img className="cover" src="./img/404.svg" alt="cover" />
+            <div className='info_section'>
+              <div className='movie_header'>
+                <img className='cover' src='./img/404.svg' alt='cover' />
                 <h1>{error.error}</h1>
               </div>
             </div>
@@ -597,14 +595,13 @@ export default function Stream() {
             anchorOrigin={{ vertical: "top", horizontal: "center" }}
             open={open}
             autoHideDuration={3000}
-            onClose={handleClose}
-          >
+            onClose={handleClose}>
             {favorite.success === true ? (
-              <Alert onClose={handleClose} severity="success" variant="filled">
+              <Alert onClose={handleClose} severity='success' variant='filled'>
                 {favorite.message}
               </Alert>
             ) : (
-              <Alert onClose={handleClose} severity="info" variant="filled">
+              <Alert onClose={handleClose} severity='info' variant='filled'>
                 {favorite.error}
               </Alert>
             )}
@@ -612,11 +609,15 @@ export default function Stream() {
           <MyVideo>
             <ReactPlayer
               url={[
-                { src: magnetsrc ? "http://localhost:3001/api/movies/stream/" + magnetsrc : "" },
+                {
+                  src: magnetsrc
+                    ? "http://localhost:3001/api/movies/stream/" + magnetsrc
+                    : "",
+                },
               ]}
               controls={true}
-              width="100%"
-              height="100%"
+              width='100%'
+              height='100%'
               config={{
                 file: {
                   tracks: [
@@ -635,77 +636,76 @@ export default function Stream() {
                 },
               }}
             />
-            <div className="divider quality">
-              <div className="quality_item">
+            <div className='divider quality'>
+              <div className='quality_item'>
                 {details?.torrents?.map((item, index) => (
-                  <div key={index} onClick={ () => handleQuality( item.magnet ) }>{item.quality}</div>
+                  <div key={index} onClick={() => handleQuality(item.magnet)}>
+                    {item.quality}
+                  </div>
                 ))}
               </div>
             </div>
           </MyVideo>
           <MovieDetailes>
-            <div className="movie_section">
+            <div className='movie_section'>
               <div>
-                <img src={details.image} alt="cover" />
+                <img src={details.image} alt='cover' />
               </div>
               {details?.favorite ? (
                 <div
                   onClick={() => {
                     handleRemoveFromFavorite();
-                  }}
-                >
-                  <StarHalfIcon fontSize="large" />
+                  }}>
+                  <StarHalfIcon fontSize='large' />
                 </div>
               ) : (
                 <div
                   onClick={() => {
                     handleAddToFavorite();
-                  }}
-                >
-                  <StarIcon fontSize="large" />
+                  }}>
+                  <StarIcon fontSize='large' />
                 </div>
               )}
             </div>
-            <div className="detail_section">
-              <div className="divider detail_section_name">
+            <div className='detail_section'>
+              <div className='divider detail_section_name'>
                 <h1>{details?.title_long}</h1>
                 <div>
                   <span>Rating: </span>
                   <span>{details?.rating}</span>
                 </div>
               </div>
-              <div className="detail_section_duration">
+              <div className='detail_section_duration'>
                 <span>{timeConvert(details?.runtime)}</span>
-                <div className="movie_genre">
+                <div className='movie_genre'>
                   {details?.genres?.map((item, index) => (
                     <div key={index}>{item}</div>
                   ))}
                 </div>
-                <div className=" divider detail_section_description">
+                <div className=' divider detail_section_description'>
                   {details?.descripton}
                 </div>
               </div>
 
-              <div className=" detail_section_movieInfo">
-                <div className="detail_section_director">
-                  <div className="director">ACTORS</div>
-                  <div className="director_value">{details?.actors}</div>
+              <div className=' detail_section_movieInfo'>
+                <div className='detail_section_director'>
+                  <div className='director'>ACTORS</div>
+                  <div className='director_value'>{details?.actors}</div>
                 </div>
               </div>
             </div>
           </MovieDetailes>
-          <div className="suggestions_like">You May Also Like</div>
+          <div className='suggestions_like'>You May Also Like</div>
           <Suggestions>
             {suggestions?.map((movie, id) => (
               <MyCard
                 key={id}
                 onClick={() => {
                   handleClickMovie(movie.id);
-                }}
-              >
-                <div className="info_section">
-                  <div className="movie_header">
-                    <img className="cover" src={movie?.image} alt="cover" />
+                }}>
+                <div className='info_section'>
+                  <div className='movie_header'>
+                    <img className='cover' src={movie?.image} alt='cover' />
                     <h1>{movie?.title}</h1>
                     <div>
                       <span>Rating: </span>
@@ -714,41 +714,38 @@ export default function Stream() {
                   </div>
                 </div>
                 <div
-                  className="blur_back"
+                  className='blur_back'
                   style={{
                     backgroundImage: `url(${movie?.image})`,
-                  }}
-                ></div>
-                <i className="las la-play-circle play_button" />
+                  }}></div>
+                <i className='las la-play-circle play_button' />
               </MyCard>
             ))}
           </Suggestions>
           <CommentSection>
-            <div className="title">Comments</div>
-            <div className="comments_list">
+            <div className='title'>Comments</div>
+            <div className='comments_list'>
               {comments.map((comment, index) => (
-                <Paper className="comment_item" key={index}>
-                  <Grid container wrap="nowrap" spacing={2}>
+                <Paper className='comment_item' key={index}>
+                  <Grid container wrap='nowrap' spacing={2}>
                     <Grid item>
-                      <Avatar alt="UserProfile" src={comment.userId.profile} />
+                      <Avatar alt='UserProfile' src={comment.userId.profile} />
                     </Grid>
-                    <Grid justifycontent="left" item xs zeroMinWidth>
+                    <Grid justifycontent='left' item xs zeroMinWidth>
                       <h3
                         style={{
                           margin: 0,
                           textAlign: "left",
                           cursor: "pointer",
                           // color: "black",
-                        }}
-                      >
+                        }}>
                         <Link
                           to={
                             comment.userId.username === userInfos.username
                               ? "/profile"
                               : `/profile/${comment.userId.username}`
                           }
-                          style={{ color: "gray" }}
-                        >
+                          style={{ color: "gray" }}>
                           {comment.userId.username}
                         </Link>
                       </h3>
@@ -760,10 +757,9 @@ export default function Stream() {
                     <Grid>
                       {userInfos.id === comment.userId._id ? (
                         <i
-                          className="las la-trash"
+                          className='las la-trash'
                           style={{ fontSize: "25px", cursor: "pointer" }}
-                          onClick={() => handleDeleteComment(comment._id)}
-                        ></i>
+                          onClick={() => handleDeleteComment(comment._id)}></i>
                       ) : (
                         ""
                       )}
@@ -772,13 +768,13 @@ export default function Stream() {
                 </Paper>
               ))}
             </div>
-            <div className="input_area">
+            <div className='input_area'>
               <form onSubmit={handleOnSubmit}>
                 <input
-                  className="comment_input"
-                  type="Comment"
+                  className='comment_input'
+                  type='Comment'
                   value={comment}
-                  placeholder="Comment ..."
+                  placeholder='Comment ...'
                   onChange={handleOnChange}
                 />
               </form>

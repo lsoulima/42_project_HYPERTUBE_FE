@@ -8,13 +8,9 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import VisibilityIcon from "@material-ui/icons/Visibility";
-import StarIcon from "@material-ui/icons/Star";
 import PersonPinIcon from "@material-ui/icons/PersonPin";
 import { HyperContext } from "../Context/context";
 import { useHistory } from "react-router-dom";
-import WatchedList from "./WatchedList";
-import FavoriteList from "./FavoriteList";
 import { findProfileByUsername } from "../services/profile";
 
 const LabelImage = styled.label`

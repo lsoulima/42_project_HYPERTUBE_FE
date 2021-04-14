@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import Carousel from "react-elastic-carousel";
-import axios from "axios";
 import { HyperContext } from "../Context/context";
 import { getFavoriteMovies } from "../services/moviesActions";
 import { useHistory } from "react-router";
@@ -195,6 +194,7 @@ const MessageCard = styled.div`
 const FavoriteList = () => {
   // eslint-disable-next-line
   const { state } = useContext(HyperContext);
+  // eslint-disable-next-line
   const [hovered, setHovered] = useState(false);
   const toggleHover = (value) => setHovered(value);
   const [favoriteMovies, setFavoriteMovies] = useState([]);
@@ -213,13 +213,13 @@ const FavoriteList = () => {
       history.push("/stream?film_id=" + id);
     }
   };
-  const getFavoriteMoviesList = async () => {
-    const res = await getFavoriteMovies(state.token);
-    setFavoriteMovies(res);
-  };
   useEffect(() => {
+    const getFavoriteMoviesList = async () => {
+      const res = await getFavoriteMovies(state.token);
+      setFavoriteMovies(res);
+    };
     getFavoriteMoviesList();
-  }, []);
+  }, [state.token]);
 
   return (
     <List>
