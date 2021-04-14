@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
 import Container from "@material-ui/core/Container";
 import styled from "styled-components";
 import Paper from "@material-ui/core/Paper";
@@ -10,7 +9,7 @@ import VisibilityIcon from "@material-ui/icons/Visibility";
 import StarIcon from "@material-ui/icons/Star";
 import PersonPinIcon from "@material-ui/icons/PersonPin";
 import { HyperContext } from "../Context/context";
-import { useHistory, Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import WatchedList from "./WatchedList";
 import FavoriteList from "./FavoriteList";
 
@@ -169,6 +168,7 @@ export default function Settings() {
   const { userInfos } = useContext(HyperContext);
   const [tab, setTab] = useState(0);
   let history = useHistory();
+  // eslint-disable-next-line
   const [hovered, setHovered] = useState(false);
   const toggleHover = (value) => setHovered(value);
 
@@ -180,39 +180,38 @@ export default function Settings() {
     const { children, value, index } = props;
 
     return (
-      <div role="tabpanel" hidden={value !== index}>
-        {value === index && <div className="paper">{children}</div>}
+      <div role='tabpanel' hidden={value !== index}>
+        {value === index && <div className='paper'>{children}</div>}
       </div>
     );
   };
 
   return (
     <Wrapper>
-      <div className="container">
-        <Container component="main" maxWidth="sm">
+      <div className='container'>
+        <Container component='main' maxWidth='sm'>
           <Paper elevation={5}>
             <Tabs
               value={tab}
               onChange={handleChange}
-              variant="fullWidth"
-              indicatorColor="secondary"
-              textcolor="primary"
+              variant='fullWidth'
+              indicatorColor='secondary'
+              textcolor='primary'
               TabIndicatorProps={{ style: { background: "red" } }}
-              style={{ background: "rgb(8, 7, 8)", color: "white" }}
-            >
+              style={{ background: "rgb(8, 7, 8)", color: "white" }}>
               <Tab
                 icon={<PersonPinIcon />}
-                label="Info"
+                label='Info'
                 style={{ padding: "20px 0" }}
               />
               <Tab
                 icon={<VisibilityIcon />}
-                label="Watched"
+                label='Watched'
                 style={{ padding: "20px 0" }}
               />
               <Tab
                 icon={<StarIcon />}
-                label="Favorite"
+                label='Favorite'
                 style={{ padding: "20px 0" }}
               />
             </Tabs>
@@ -221,34 +220,33 @@ export default function Settings() {
             <MyCard
               key={1}
               onMouseEnter={() => toggleHover(true)}
-              onMouseLeave={() => toggleHover(false)}
-            >
+              onMouseLeave={() => toggleHover(false)}>
               <img
                 src={
                   userInfos.profile ? userInfos.profile : "./img/avatar.jpeg"
                 }
-                width="100%"
-                height="100%"
-                alt="cover"
+                width='100%'
+                height='100%'
+                alt='cover'
                 onError={(e) => {
                   e.target.onerror = null;
                   e.target.src = "https://t.ly/teEM";
                 }}
               />
-              <div className="eye">
-                <i className="las la-user  animate__animated animate__wobble animate__infinite"></i>
+              <div className='eye'>
+                <i className='las la-user  animate__animated animate__wobble animate__infinite'></i>
               </div>
-              <div className="backHover">
-                <div className="mvName">
+              <div className='backHover'>
+                <div className='mvName'>
                   <h3>{userInfos.username}</h3>
                 </div>
                 <i
-                  className="las la-edit play_button"
+                  className='las la-edit play_button'
                   onClick={() => {
                     history.push("/settings");
                   }}
                 />
-                <div className="mvName">
+                <div className='mvName'>
                   <h3>{userInfos.firstname}</h3>
                   <h3>{userInfos.lastname}</h3>
                   <h3>{userInfos.email}</h3>
@@ -256,14 +254,13 @@ export default function Settings() {
               </div>
             </MyCard>
             <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              className="submit"
+              type='submit'
+              variant='contained'
+              color='primary'
+              className='submit'
               onClick={() => {
                 history.push("/library");
-              }}
-            >
+              }}>
               Browse Movies
             </Button>
           </TabPanel>
