@@ -612,7 +612,7 @@ export default function Stream() {
             <ReactPlayer
               url={[
                 {
-                  src: "http://localhost:4000/stream/" + hashsrc,
+                  src: hashsrc ? "http://localhost:3001/api/movies/stream/" + hashsrc : "",
                   type: "video/webm"
                 },
               ]}
