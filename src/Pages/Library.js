@@ -489,7 +489,7 @@ export default function Library() {
           <input
             className='search'
             type='search'
-            placeholder= {t("Search")}
+            placeholder={t("Search")}
             value={searchTerm}
             onChange={handleOnChange}
           />
@@ -538,7 +538,7 @@ export default function Library() {
             <div>
               <FormControlMdf>
                 <InputLabel id='demo-simple-select-helper-label'>
-                {t("gender")}
+                  {t("gender")}
                 </InputLabel>
                 <Select
                   labelId='demo-simple-select-helper-label'
