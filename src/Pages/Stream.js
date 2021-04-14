@@ -439,7 +439,7 @@ export default function Stream() {
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
   const [open, setOpen] = useState(false);
-  const [magnetsrc, setMagnetsrc] = useState("");
+  const [hashsrc, setHashQuality] = useState("");
   const movieKey = window.location.search.split("=")[0];
   const movieID = window.location.search.split("=")[1];
   const handleClose = (reason) => {
@@ -552,11 +552,6 @@ export default function Stream() {
     }
   };
 
-  //* HANDLE STREAM VIDEO
-  const handleQuality = async (magnet) => {
-    setMagnetsrc(magnet);
-  };
-
   useEffect(() => {
     const loadMovieDetails = async () => {
       if (movieID && movieKey === "?film_id") {
@@ -565,7 +560,7 @@ export default function Stream() {
           setError(response);
         } else {
           setDetails(response);
-          setMagnetsrc(response.torrents[0].magnet);
+          setHashQuality( response.torrents[0].hash );
         }
       } else {
         setError({
@@ -612,9 +607,8 @@ export default function Stream() {
             <ReactPlayer
               url={[
                 {
-                  src: magnetsrc
-                    ? "http://localhost:3001/api/movies/stream/" + magnetsrc
-                    : "",
+                  src: hashsrc ? "http://localhost:3001/api/movies/stream/" + hashsrc : "",
+                  type: "video/webm"
                 },
               ]}
               controls={true}
@@ -622,10 +616,18 @@ export default function Stream() {
               height='100%'
               config={{
                 file: {
+                  attributes: {
+                    crossOrigin: "anonymous",
+                  },
                   tracks: [
                     {
                       kind: "subtitles",
-                      src: "", //"http://localhost:3001/subs/subtitles.en.vtt",
+                      src: details.imdb
+                        ? "http://localhost:3001/api/movies/subtitles/" +
+                          details.imdb +
+                          "?lang=" +
+                          localStorage.getItem("i18nextLng")
+                        : "",
                       srcLang: "en",
                       default: true,
                     },
@@ -641,7 +643,7 @@ export default function Stream() {
             <div className='divider quality'>
               <div className='quality_item'>
                 {details?.torrents?.map((item, index) => (
-                  <div key={index} onClick={() => handleQuality(item.magnet)}>
+                  <div key={index} onClick={() => setHashQuality( item.hash ) }>
                     {item.quality}
                   </div>
                 ))}
@@ -731,7 +733,14 @@ export default function Stream() {
                 <Paper className='comment_item' key={index}>
                   <Grid container wrap='nowrap' spacing={2}>
                     <Grid item>
-                      <Avatar alt='UserProfile' src={comment.userId.profile} />
+                      <Avatar
+                        alt='UserProfile'
+                        src={
+                          comment.userId?.profile
+                            ? comment.userId?.profile
+                            : "./img/avatar.jpeg"
+                        }
+                      />
                     </Grid>
                     <Grid justifycontent='left' item xs zeroMinWidth>
                       <h3
@@ -745,7 +754,7 @@ export default function Stream() {
                           to={
                             comment.userId.username === userInfos.username
                               ? "/profile"
-                              : `/profile/${comment.userId.username}`
+                              : `/profile/${comment?.userId.username}`
                           }
                           style={{ color: "gray" }}>
                           {comment.userId.username}

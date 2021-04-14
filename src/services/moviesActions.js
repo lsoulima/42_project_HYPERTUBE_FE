@@ -195,7 +195,7 @@ export const getMoviesComments = async (token, movieId) => {
     const res = await axios.get(API_URL + "/comments/list/" + movieId, config);
     if (res) return res.data;
   } catch (error) {
-    return error.response.data;
+    return error.response?.data;
   }
 };
 
