@@ -18,6 +18,7 @@ import { HyperContext } from "../Context/context";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { useHistory } from "react-router";
+import { useTranslation } from "react-i18next";
 
 const Container = styled.div`
   margin: 0 20px 20px 20px;
@@ -366,6 +367,7 @@ const SearchCard = styled.div`
 `;
 
 export default function Library() {
+  const { t } = useTranslation();
   const { state } = useContext(HyperContext);
   const [movies, setMovies] = useState([]);
   const [page, setPage] = useState(1);
@@ -487,7 +489,7 @@ export default function Library() {
           <input
             className='search'
             type='search'
-            placeholder='Search ...'
+            placeholder= {t("Search")}
             value={searchTerm}
             onChange={handleOnChange}
           />
@@ -495,7 +497,7 @@ export default function Library() {
       </SearchCard>
       <Container>
         <div className='first_card'>
-          <Typography>Sort by :</Typography>
+          <Typography>{t("Sort by")} :</Typography>
           <FilterCard style={{ width: "100%" }}>
             <FormControl error component='fieldset' style={{ width: "100%" }}>
               <RadioGroup
@@ -505,17 +507,17 @@ export default function Library() {
                 <FormControlLabel
                   value='like_count'
                   control={<Radio />}
-                  label='Popularity'
+                  label={t("Popularity")}
                 />
                 <FormControlLabel
                   value='year'
                   control={<Radio />}
-                  label='Year'
+                  label={t("Year")}
                 />
                 <FormControlLabel
                   value='title'
                   control={<Radio />}
-                  label='Title'
+                  label={t("Title")}
                 />
               </RadioGroup>
             </FormControl>
@@ -524,7 +526,7 @@ export default function Library() {
         <div className='second_card'>
           <div className='second_card__container'>
             <div>
-              <Typography id='range-slider'>Rating</Typography>
+              <Typography id='range-slider'>{t("Rating")}</Typography>
               <MySlider
                 value={filter.rating}
                 valueLabelDisplay='auto'
@@ -536,29 +538,29 @@ export default function Library() {
             <div>
               <FormControlMdf>
                 <InputLabel id='demo-simple-select-helper-label'>
-                  Genre
+                {t("gender")}
                 </InputLabel>
                 <Select
                   labelId='demo-simple-select-helper-label'
                   id='demo-simple-select-helper'
                   value={filter.genre}
                   onChange={handleGenreChange}>
-                  <MenuItem value='Action'>Action</MenuItem>
-                  <MenuItem value='Drama'>Drama</MenuItem>
-                  <MenuItem value='Horror'>Horror</MenuItem>
-                  <MenuItem value='Comedy'>Comedy</MenuItem>
-                  <MenuItem value='Crime'>Crime</MenuItem>
-                  <MenuItem value='Adventure'>Adventure</MenuItem>
-                  <MenuItem value='Biography'>Biography</MenuItem>
-                  <MenuItem value='Documentary'>Documentary</MenuItem>
-                  <MenuItem value='Family'>Family</MenuItem>
+                  <MenuItem value='Action'>{t("Action")}</MenuItem>
+                  <MenuItem value='Drama'>{t("Drama")}</MenuItem>
+                  <MenuItem value='Horror'>{t("Horror")}</MenuItem>
+                  <MenuItem value='Comedy'>{t("Comedy")}</MenuItem>
+                  <MenuItem value='Crime'>{t("Crime")}</MenuItem>
+                  <MenuItem value='Adventure'>{t("Adventure")}</MenuItem>
+                  <MenuItem value='Biography'>{t("Biography")}</MenuItem>
+                  <MenuItem value='Documentary'>{t("Documentary")}</MenuItem>
+                  <MenuItem value='Family'>{t("Family")}</MenuItem>
                 </Select>
               </FormControlMdf>
             </div>
             <div>
               <FormControlMdf>
                 <InputLabel id='demo-simple-select-helper-label'>
-                  Quality
+                  {t("Quality")}
                 </InputLabel>
                 <Select
                   labelId='demo-simple-select-helper-label'
@@ -580,7 +582,7 @@ export default function Library() {
             color='primary'
             // style={{ width: "150px", padding: "10px", fontSize: "16px" }}
             onClick={handleSubmitFilter}>
-            Filter
+            {t("Filter")}
           </Button>
         </div>
       </Container>
@@ -625,7 +627,7 @@ export default function Library() {
                 <div className='info_section'>
                   <div className='movie_header'>
                     <img className='cover' src='./img/404.svg' alt='cover' />
-                    <h1>No movies found</h1>
+                    <h1>{t("No movies found")}</h1>
                   </div>
                 </div>
               </MessageCard>
@@ -669,7 +671,7 @@ export default function Library() {
                             ? "watchBtn animate__animated  animate__backInDown animate__faster"
                             : "watchBtn"
                         }>
-                        Watch
+                        {t("Watch")}
                       </div>
                       <div
                         className={

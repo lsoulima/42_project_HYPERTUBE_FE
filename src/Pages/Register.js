@@ -10,6 +10,7 @@ import Alert from "@material-ui/lab/Alert";
 import { Box, Snackbar } from "@material-ui/core";
 import { useForm } from "react-hook-form";
 import { registerAction } from "../services/auth";
+import { useTranslation } from "react-i18next";
 
 const WhiteBorderTextField = styled(TextField)`
   & .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
@@ -85,6 +86,7 @@ const Wrapper = styled.div`
 `;
 
 export default function Register() {
+  const { t } = useTranslation();
   const [state, Setstate] = useState({});
   const { register, handleSubmit, errors } = useForm();
   const [open, setOpen] = useState(false);
@@ -121,7 +123,7 @@ export default function Register() {
                 fontWeight: 600,
                 color: "#fff",
               }}>
-              Sign Up
+              {t("registerTr")}
             </Typography>
             <Snackbar
               anchorOrigin={{ vertical: "top", horizontal: "center" }}
@@ -149,16 +151,16 @@ export default function Register() {
                     margin='normal'
                     fullWidth
                     id='firstname'
-                    label='First Name'
+                    label={t("First Name")}
                     name='firstname'
                     autoComplete='firstname'
                     autoFocus
                     inputRef={register({
-                      required: "You must provide your firstname!",
+                      required: t("You must provide your firstname!"),
                       pattern: {
                         value: /^[a-zA-Z]{3,20}$/,
                         message:
-                          "The firstname must contain between 3 and 20 letters !",
+                        t("The firstname must contain between 3 and 20 letters !"),
                       },
                     })}
                   />
@@ -177,14 +179,14 @@ export default function Register() {
                     margin='normal'
                     fullWidth
                     id='lastname'
-                    label='Last Name'
+                    label={t("Last Name")}
                     name='lastname'
                     inputRef={register({
-                      required: "You must provide your lastname!",
+                      required: t("You must provide your lastname!"),
                       pattern: {
                         value: /^[a-zA-Z]{3,20}$/,
                         message:
-                          "The lastname  must contain between 3 and 20 letters !",
+                          t("The lastname  must contain between 3 and 20 letters !"),
                       },
                     })}
                   />
@@ -205,14 +207,14 @@ export default function Register() {
                     min={3}
                     max={20}
                     id='username'
-                    label='User Name'
+                    label={t("username")}
                     name='username'
                     inputRef={register({
-                      required: "You must provide your username!",
+                      required: t("You must provide your username!"),
                       pattern: {
                         value: /^[a-z]+(([-_.]?[a-z0-9])?)+$/,
                         message:
-                          "The username must contain between 3 and 20 letters or numbers (-, _ or.) !",
+                        t("The username must contain between 3 and 20 letters or numbers"),
                       },
                     })}
                   />
@@ -231,14 +233,14 @@ export default function Register() {
                     margin='normal'
                     fullWidth
                     id='email'
-                    label='Email Address'
+                    label={t("Email Address")}
                     name='email'
                     autoComplete='email'
                     inputRef={register({
-                      required: "You must provide your email!",
+                      required: t("You must provide your email!"),
                       pattern: {
                         value: /[a-zA-Z0-9-_.]{1,50}@[a-zA-Z0-9-_.]{1,50}\.[a-z0-9]{2,10}$/,
-                        message: "Invalid email address !",
+                        message: t("Invalid email address !"),
                       },
                     })}
                   />
@@ -257,15 +259,15 @@ export default function Register() {
                     margin='normal'
                     fullWidth
                     name='password'
-                    label='Password'
+                    label={t("password")}
                     type='password'
                     id='password'
                     inputRef={register({
-                      required: "You must provide your password!",
+                      required: t("You must provide your password!"),
                       pattern: {
                         value: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*_-]).{8,}$/,
                         message:
-                          "Password must be at least eight characters long, at least one uppercase letter, one lowercase letter, one number and one special character !",
+                          t("Password must be at least eight characters long, at least one uppercase letter, one lowercase letter, one number and one special character !"),
                       },
                     })}
                   />
@@ -284,11 +286,11 @@ export default function Register() {
                     margin='normal'
                     fullWidth
                     name='confirmpassword'
-                    label='Retype Password'
+                    label={t("Retype Password")}
                     type='password'
                     id='confirmpassword'
                     inputRef={register({
-                      required: "You must confirm your password!",
+                      required: t("You must confirm your password!"),
                     })}
                   />
                   {errors.confirmpassword && (
@@ -307,7 +309,7 @@ export default function Register() {
                     variant='contained'
                     color='primary'
                     className='submit'>
-                    Sign Up
+                    {t("registerTr")}
                   </Button>
                 </Grid>
                 <Grid container>
@@ -319,7 +321,7 @@ export default function Register() {
                       width: "100%",
                     }}>
                     <Link to='/login' style={{ color: "#fff" }}>
-                      Sign In
+                    {t("loginTr")}
                     </Link>
                   </Grid>
                 </Grid>
