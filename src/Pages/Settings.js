@@ -148,6 +148,10 @@ export default function Settings() {
 
   const onSubmit = async (data) => {
     const SettingsResponce = await settingsAction(state.token, data);
+    setUserInfos({
+      ...userInfos,
+      ...data,
+    });
     // eslint-disable-next-line
     setMessage(SettingsResponce);
     setOpen(true);
@@ -277,7 +281,7 @@ export default function Settings() {
                     inputRef={register({
                       required: "You must provide your firstname!",
                       pattern: {
-                        value: /^[a-zA-Z]{3,20}$/,
+                        value: /^[a-zA-Z ]{3,20}$/,
                         message:
                           "The firstname must contain between 3 and 20 letters !",
                       },
@@ -304,7 +308,7 @@ export default function Settings() {
                     inputRef={register({
                       required: "You must provide your lastname!",
                       pattern: {
-                        value: /^[a-zA-Z]{3,20}$/,
+                        value: /^[a-zA-Z ]{3,20}$/,
                         message:
                           "The lastname  must contain between 3 and 20 letters !",
                       },

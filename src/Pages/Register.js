@@ -158,9 +158,10 @@ export default function Register() {
                     inputRef={register({
                       required: t("You must provide your firstname!"),
                       pattern: {
-                        value: /^[a-zA-Z]{3,20}$/,
-                        message:
-                        t("The firstname must contain between 3 and 20 letters !"),
+                        value: /^[a-zA-Z ]{3,20}$/,
+                        message: t(
+                          "The firstname must contain between 3 and 20 letters !"
+                        ),
                       },
                     })}
                   />
@@ -184,9 +185,10 @@ export default function Register() {
                     inputRef={register({
                       required: t("You must provide your lastname!"),
                       pattern: {
-                        value: /^[a-zA-Z]{3,20}$/,
-                        message:
-                          t("The lastname  must contain between 3 and 20 letters !"),
+                        value: /^[a-zA-Z ]{3,20}$/,
+                        message: t(
+                          "The lastname  must contain between 3 and 20 letters !"
+                        ),
                       },
                     })}
                   />
@@ -213,8 +215,9 @@ export default function Register() {
                       required: t("You must provide your username!"),
                       pattern: {
                         value: /^[a-z]+(([-_.]?[a-z0-9])?)+$/,
-                        message:
-                        t("The username must contain between 3 and 20 letters or numbers"),
+                        message: t(
+                          "The username must contain between 3 and 20 letters or numbers"
+                        ),
                       },
                     })}
                   />
@@ -266,8 +269,9 @@ export default function Register() {
                       required: t("You must provide your password!"),
                       pattern: {
                         value: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*_-]).{8,}$/,
-                        message:
-                          t("Password must be at least eight characters long, at least one uppercase letter, one lowercase letter, one number and one special character !"),
+                        message: t(
+                          "Password must be at least eight characters long, at least one uppercase letter, one lowercase letter, one number and one special character !"
+                        ),
                       },
                     })}
                   />
@@ -321,7 +325,7 @@ export default function Register() {
                       width: "100%",
                     }}>
                     <Link to='/login' style={{ color: "#fff" }}>
-                    {t("loginTr")}
+                      {t("loginTr")}
                     </Link>
                   </Grid>
                 </Grid>
