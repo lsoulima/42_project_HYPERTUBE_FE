@@ -439,7 +439,7 @@ export default function Stream() {
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
   const [open, setOpen] = useState(false);
-  const [magnetsrc, setMagnetsrc] = useState("");
+  const [hashsrc, setHashQuality] = useState("");
   const movieKey = window.location.search.split("=")[0];
   const movieID = window.location.search.split("=")[1];
   const handleClose = (reason) => {
@@ -553,8 +553,8 @@ export default function Stream() {
   };
 
   //* HANDLE STREAM VIDEO
-  const handleQuality = async (magnet) => {
-    setMagnetsrc(magnet);
+  const handleChangeQuality = async (hash) => {
+    setHashQuality(hash);
   };
 
   useEffect(() => {
@@ -565,7 +565,7 @@ export default function Stream() {
           setError(response);
         } else {
           setDetails(response);
-          setMagnetsrc(response.torrents[0].magnet);
+          setHashQuality( response.torrents[0].hash );
         }
       } else {
         setError({
@@ -612,9 +612,8 @@ export default function Stream() {
             <ReactPlayer
               url={[
                 {
-                  src: magnetsrc
-                    ? "http://localhost:3001/api/movies/stream/" + magnetsrc
-                    : "",
+                  src: "http://localhost:4000/stream/" + hashsrc,
+                  type: "video/webm"
                 },
               ]}
               controls={true}
@@ -649,7 +648,7 @@ export default function Stream() {
             <div className='divider quality'>
               <div className='quality_item'>
                 {details?.torrents?.map((item, index) => (
-                  <div key={index} onClick={() => handleQuality(item.magnet)}>
+                  <div key={index} onClick={() => setHashQuality( item.hash ) }>
                     {item.quality}
                   </div>
                 ))}
