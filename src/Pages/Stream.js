@@ -552,11 +552,6 @@ export default function Stream() {
     }
   };
 
-  //* HANDLE STREAM VIDEO
-  const handleChangeQuality = async (hash) => {
-    setHashQuality(hash);
-  };
-
   useEffect(() => {
     const loadMovieDetails = async () => {
       if (movieID && movieKey === "?film_id") {
