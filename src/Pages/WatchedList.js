@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import Carousel from "react-elastic-carousel";
-import axios from "axios";
+import { HyperContext } from "../Context/context";
+import { useTranslation } from "react-i18next";
+import { getWatchedMovies } from "../services/moviesActions";
+import { useHistory } from "react-router";
 
 const MyCard = styled.div`
   cursor: pointer;
@@ -192,9 +195,12 @@ const MessageCard = styled.div`
 `;
 
 const WatchedList = () => {
+  const { t } = useTranslation();
+  const { state } = useContext(HyperContext);
   // eslint-disable-next-line
   const [hovered, setHovered] = useState(false);
   const toggleHover = (value) => setHovered(value);
+  let history = useHistory();
 
   const breakPoints = [
     { width: 1, itemsToShow: 1 },
@@ -205,26 +211,31 @@ const WatchedList = () => {
     { width: 1440, itemsToShow: 6 },
   ];
 
-  const [movies, setmovies] = useState([]);
-  useEffect(() => {
-    async function fetchMovies() {
-      const res = await axios.get(
-        `https://api.apiumadomain.com/list?sort=popularity&page=1`
-      );
-      console.log(res.data.MovieList);
-      setmovies([]);
+  const [watchedMovies, setWatchedMovies] = useState([]);
+
+   /*  HANDLE CLICK ON WATCHED MOVIES */
+   const handleClickMovie = (id) => {
+    if (id) {
+      history.push("/stream?film_id=" + id);
     }
-    fetchMovies();
-  }, []);
+  };
+  useEffect(() => {
+    const getWatchedMoviesList = async () => {
+      const res = await getWatchedMovies(state.token);
+      setWatchedMovies(res);
+    };
+    getWatchedMoviesList();
+  }, [state.token]);
+
 
   return (
     <List>
-      {movies.length === 0 ? (
+      {watchedMovies?.length === 0 ? (
         <MessageCard>
           <div className="info_section">
             <div className="movie_header">
               <img className="cover" src="./img/watch.svg" alt="cover" />
-              <h1>Go see some movies</h1>
+              <h1>{t("Go see some movies")}</h1>
             </div>
           </div>
         </MessageCard>
@@ -235,17 +246,17 @@ const WatchedList = () => {
           pagination={false}
           enableAutoPlay
         >
-          {movies.map((movie, index) => (
+          {watchedMovies?.map((movie, index) => (
             <MyCard
               key={index}
-              // onClick={() => {
-              //   handleClickMovie(movie.id);
-              // }}
+              onClick={() => {
+                handleClickMovie(movie?.movieId);
+              }}
               onMouseEnter={() => toggleHover(true)}
               onMouseLeave={() => toggleHover(false)}
             >
               <img
-                src={movie?.poster_big}
+                src={movie?.image}
                 width="100%"
                 height="100%"
                 alt="cover"

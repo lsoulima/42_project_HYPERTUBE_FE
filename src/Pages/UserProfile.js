@@ -12,6 +12,7 @@ import PersonPinIcon from "@material-ui/icons/PersonPin";
 import { HyperContext } from "../Context/context";
 import { useHistory } from "react-router-dom";
 import { findProfileByUsername } from "../services/profile";
+import { useTranslation } from "react-i18next";
 
 const LabelImage = styled.label`
   cursor: pointer;
@@ -178,6 +179,7 @@ const MessageCard = styled.div`
 `;
 
 export default function UserProfile(props) {
+  const { t } = useTranslation();
   const { state } = useContext(HyperContext);
   const [tab, setTab] = useState(0);
   const [profile, setProfile] = useState({});
@@ -212,7 +214,7 @@ export default function UserProfile(props) {
         }
       } else {
         setError({
-          error: "No username found !",
+          error: t("No username found !"),
         });
       }
     };
@@ -288,7 +290,7 @@ export default function UserProfile(props) {
                       defaultValue={profile.firstname}
                       margin='normal'
                       fullWidth
-                      label='First Name'
+                      label={t('First Name')}
                       InputProps={{
                         readOnly: true,
                       }}
@@ -300,7 +302,7 @@ export default function UserProfile(props) {
                       margin='normal'
                       defaultValue={profile.lastname}
                       fullWidth
-                      label='Last Name'
+                      label={t('Last Name')}
                       InputProps={{
                         readOnly: true,
                       }}
@@ -315,7 +317,7 @@ export default function UserProfile(props) {
                     onClick={() => {
                       history.push("/library");
                     }}>
-                    Browse Movies
+                    {t("Browse Movies")}
                   </Button>
                 </Grid>
               </form>

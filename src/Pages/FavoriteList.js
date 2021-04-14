@@ -4,6 +4,7 @@ import Carousel from "react-elastic-carousel";
 import { HyperContext } from "../Context/context";
 import { getFavoriteMovies } from "../services/moviesActions";
 import { useHistory } from "react-router";
+import { useTranslation } from "react-i18next";
 
 const MyCard = styled.div`
   cursor: pointer;
@@ -105,7 +106,6 @@ const MyCard = styled.div`
     color: #ffe600;
     font-size: 30px;
   }
-  @media (max-);
 `;
 const List = styled.div`
   width: 80%;
@@ -192,12 +192,12 @@ const MessageCard = styled.div`
 `;
 
 const FavoriteList = () => {
-  // eslint-disable-next-line
+  const { t } = useTranslation();
   const { state } = useContext(HyperContext);
   // eslint-disable-next-line
   const [hovered, setHovered] = useState(false);
   const toggleHover = (value) => setHovered(value);
-  const [favoriteMovies, setFavoriteMovies] = useState([]);
+  let history = useHistory();
   const breakPoints = [
     { width: 1, itemsToShow: 1 },
     { width: 425, itemsToShow: 2, itemsToScroll: 2 },
@@ -206,8 +206,10 @@ const FavoriteList = () => {
     { width: 1024, itemsToShow: 5 },
     { width: 1440, itemsToShow: 6 },
   ];
-  //* HANDLE CLICK ON FAVORITE MOVIES
-  let history = useHistory();
+
+  const [favoriteMovies, setFavoriteMovies] = useState([]);
+
+  /*  HANDLE CLICK ON FAVORITE MOVIES */
   const handleClickMovie = (id) => {
     if (id) {
       history.push("/stream?film_id=" + id);
@@ -228,7 +230,7 @@ const FavoriteList = () => {
           <div className='info_section'>
             <div className='movie_header'>
               <img className='cover' src='./img/favorite.svg' alt='cover' />
-              <h1>Go Like some movies</h1>
+              <h1>{t("Go like some movies")}</h1>
             </div>
           </div>
         </MessageCard>
@@ -242,7 +244,7 @@ const FavoriteList = () => {
             <MyCard
               key={id}
               onClick={() => {
-                handleClickMovie(movie.movieId);
+                handleClickMovie(movie?.movieId);
               }}
               onMouseEnter={() => toggleHover(true)}
               onMouseLeave={() => toggleHover(false)}>

@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import Link from "@material-ui/core/Link";
+import { useTranslation } from "react-i18next";
 
 const Container = styled.div`
   height: fit-content;
@@ -126,21 +127,20 @@ const Container = styled.div`
 `;
 
 export default function Home() {
+  const { t } = useTranslation();
   let history = useHistory();
-  let audio = new Audio("/hyper.mp3");
-  audio.play();
+  
   return (
     <Container>
       <div className='container-tran'>
         <div className='website-desc'>
           <div>
             <h1 className='animate__animated animate__backInDown'>
-              Unlimited movies, TV shows, and more.
+              {t("Unlimited movies")}
             </h1>
-            <h3>Watch anywhere. Cancel anytime.</h3>
+            <h3>{t("Watch anywhere")}</h3>
             <h3>
-              Ready to watch? Enter your email to create or restart your
-              membership.
+              {t("Ready to watch")}
             </h3>
           </div>
           <div className='input-home animate__animated animate__backInUp'>
@@ -153,7 +153,7 @@ export default function Home() {
                   history.push("/register");
                 }}>
                 <button>
-                  Get Started <i className='las la-angle-right'></i>
+                  {t("Get Started")} <i className='las la-angle-right'></i>
                 </button>
               </Link>
             </div>

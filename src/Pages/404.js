@@ -3,6 +3,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import styled from "styled-components";
+import { useTranslation } from "react-i18next";
 
 const Wrapper = styled.div`
   & {
@@ -48,6 +49,8 @@ const Wrapper = styled.div`
 `;
 
 export default function Notfound() {
+  const { t } = useTranslation();
+
   return (
     <Wrapper>
       <div className="container">
@@ -63,7 +66,7 @@ export default function Notfound() {
                 color: "#fff",
               }}
             >
-              Sorry This Page Not Found 404 ...
+              {t("404")}
             </Typography>
 
             <form className="form">
@@ -74,7 +77,7 @@ export default function Notfound() {
                 color="primary"
                 className="submit"
               >
-                back Home
+                {t("back")}
               </Button>
             </form>
           </div>

@@ -81,6 +81,7 @@ export const addMovieToFavorite = async (token, movieInfo) => {
     return error.response?.data;
   }
 };
+
 //* Get Favorite list Movies
 
 export const getFavoriteMovies = async (token) => {
@@ -98,6 +99,7 @@ export const getFavoriteMovies = async (token) => {
     return error.response?.data;
   }
 };
+
 //* Delete Favorite list Movies
 
 export const DeleteFavoriteMovies = async (token, movieId) => {
@@ -133,6 +135,24 @@ export const addMovieToWatched = async (token, movieInfo) => {
       movieInfo,
       config
     );
+    if (res) return res.data;
+  } catch (error) {
+    return error.response?.data;
+  }
+};
+
+//* Get Watched list Movies
+
+export const getWatchedMovies = async (token) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  try {
+    const res = await axios.get(API_URL + "/movies/watched", config);
+
     if (res) return res.data;
   } catch (error) {
     return error.response?.data;

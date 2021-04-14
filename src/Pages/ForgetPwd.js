@@ -8,6 +8,7 @@ import { resetPwd } from "../services/auth";
 import { useForm } from "react-hook-form";
 import Alert from "@material-ui/lab/Alert";
 import { Snackbar, Box } from "@material-ui/core";
+import { useTranslation } from "react-i18next";
 
 const WhiteBorderTextField = styled(TextField)`
   & .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
@@ -82,6 +83,8 @@ const Wrapper = styled.div`
 `;
 
 export default function ForgetPwd() {
+  const { t } = useTranslation();
+
   const [message, setMessage] = useState({});
   const { register, handleSubmit, errors } = useForm();
   const [open, setOpen] = useState(false);
@@ -115,7 +118,7 @@ export default function ForgetPwd() {
                 marginBottom: "20px",
               }}
             >
-              Reset Password
+              {t("Reset Password")}
             </Typography>
             <Snackbar
               anchorOrigin={{ vertical: "top", horizontal: "center" }}
@@ -143,13 +146,13 @@ export default function ForgetPwd() {
                 margin="normal"
                 fullWidth
                 id="email"
-                label="Email Address"
+                label={t("Email Address")}
                 name="email"
                 autoComplete="email"
                 autoFocus
                 inputRef={register({
                   required:
-                    "You must provide your email to reset you password!",
+                    t("You must provide your email to reset you password!"),
                 })}
               />
               {errors.email && (
@@ -164,7 +167,7 @@ export default function ForgetPwd() {
                 color="primary"
                 className="submit"
               >
-                Reset Password
+              {t("Reset Password")}
               </Button>
             </form>
           </div>

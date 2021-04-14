@@ -294,7 +294,7 @@ export default function Register() {
                     type='password'
                     id='confirmpassword'
                     inputRef={register({
-                      required: t("You must confirm your password!"),
+                      required: t("You must confirm your password !"),
                     })}
                   />
                   {errors.confirmpassword && (

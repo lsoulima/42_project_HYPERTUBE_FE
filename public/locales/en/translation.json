@@ -10,6 +10,9 @@
   "Email Address": "E-mail Address",
   "Last Name": "Last Name",
   "First Name": "First Name",
+  "Save":"Save",
+  "You must provide your oldpassword!":"You must provide your old password !",
+  "You must provide your newpassword!":"You must provide your new password !",
   "You must provide your firstname !": "You must provide your firstname !",
   "The firstname must contain between 3 and 20 letters !": "The firstname must contain between 3 and 20 letters !",
   "You must provide your username to login !": "You must provide your username to login !",
@@ -21,7 +24,7 @@
   "You must provide your email !": "You must provide your email !",
   "Invalid email address !": "Invalid email address !",
   "You must provide your password !": "You must provide your password !",
-  "Password must be at least eight characters long, at least one uppercase letter, one lowercase letter, one number and one special character !": "Password must be at least eight characters long, at least one uppercase letter, one lowercase letter, one number and one special character !",
+  "Password must be at least eight characters long": "Password must be at least eight characters long, at least one uppercase letter, one lowercase letter, one number and one special character !",
   "You must confirm your password !": "You must confirm your password !",
   "Your account has been created successfully !": "Your account has been created successfully !",
   "Failed to register !": "Failed to register !",
@@ -137,5 +140,29 @@
   "Comments": "Comments",
   "Comment": "Comment ...",
   "You May Also Like": "You May Also Like",
-  "ACTORS": "ACTORS"
+  "ACTORS": "ACTORS",
+
+  "404":"404 ... Sorry This Page Not Found",
+  "back":"Back Home",
+
+  "Unlimited movies":"Unlimited movies, TV shows, and more.",
+  "Watch anywhere":"Watch anywhere. Cancel anytime.",
+  "Ready to watch":"Ready to watch? Enter to create or restart your membership.",
+  "Get Started":"Get Started",
+
+  "Reset Password":"Reset Password",
+  "You must provide your email to reset you password!":"You must provide your email to reset you password!",
+  
+  "New Password":"New Password",
+  "Old Password":"Old Password",
+  "Confirm":"Confirm",
+
+  "Watched":"Watched",
+  "Favorite":"Favorite",
+  "Browse Movies":"Browse Movies",
+  "Go see some movies":"Go see some movies",
+  "Go like some movies":"Go like some movies",
+
+  "No username found !":"No username found !"
+
 }

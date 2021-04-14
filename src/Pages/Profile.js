@@ -12,6 +12,7 @@ import { HyperContext } from "../Context/context";
 import { useHistory } from "react-router-dom";
 import WatchedList from "./WatchedList";
 import FavoriteList from "./FavoriteList";
+import { useTranslation } from "react-i18next";
 
 const Wrapper = styled.div`
   & {
@@ -165,6 +166,7 @@ const MyCard = styled.div`
 `;
 
 export default function Settings() {
+  const { t } = useTranslation();
   const { userInfos } = useContext(HyperContext);
   const [tab, setTab] = useState(0);
   let history = useHistory();
@@ -206,12 +208,12 @@ export default function Settings() {
               />
               <Tab
                 icon={<VisibilityIcon />}
-                label='Watched'
+                label={t("Watched")}
                 style={{ padding: "20px 0" }}
               />
               <Tab
                 icon={<StarIcon />}
-                label='Favorite'
+                label={t("Favorite")}
                 style={{ padding: "20px 0" }}
               />
             </Tabs>
@@ -261,7 +263,7 @@ export default function Settings() {
               onClick={() => {
                 history.push("/library");
               }}>
-              Browse Movies
+              {t("Browse Movies")}
             </Button>
           </TabPanel>
           <TabPanel value={tab} index={1}>

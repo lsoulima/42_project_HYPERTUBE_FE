@@ -476,8 +476,6 @@ export default function Library() {
     }
   };
   useEffect(() => {
-    // console.log(error);
-
     fetchMovies(page, radioValue, filter, searchTerm);
     // eslint-disable-next-line
   }, [page, radioValue, filter]);
@@ -545,15 +543,15 @@ export default function Library() {
                   id='demo-simple-select-helper'
                   value={filter.genre}
                   onChange={handleGenreChange}>
-                  <MenuItem value='Action'>{t("Action")}</MenuItem>
-                  <MenuItem value='Drama'>{t("Drama")}</MenuItem>
-                  <MenuItem value='Horror'>{t("Horror")}</MenuItem>
-                  <MenuItem value='Comedy'>{t("Comedy")}</MenuItem>
-                  <MenuItem value='Crime'>{t("Crime")}</MenuItem>
-                  <MenuItem value='Adventure'>{t("Adventure")}</MenuItem>
-                  <MenuItem value='Biography'>{t("Biography")}</MenuItem>
-                  <MenuItem value='Documentary'>{t("Documentary")}</MenuItem>
-                  <MenuItem value='Family'>{t("Family")}</MenuItem>
+                  <MenuItem value='Action'>"Action"</MenuItem>
+                  <MenuItem value='Drama'>"Drama"</MenuItem>
+                  <MenuItem value='Horror'>"Horror"</MenuItem>
+                  <MenuItem value='Comedy'>"Comedy"</MenuItem>
+                  <MenuItem value='Crime'>"Crime"</MenuItem>
+                  <MenuItem value='Adventure'>"Adventure"</MenuItem>
+                  <MenuItem value='Biography'>"Biography"</MenuItem>
+                  <MenuItem value='Documentary'>"Documentary"</MenuItem>
+                  <MenuItem value='Family'>"Family"</MenuItem>
                 </Select>
               </FormControlMdf>
             </div>

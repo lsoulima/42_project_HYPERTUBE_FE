@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
-
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import styled from "styled-components";
 import { verifyAccount } from "../services/auth";
-
 import Alert from "@material-ui/lab/Alert";
 import { Snackbar } from "@material-ui/core";
+import { useTranslation } from "react-i18next";
 
 const Wrapper = styled.div`
   & {
@@ -53,6 +52,7 @@ const Wrapper = styled.div`
 `;
 
 export default function Verify() {
+  const { t } = useTranslation();
   const [state, setState] = useState({});
   const [open, setOpen] = useState(false);
   const handleClose = (reason) => {
@@ -118,7 +118,7 @@ export default function Verify() {
                 color="primary"
                 className="submit"
               >
-                login
+                {t("loginTr")}
               </Button>
             </form>
           </div>

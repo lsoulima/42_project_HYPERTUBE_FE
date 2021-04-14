@@ -41,7 +41,7 @@ i18n
 
   .init({
     fallbackLng, // if user computer language is not on the list of available languages, than we will be using the fallback language specified earlier
-    debug: true,
+    // debug: true,
     whitelist: availableLanguages,
     detection: options,
 
@@ -54,36 +54,3 @@ i18n
   });
 
 export default i18n;
-
-// import i18n from "i18next";
-// import { reactI18nextModule } from "react-i18next";
-// import detector from "i18next-browser-languagedetector";
-// import translationEN from "./locales/en/translation.json";
-// import translationFR from "./locales/fr/translation.json";
-
-// // the translations
-// const resources = {
-//   en: {
-//     translation: translationEN,
-//   },
-//   fr: {
-//     translation: translationFR,
-//   },
-// };
-
-// i18n
-//   .use(detector)
-//   .use(reactI18nextModule) // passes i18n down to react-i18next
-//   .init({
-//     resources,
-//     lng: localStorage.getItem("i18nextLng"),
-//     fallbackLng: "en", // use en if detected lng is not available
-
-//     keySeparator: false, // we do not use keys in form messages.welcome
-
-//     interpolation: {
-//       escapeValue: false, // react already safes from xss
-//     },
-//   });
-
-// export default i18n;

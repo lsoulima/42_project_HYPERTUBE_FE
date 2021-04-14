@@ -14,10 +14,10 @@ import { useForm } from "react-hook-form";
 import { Snackbar, Box } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import { HyperContext } from "../Context/context";
-
 import { settingsAction, ProfileUpAction } from "../services/profile";
 import Editpassword from "./Editpassword";
 import { makeStyles } from "@material-ui/core/styles";
+import { useTranslation } from "react-i18next";
 
 const LabelImage = styled.label`
   cursor: pointer;
@@ -109,6 +109,7 @@ const Wrapper = styled.div`
 `;
 
 export default function Settings() {
+  const { t } = useTranslation();
   const { state, userInfos, setUserInfos } = useContext(HyperContext);
   const [tab, setTab] = useState(0);
   const [message, setMessage] = useState({});
@@ -192,7 +193,7 @@ export default function Settings() {
               ) : (
                 <Tab
                   icon={<SecurityTwoToneIcon />}
-                  label='Password'
+                  label={t("password")}
                   style={{ padding: "20px 0" }}
                 />
               )}
@@ -274,16 +275,16 @@ export default function Settings() {
                     margin='normal'
                     fullWidth
                     id='firstname'
-                    label='First Name'
+                    label={t('First Name')}
                     name='firstname'
                     autoComplete='firstname'
                     autoFocus
                     inputRef={register({
-                      required: "You must provide your firstname!",
+                      required: t("You must provide your firstname !"),
                       pattern: {
                         value: /^[a-zA-Z ]{3,20}$/,
                         message:
-                          "The firstname must contain between 3 and 20 letters !",
+                          t("The firstname must contain between 3 and 20 letters !"),
                       },
                     })}
                   />
@@ -303,14 +304,14 @@ export default function Settings() {
                     defaultValue={userInfos.lastname}
                     fullWidth
                     id='lastname'
-                    label='Last Name'
+                    label={t('Last Name')}
                     name='lastname'
                     inputRef={register({
-                      required: "You must provide your lastname!",
+                      required: t("You must provide your lastname!"),
                       pattern: {
                         value: /^[a-zA-Z ]{3,20}$/,
                         message:
-                          "The lastname  must contain between 3 and 20 letters !",
+                          t("The lastname  must contain between 3 and 20 letters !"),
                       },
                     })}
                   />
@@ -330,14 +331,14 @@ export default function Settings() {
                     defaultValue={userInfos.username}
                     fullWidth
                     id='username'
-                    label='User Name'
+                    label={t('username')}
                     name='username'
                     inputRef={register({
-                      required: "You must provide your username!",
+                      required: t("You must provide your username!"),
                       pattern: {
                         value: /^[a-z]+(([-_.]?[a-z0-9])?)+$/,
                         message:
-                          "The username must contain between 3 and 20 letters or numbers (-, _ or.) !",
+                        t("The username must contain between 3 and 20 letters or numbers"),
                       },
                     })}
                   />
@@ -357,14 +358,14 @@ export default function Settings() {
                     fullWidth
                     defaultValue={userInfos.email}
                     id='email'
-                    label='Email Address'
+                    label={t('Email Address')}
                     name='email'
                     autoComplete='email'
                     inputRef={register({
-                      required: "You must provide your email!",
+                      required: t("You must provide your email !"),
                       pattern: {
                         value: /[a-zA-Z0-9-_.]{1,50}@[a-zA-Z0-9-_.]{1,50}\.[a-z0-9]{2,10}$/,
-                        message: "Invalid email address !",
+                        message: t("Invalid email address !"),
                       },
                     })}
                   />
@@ -383,7 +384,7 @@ export default function Settings() {
                   variant='contained'
                   color='primary'
                   className='submit'>
-                  Save
+                  {t("Save")}
                 </Button>
               </Grid>
             </form>

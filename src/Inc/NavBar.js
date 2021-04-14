@@ -211,6 +211,7 @@ function NavBar({ mytheme, settheme }) {
   };
 
   let history = useHistory();
+  let audio = new Audio("/hyper.mp3");
 
   const menuId = "primary-search-account-menu";
 
@@ -335,6 +336,7 @@ function NavBar({ mytheme, settheme }) {
             <div
               onClick={() => {
                 history.push("/");
+                audio.play();
               }}>
               {/* <img src='./img/logo.png' className={classes.logo} alt='logo' /> */}
               <BiCameraMovie

@@ -9,6 +9,7 @@ import Alert from "@material-ui/lab/Alert";
 import { changePassword } from "../services/profile";
 import { HyperContext } from "../Context/context";
 import { logout } from "../services/auth";
+import { useTranslation } from "react-i18next";
 
 const WhiteBorderTextField = styled(TextField)`
   & .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
@@ -39,6 +40,7 @@ const WhiteBorderTextField = styled(TextField)`
 `;
 
 export default function Editpassword() {
+  const { t } = useTranslation();
   const { state, dispatch } = useContext(HyperContext);
   const [message, setMessage] = useState({});
   const { register, handleSubmit, errors } = useForm();
@@ -88,11 +90,11 @@ export default function Editpassword() {
               margin='normal'
               fullWidth
               name='oldpassword'
-              label='Old Password'
+              label={t('Old Password')}
               type='password'
               id='oldpassword'
               inputRef={register({
-                required: "You must provide your oldpassword!",
+                required: t("You must provide your oldpassword!"),
               })}
             />
             {errors.oldpassword && (
@@ -107,15 +109,15 @@ export default function Editpassword() {
               margin='normal'
               fullWidth
               name='newpassword'
-              label='New Password'
+              label={t('New Password')}
               type='password'
               id='newpassword'
               inputRef={register({
-                required: "You must provide your newpassword!",
+                required: t("You must provide your newpassword!"),
                 pattern: {
                   value: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*_-]).{8,}$/,
                   message:
-                    "Password must be at least eight characters long, at least one uppercase letter, one lowercase letter, one number and one special character !",
+                    t("Password must be at least eight characters long"),
                 },
               })}
             />
@@ -131,11 +133,11 @@ export default function Editpassword() {
               margin='normal'
               fullWidth
               name='confirmpassword'
-              label='Retype Password'
+              label={t('Retype Password')}
               type='password'
               id='confirmpassword'
               inputRef={register({
-                required: "You must confirm your password!",
+                required: t("You must confirm your password !"),
               })}
             />
             {errors.confirmpassword && (
@@ -150,7 +152,7 @@ export default function Editpassword() {
             variant='contained'
             className='submit'
             color='primary'>
-            Save
+            {t("Save")}
           </Button>
         </Grid>
       </form>

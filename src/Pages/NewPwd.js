@@ -9,6 +9,7 @@ import { newPwd } from "../services/auth";
 import { useForm } from "react-hook-form";
 import Alert from "@material-ui/lab/Alert";
 import { Snackbar, Box } from "@material-ui/core";
+import { useTranslation } from "react-i18next";
 
 const WhiteBorderTextField = styled(TextField)`
   & .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
@@ -83,6 +84,7 @@ const Wrapper = styled.div`
 `;
 
 export default function NewPassword() {
+  const { t } = useTranslation();
   const [message, setMessage] = useState({});
   const { register, handleSubmit, errors } = useForm();
   const [open, setOpen] = useState(false);
@@ -123,7 +125,7 @@ export default function NewPassword() {
                 color: "#fff",
               }}
             >
-              New Password
+              {t("New Password")}
             </Typography>
             <Snackbar
               anchorOrigin={{ vertical: "top", horizontal: "center" }}
@@ -151,16 +153,16 @@ export default function NewPassword() {
                 margin="normal"
                 fullWidth
                 name="newpassword"
-                label="NewPassword"
+                label={t("New Password")}
                 type="password"
                 id="newpassword"
                 autoComplete="current-password"
                 inputRef={register({
-                  required: "You must provide your Password!",
+                  required: t("You must provide your password !"),
                   pattern: {
                     value: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*_-]).{8,}$/,
                     message:
-                      "Password must be at least eight characters long, at least one uppercase letter, one lowercase letter, one number and one special character !",
+                      t("Password must be at least eight characters long"),
                   },
                 })}
               />
@@ -174,12 +176,12 @@ export default function NewPassword() {
                 margin="normal"
                 fullWidth
                 name="confirmpassword"
-                label="Confirm_Password"
+                label={t("Retype Password")}
                 type="password"
                 id="confirmpassword"
                 autoComplete="current-password"
                 inputRef={register({
-                  required: "You must Confirm your Password!",
+                  required: t("You must confirm your password !"),
                 })}
               />
               {errors.confirmpassword && (
@@ -195,7 +197,7 @@ export default function NewPassword() {
                 color="primary"
                 className="submit"
               >
-                Confirm
+                {t("Confirm")}
               </Button>
             </form>
           </div>
