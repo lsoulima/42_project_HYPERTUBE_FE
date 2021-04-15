@@ -158,9 +158,9 @@ export default function Register() {
                     inputRef={register({
                       required: t("You must provide your firstname!"),
                       pattern: {
-                        value: /^[a-zA-Z ]{3,20}$/,
+                        value: /^[a-zA-Z- ]{3,30}$/,
                         message: t(
-                          "The firstname must contain between 3 and 20 letters !"
+                          "The firstname must contain between 3 and 30 letters !"
                         ),
                       },
                     })}
@@ -185,9 +185,9 @@ export default function Register() {
                     inputRef={register({
                       required: t("You must provide your lastname!"),
                       pattern: {
-                        value: /^[a-zA-Z ]{3,20}$/,
+                        value: /^[a-zA-Z- ]{3,30}$/,
                         message: t(
-                          "The lastname  must contain between 3 and 20 letters !"
+                          "The lastname  must contain between 3 and 30 letters !"
                         ),
                       },
                     })}
