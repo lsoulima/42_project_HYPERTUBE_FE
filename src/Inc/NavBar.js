@@ -424,12 +424,12 @@ function NavBar({ mytheme, settheme }) {
                 </IconButton>
               ) : (
                 [
-                  <NavButton>
+                  <NavButton key={0}>
                     <Link key='9' className='link' to='/login'>
                       {t("loginTr")}
                     </Link>
                   </NavButton>,
-                  <NavButton>
+                  <NavButton key={1}>
                     <Link key='10' className='link' to='/register'>
                       {t("registerTr")}
                     </Link>
