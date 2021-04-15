@@ -21,6 +21,8 @@ import Alert from "@material-ui/lab/Alert";
 import { Snackbar } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import axios from "axios";
+
 
 const Container = styled.div`
   padding-top: 100px;
@@ -526,7 +528,6 @@ export default function Stream() {
       setWatched(responce);
       setOpen(true);
     }
-    // await addMovieToWatched(state.token, movieID);
   };
   
   //* HANDLE COMMENT INPUT
@@ -570,13 +571,29 @@ export default function Stream() {
 
   //* LOAD SUBTITLES OF A MOVIE
   const handleSetSubtitles = async ( imdb ) => {
-    const res = await createSubtitles( imdb );
+    await axios.get("http://localhost:3001/api/movies/subtitles/" + imdb)
+    .then((res) => {
+      if ( res.success === false ) {
+        //! Print Error
+      } else if ( typeof res.ar === "not found" ) {
+        setSubtitles({
+          ...subtitles,
+          en: `http://localhost:3001/api/public/subtitles/${imdb}en.vtt`,
+          fr: `http://localhost:3001/api/public/subtitles/${imdb}fr.vtt`
+        });
+      } else {
+        setSubtitles({
+          ...subtitles,
+          en: `http://localhost:3001/api/public/subtitles/${imdb}en.vtt`,
+          fr: `http://localhost:3001/api/public/subtitles/${imdb}fr.vtt`,
+          ar: `http://localhost:3001/api/public/subtitles/${imdb}ar.vtt`
+        });
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 
-    if ( res.success ) {
-      // set subtitles
-    } else {
-      // 
-    }
   }
 
   useEffect(() => {
@@ -587,6 +604,7 @@ export default function Stream() {
           setError(response);
         } else {
           setDetails(response);
+          await handleSetSubtitles( response.imdb );
           setHashQuality(response.torrents[0].hash);
         }
       } else {
@@ -651,9 +669,6 @@ export default function Stream() {
               controls={true}
               width="100%"
               height="100%"
-              onStart={() => {
-                handleAddToWatched();
-              }}
               config={{
                 file: {
                   attributes: {
