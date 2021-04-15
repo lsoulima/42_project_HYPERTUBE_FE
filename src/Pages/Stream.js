@@ -431,6 +431,11 @@ export default function Stream() {
   const { state } = useContext(HyperContext);
   const { userInfos } = useContext(HyperContext);
   const [details, setDetails] = useState({});
+  const [subtitles, setSubtitles] = useState({
+    "en": "",
+    "fr": "",
+    "ar": ""
+  });
   const [suggestions, setSuggestions] = useState([]);
   const [error, setError] = useState({});
   const [favorite, setFavorite] = useState({});
@@ -442,12 +447,14 @@ export default function Stream() {
   const [hashsrc, setHashQuality] = useState("");
   const movieKey = window.location.search.split("=")[0];
   const movieID = window.location.search.split("=")[1];
+
   const handleClose = (reason) => {
     if (reason === "clickaway") {
       return;
     }
     setOpen(false);
   };
+
   const timeConvert = (n) => {
     const num = n;
     const hours = num / 60;
@@ -456,11 +463,13 @@ export default function Stream() {
     const rminutes = Math.round(minutes);
     return rhours + " hour(s) " + rminutes + " minute(s).";
   };
+  
   //* LOAD MOVIES SUGGESTIONS
   const LoeadmovieSuggestions = async () => {
     const response = await movieSuggestions(state.token, movieID);
     setSuggestions(response);
   };
+  
   //* HANDLE CLICK MOVIES SUGGESTIONS
   let history = useHistory();
   const handleClickMovie = (id) => {
@@ -468,6 +477,7 @@ export default function Stream() {
       history.push("/stream?film_id=" + id);
     }
   };
+  
   //* ADD MOVIE TO FAVORITE LIST
   const handleAddToFavorite = async () => {
     const movieInfo = {
@@ -486,6 +496,7 @@ export default function Stream() {
       setOpen(true);
     }
   };
+  
   //* DELETE MOVIE FROM FAVORITE LIST
   const handleRemoveFromFavorite = async () => {
     const responce = await DeleteFavoriteMovies(state.token, details.id);
@@ -516,10 +527,12 @@ export default function Stream() {
     }
     // await addMovieToWatched(state.token, movieID);
   };
+  
   //* HANDLE COMMENT INPUT
   const handleOnChange = (e) => {
     setComment(e.target.value);
   };
+  
   //* HANDLE SUBMIT COMMENTS
   const handleOnSubmit = async (e) => {
     e.preventDefault();
@@ -532,6 +545,7 @@ export default function Stream() {
       setComment("");
     }
   };
+  
   //* HANDLE LOAD COMMENTS OF MOVIE
   const loadComments = async (movieid) => {
     const res = await getMoviesComments(state.token, movieid);
@@ -541,6 +555,7 @@ export default function Stream() {
       setComments(res);
     }
   };
+  
   //* HANDLE DELETE COMMENT OF A MOVIE
   const handleDeleteComment = async (commentid) => {
     const res = await deleteCommentMovie(state.token, commentid);
@@ -551,6 +566,17 @@ export default function Stream() {
       setComments(comments.filter((item) => item._id !== commentid));
     }
   };
+
+  //* LOAD SUBTITLES OF A MOVIE
+  const handleSetSubtitles = async ( imdb ) => {
+    const res = await createSubtitles( imdb );
+
+    if ( res.success ) {
+      // set subtitles
+    } else {
+      // 
+    }
+  }
 
   useEffect(() => {
     const loadMovieDetails = async () => {
@@ -573,6 +599,7 @@ export default function Stream() {
     loadComments(movieID);
     // eslint-disable-next-line
   }, [movieID]);
+  
   return (
     <MainContainer>
       {error.error ? (
@@ -622,20 +649,21 @@ export default function Stream() {
                   tracks: [
                     {
                       kind: "subtitles",
-                      src: details.imdb
-                        ? "http://localhost:3001/api/movies/subtitles/" +
-                          details.imdb +
-                          "?lang=" +
-                          localStorage.getItem("i18nextLng")
-                        : "",
+                      src: subtitles.en,
                       srcLang: "en",
-                      default: true,
+                      default: localStorage.getItem("i18nextLng") === "en",
                     },
                     {
                       kind: "subtitles",
-                      src: "", //"http://localhost:3001/subs/subtitles.fr.vtt",
+                      src: subtitles.fr,
                       srcLang: "fr",
+                      default: localStorage.getItem("i18nextLng") === "fr",
                     },
+                    {
+                      kind: "subtitles",
+                      src: subtitles.ar,
+                      srcLang: "ar",
+                    }
                   ],
                 },
               }}
@@ -748,7 +776,6 @@ export default function Stream() {
                           margin: 0,
                           textAlign: "left",
                           cursor: "pointer",
-                          // color: "black",
                         }}>
                         <Link
                           to={
