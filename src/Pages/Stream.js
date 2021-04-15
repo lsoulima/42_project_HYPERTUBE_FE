@@ -581,7 +581,7 @@ export default function Stream() {
             <div className='info_section'>
               <div className='movie_header'>
                 <img className='cover' src='./img/404.svg' alt='cover' />
-                <h1>{error.error}</h1>
+                <h1>{error.error === "Your are not authorized !" ? t("Your are not authorized !") : t("Failed to get movie details !")}</h1>
               </div>
             </div>
           </MyCard>
@@ -595,11 +595,11 @@ export default function Stream() {
             onClose={handleClose}>
             {favorite.success === true ? (
               <Alert onClose={handleClose} severity='success' variant='filled'>
-                {favorite.message}
+                {t("Added to favorite lists !")}
               </Alert>
             ) : (
               <Alert onClose={handleClose} severity='info' variant='filled'>
-                {favorite.error}
+                {favorite.error === "Your are not authorized !" ? t("Your are not authorized !") : t("Failed to add the specified movie to favorite list !")}
               </Alert>
             )}
           </Snackbar>

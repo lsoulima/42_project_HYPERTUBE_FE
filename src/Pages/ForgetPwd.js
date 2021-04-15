@@ -132,11 +132,11 @@ export default function ForgetPwd() {
                   severity="success"
                   variant="filled"
                 >
-                  {message.message}
+                  {t("Your password account has been reset !")}
                 </Alert>
               ) : (
                 <Alert onClose={handleClose} severity="error" variant="filled">
-                  {message.error}
+                  {t("Failed to reset your password account !")}
                 </Alert>
               )}
             </Snackbar>

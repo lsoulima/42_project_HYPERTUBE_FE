@@ -231,7 +231,7 @@ export default function UserProfile(props) {
               <div className='info_section'>
                 <div className='movie_header'>
                   <img className='cover' src='./img/1.jpg' alt='cover' />
-                  <h1>{error.error}</h1>
+                  <h1>{error.error === "Your are not authorized !" ? t("Your are not authorized !") : t("Failed to load user informations !")}</h1>
                 </div>
               </div>
             </MessageCard>

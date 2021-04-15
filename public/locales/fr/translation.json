@@ -84,6 +84,8 @@
   "Failed to load profile informations !": "Impossible de charger les informations de profil !",
   "An error has occurend while load profile informations, try later !": "Une erreur s'est produite lors du chargement des informations de profil, essayez plus tard !",
   "Failed to load user informations !": "Impossible de charger les informations utilisateur !",
+  "Failed to load movies list !":"Impossible de charger la liste des films!",
+  "Failed to get movie details !": "Impossible d'obtenir les détails du film!",
   "An error has occurend while get user informations, try later !": "Une erreur s'est produite lors de la récupération des informations utilisateur, essayez plus tard !",
   "Your password has been changed successfully !": "Votre mot de passe a été changé avec succès !",
   "Failed to change your password !": "Impossible de changer votre mot de passe !",
@@ -119,7 +121,6 @@
   "An error occurred while validate passwords, try later !": "Une erreur s'est produite lors de la validation des mots de passe, réessayez plus tard !",
   "No token found !": "Aucun jeton trouvé !",
   "An error occurred while verifying your old password, try later !": "Une erreur s'est produite lors de la vérification de votre ancien mot de passe, réessayez plus tard !",
-  
   "There was a problem while validating your new information, try later !": "Un problème est survenu lors de la validation de vos nouvelles informations, réessayez plus tard !",
   "An error occurred while validating account information, try later !": "Une erreur s'est produite lors de la validation des informations du compte, réessayez plus tard !",
   "Old password is incorrect !": "Ancien mot de passe est incorrect !",

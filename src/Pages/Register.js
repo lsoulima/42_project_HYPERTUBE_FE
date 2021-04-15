@@ -135,11 +135,11 @@ export default function Register() {
                   onClose={handleClose}
                   severity='success'
                   variant='filled'>
-                  {state.message}
+                  {t("Your account has been created successfully !")}
                 </Alert>
               ) : (
                 <Alert onClose={handleClose} severity='error' variant='filled'>
-                  {state.error}
+                  {t("Failed to register !")}
                 </Alert>
               )}
             </Snackbar>
@@ -270,7 +270,7 @@ export default function Register() {
                       pattern: {
                         value: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*_-]).{8,}$/,
                         message: t(
-                          "Password must be at least eight characters long, at least one uppercase letter, one lowercase letter, one number and one special character !"
+                          "Password must be at least eight characters long"
                         ),
                       },
                     })}

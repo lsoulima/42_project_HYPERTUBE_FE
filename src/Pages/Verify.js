@@ -90,7 +90,7 @@ export default function Verify() {
                   severity="success"
                   variant="filled"
                 >
-                  {state.message}
+                  {t("Your account has been activated !")}
                 </Alert>
               ) : (
                 <Alert onClose={handleClose} severity="error" variant="filled">
@@ -108,7 +108,7 @@ export default function Verify() {
                 color: "#fff",
               }}
             >
-              {state.message}
+              {t("Failed to activate your account !")}
             </Typography>
             <form className="form">
               <Button

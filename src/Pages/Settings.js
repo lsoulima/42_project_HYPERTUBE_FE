@@ -208,12 +208,12 @@ export default function Settings() {
               {profileMessage.success === true ? (
                 // eslint-disable-next-line
                 <Alert variant='outlined' severity='success' variant='filled'>
-                  {profileMessage.message}
+                  {t("Failed to upload your profile picture !")}
                 </Alert>
               ) : (
                 // eslint-disable-next-line
                 <Alert variant='outlined' severity='error' variant='filled'>
-                  {profileMessage.error}
+                  {t("Your are not authorized !")}
                 </Alert>
               )}
             </div>
@@ -226,11 +226,11 @@ export default function Settings() {
             onClose={handleClose}>
             {message.success === true ? (
               <Alert onClose={handleClose} severity='success' variant='filled'>
-                {message.message}
+                {t("Your informations has been changed successfully !")}
               </Alert>
             ) : (
               <Alert onClose={handleClose} severity='error' variant='filled'>
-                {message.error}
+                {message.error === "Your are not authorized !" ? t("Your are not authorized !") : t("Failed to change your informations !")}
               </Alert>
             )}
           </Snackbar>

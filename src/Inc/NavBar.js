@@ -166,6 +166,14 @@ const Shadow = styled.div`
 `;
 
 function NavBar({ mytheme, settheme }) {
+  
+  // const [lng, setlng] = useState(
+  //   localStorage.getItem("i18nextLng") === "en"
+  //     ? false
+  //     : localStorage.getItem("i18nextLng") === "fr"
+  //     ? true
+  //     : false
+  // );
   const { t } = useTranslation();
 
   const { state, dispatch, userInfos } = useContext(HyperContext);
@@ -338,7 +346,6 @@ function NavBar({ mytheme, settheme }) {
                 history.push("/");
                 audio.play();
               }}>
-              {/* <img src='./img/logo.png' className={classes.logo} alt='logo' /> */}
               <BiCameraMovie
                 className={classes.logo}
                 style={{ color: "red" }}
@@ -357,11 +364,11 @@ function NavBar({ mytheme, settheme }) {
                   onClose={handleClose}
                   severity='success'
                   variant='filled'>
-                  {message.message}
+                  {t("Logout successfully !")}
                 </Alert>
               ) : (
                 <Alert onClose={handleClose} severity='error' variant='filled'>
-                  {message.error}
+                  {t("Your are not authorized !")}
                 </Alert>
               )}
             </Snackbar>

@@ -84,6 +84,8 @@
   "Failed to load profile informations !": "Failed to load profile informations !",
   "An error has occurend while load profile informations, try later !": "An error has occurend while load profile informations, try later !",
   "Failed to load user informations !": "Failed to load user informations !",
+  "Failed to load movies list !":"Failed to load movies list !",
+  "Failed to get movie details !": "Failed to get movie details !",
   "An error has occurend while get user informations, try later !": "An error has occurend while get user informations, try later !",
   "Your password has been changed successfully !": "Your password has been changed successfully !",
   "Failed to change your password !": "Failed to change your password !",
@@ -119,7 +121,7 @@
   "An error occurred while validate passwords, try later !": "An error occurred while validate passwords, try later !",
   "No token found !": "No token found !",
   "An error occurred while verifying your old password, try later !": "An error occurred while verifying your old password, try later !",
-  
+
   "There was a problem while validating your new information, try later !": "There was a problem while validating your new information, try later !",
   "An error occurred while validating account information, try later !": "An error occurred while validating account information, try later !",
   "Old password is incorrect !": "Old password is incorrect !",

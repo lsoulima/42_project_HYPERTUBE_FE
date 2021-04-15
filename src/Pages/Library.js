@@ -178,15 +178,16 @@ const MessageCard = styled.div`
       }
     }
   }
-
-  @media (max-width: 768px) {
+  @media (max-width: 550px) {
     width: 100%;
-  }
-  @media (max-width: 1024px) {
-    width: 50%;
-  }
-  @media (max-width: 1440px) {
-    width: 45%;
+    .movie_header {
+      h1 {
+        font-size: 1.5rem;
+      }
+      div {
+        font-size: 1rem;
+      }
+    }
   }
 `;
 
@@ -590,7 +591,7 @@ export default function Library() {
             <div className='info_section'>
               <div className='movie_header'>
                 <img className='cover' src='./img/404.svg' alt='cover' />
-                <h1>{error.error}</h1>
+                <h1>{error.error === "Your are not authorized !" ? t("Your are not authorized !") : t("Failed to load movies list !")}</h1>
               </div>
             </div>
           </MessageCard>
@@ -599,7 +600,8 @@ export default function Library() {
         <InfiniteScroll
           dataLength={movies.length} //This is important field to render the next data
           next={() => setPage(page + 1)}
-          hasMore={true}>
+          hasMore={true}
+          style={{display: "flex", justifyContent: "center"}}>
           {isloading ? (
             <div
               id='loader'

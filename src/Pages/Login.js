@@ -178,11 +178,11 @@ export default function Login() {
                   severity="success"
                   variant="filled"
                 >
-                  {state?.message}
+                  {t("Logged successfully !")}
                 </Alert>
               ) : (
                 <Alert onClose={handleClose} severity="error" variant="filled">
-                  {state?.error}
+                  {t("Failed to login !")}
                 </Alert>
               )}
             </Snackbar>
