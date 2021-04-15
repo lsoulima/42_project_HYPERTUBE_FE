@@ -575,7 +575,7 @@ export default function Stream() {
       .then((res) => {
         if (res.success === false) {
           //! Print Error
-        } else if (typeof res.ar === "not found") {
+        } else if (res.ar === "not found") {
           setSubtitles({
             ...subtitles,
             en: `http://localhost:3001/api/public/subtitles/${imdb}en.vtt`,
