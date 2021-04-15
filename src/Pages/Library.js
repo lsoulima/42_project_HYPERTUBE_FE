@@ -536,7 +536,7 @@ export default function Library() {
             </div>
             <div>
               <FormControlMdf>
-                <InputLabel id='demo-simple-select-helper-label'>
+                <InputLabel id='demo-simple-select-helper-label' style={{ color: "white" }}>
                   {t("gender")}
                 </InputLabel>
                 <Select
@@ -558,7 +558,7 @@ export default function Library() {
             </div>
             <div>
               <FormControlMdf>
-                <InputLabel id='demo-simple-select-helper-label'>
+                <InputLabel id='demo-simple-select-helper-label' style={{ color: "white" }}>
                   {t("Quality")}
                 </InputLabel>
                 <Select
@@ -579,7 +579,6 @@ export default function Library() {
             variant='contained'
             className='submit'
             color='primary'
-            // style={{ width: "150px", padding: "10px", fontSize: "16px" }}
             onClick={handleSubmitFilter}>
             {t("Filter")}
           </Button>
