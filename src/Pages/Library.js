@@ -486,8 +486,8 @@ export default function Library() {
       <SearchCard>
         <form onSubmit={handleOnSubmit}>
           <input
-            className='search'
-            type='search'
+            className="search"
+            type="search"
             placeholder={t("Search")}
             value={searchTerm}
             onChange={handleOnChange}
@@ -495,26 +495,27 @@ export default function Library() {
         </form>
       </SearchCard>
       <Container>
-        <div className='first_card'>
+        <div className="first_card">
           <Typography>{t("Sort by")} :</Typography>
           <FilterCard style={{ width: "100%" }}>
-            <FormControl error component='fieldset' style={{ width: "100%" }}>
+            <FormControl error component="fieldset" style={{ width: "100%" }}>
               <RadioGroup
                 value={radioValue}
                 onChange={(e) => handleChangeRadio(e)}
-                className='radioContainer'>
+                className="radioContainer"
+              >
                 <FormControlLabel
-                  value='like_count'
+                  value="like_count"
                   control={<Radio />}
                   label={t("Popularity")}
                 />
                 <FormControlLabel
-                  value='year'
+                  value="year"
                   control={<Radio />}
                   label={t("Year")}
                 />
                 <FormControlLabel
-                  value='title'
+                  value="title"
                   control={<Radio />}
                   label={t("Title")}
                 />
@@ -522,64 +523,73 @@ export default function Library() {
             </FormControl>
           </FilterCard>
         </div>
-        <div className='second_card'>
-          <div className='second_card__container'>
+        <div className="second_card">
+          <div className="second_card__container">
             <div>
-              <Typography id='range-slider'>{t("Rating")}</Typography>
+              <Typography id="range-slider">{t("Rating")}</Typography>
               <MySlider
                 value={filter.rating}
-                valueLabelDisplay='auto'
-                aria-labelledby='range-slider'
+                valueLabelDisplay="auto"
+                aria-labelledby="range-slider"
                 onChange={handleReatingChange}
                 max={9}
               />
             </div>
             <div>
               <FormControlMdf>
-                <InputLabel id='demo-simple-select-helper-label' style={{ color: "white" }}>
+                <InputLabel
+                  id="demo-simple-select-helper-label"
+                  style={{ color: "white" }}
+                >
                   {t("gender")}
                 </InputLabel>
                 <Select
-                  labelId='demo-simple-select-helper-label'
-                  id='demo-simple-select-helper'
+                  labelId="demo-simple-select-helper-label"
+                  id="demo-simple-select-helper"
                   value={filter.genre}
-                  onChange={handleGenreChange}>
-                  <MenuItem value='Action'>"Action"</MenuItem>
-                  <MenuItem value='Drama'>"Drama"</MenuItem>
-                  <MenuItem value='Horror'>"Horror"</MenuItem>
-                  <MenuItem value='Comedy'>"Comedy"</MenuItem>
-                  <MenuItem value='Crime'>"Crime"</MenuItem>
-                  <MenuItem value='Adventure'>"Adventure"</MenuItem>
-                  <MenuItem value='Biography'>"Biography"</MenuItem>
-                  <MenuItem value='Documentary'>"Documentary"</MenuItem>
-                  <MenuItem value='Family'>"Family"</MenuItem>
+                  onChange={handleGenreChange}
+                >
+                  <MenuItem value="Action">Action</MenuItem>
+                  <MenuItem value="Drama">Drama</MenuItem>
+                  <MenuItem value="Horror">Horror</MenuItem>
+                  <MenuItem value="Comedy">Comedy</MenuItem>
+                  <MenuItem value="Crime">Crime</MenuItem>
+                  <MenuItem value="Adventure">Adventure</MenuItem>
+                  <MenuItem value="Biography">Biography</MenuItem>
+                  <MenuItem value="Documentary">Documentary</MenuItem>
+                  <MenuItem value="Family">Family</MenuItem>
                 </Select>
               </FormControlMdf>
             </div>
             <div>
               <FormControlMdf>
-                <InputLabel id='demo-simple-select-helper-label' style={{ color: "white" }}>
+                <InputLabel
+                  id="demo-simple-select-helper-label"
+                  style={{ color: "white" }}
+                >
                   {t("Quality")}
                 </InputLabel>
                 <Select
-                  labelId='demo-simple-select-helper-label'
-                  id='demo-simple-select-helper'
+                  labelId="demo-simple-select-helper-label"
+                  id="demo-simple-select-helper"
                   value={filter.quality}
-                  onChange={handleQualityChange}>
-                  <MenuItem value='720p'>720p</MenuItem>
-                  <MenuItem value='1080p'>1080p</MenuItem>
-                  <MenuItem value='2160p'>2160p</MenuItem>
-                  <MenuItem value='3D'>3D</MenuItem>
+                  onChange={handleQualityChange}
+                >
+                  <MenuItem value="720p">720p</MenuItem>
+                  <MenuItem value="1080p">1080p</MenuItem>
+                  <MenuItem value="2160p">2160p</MenuItem>
+                  <MenuItem value="3D">3D</MenuItem>
                 </Select>
               </FormControlMdf>
             </div>
           </div>
           <Button
-            type='submit'
-            variant='contained'
-            className='submit'
-            color='primary'
-            onClick={handleSubmitFilter}>
+            type="submit"
+            variant="contained"
+            className="submit"
+            color="primary"
+            onClick={handleSubmitFilter}
+          >
             {t("Filter")}
           </Button>
         </div>
@@ -587,9 +597,9 @@ export default function Library() {
       {error.error ? (
         <Container>
           <MessageCard>
-            <div className='info_section'>
-              <div className='movie_header'>
-                <img className='cover' src='./img/404.svg' alt='cover' />
+            <div className="info_section">
+              <div className="movie_header">
+                <img className="cover" src="./img/404.svg" alt="cover" />
                 <h1>{t(error.error)}</h1>
               </div>
             </div>
@@ -600,10 +610,11 @@ export default function Library() {
           dataLength={movies.length} //This is important field to render the next data
           next={() => setPage(page + 1)}
           hasMore={true}
-          style={{display: "flex", justifyContent: "center"}}>
+          style={{ display: "flex", justifyContent: "center" }}
+        >
           {isloading ? (
             <div
-              id='loader'
+              id="loader"
               style={{
                 padding: "100px",
                 borderRadius: "15px",
@@ -611,10 +622,11 @@ export default function Library() {
                 display: "flex",
                 justifyContent: "center",
                 alignContent: "center",
-              }}>
+              }}
+            >
               <Loader
-                type='Grid'
-                color='red'
+                type="Grid"
+                color="red"
                 height={150}
                 width={150}
                 timeout={1500}
@@ -623,9 +635,9 @@ export default function Library() {
           ) : movies.length === 0 ? (
             <Container>
               <MessageCard>
-                <div className='info_section'>
-                  <div className='movie_header'>
-                    <img className='cover' src='./img/404.svg' alt='cover' />
+                <div className="info_section">
+                  <div className="movie_header">
+                    <img className="cover" src="./img/404.svg" alt="cover" />
                     <h1>{t("No movies found")}</h1>
                   </div>
                 </div>
@@ -640,36 +652,38 @@ export default function Library() {
                     handleClickMovie(movie.id);
                   }}
                   onMouseEnter={() => toggleHover(true)}
-                  onMouseLeave={() => toggleHover(false)}>
+                  onMouseLeave={() => toggleHover(false)}
+                >
                   <img
                     src={movie?.image} //poster_big}
-                    width='100%'
-                    height='100%'
-                    alt='cover'
+                    width="100%"
+                    height="100%"
+                    alt="cover"
                     onError={(e) => {
                       e.target.onerror = null;
                       e.target.src = "https://t.ly/teEM";
                     }}
                   />
                   {movie?.watched ? (
-                    <div className='eye '>
-                      <i className='las la-eye'></i>
+                    <div className="eye ">
+                      <i className="las la-eye"></i>
                     </div>
                   ) : (
                     ""
                   )}
 
-                  <div className='backHover'>
-                    <div className='imdbPlace'>
+                  <div className="backHover">
+                    <div className="imdbPlace">
                       <h6>{movie.rating}</h6>
                     </div>
-                    <div className='watch'>
+                    <div className="watch">
                       <div
                         className={
                           hovered
                             ? "watchBtn animate__animated  animate__backInDown animate__faster"
                             : "watchBtn"
-                        }>
+                        }
+                      >
                         {t("Watch")}
                       </div>
                       <div
@@ -677,15 +691,17 @@ export default function Library() {
                           hovered
                             ? "test1 animate__animated  animate__backInLeft animate__faster"
                             : "test1"
-                        }></div>
+                        }
+                      ></div>
                       <div
                         className={
                           hovered
                             ? "test2 animate__animated  animate__backInRight animate__faster"
                             : "test2"
-                        }></div>
+                        }
+                      ></div>
                     </div>
-                    <div className='mvName'>
+                    <div className="mvName">
                       <h4>{movie.title}</h4>
                       <h6>{movie.year}</h6>
                     </div>
