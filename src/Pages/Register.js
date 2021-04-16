@@ -156,7 +156,7 @@ export default function Register() {
                     autoComplete='firstname'
                     autoFocus
                     inputRef={register({
-                      required: t("You must provide your firstname!"),
+                      required: t("You must provide your firstname !"),
                       pattern: {
                         value: /^[a-zA-Z- ]{3,30}$/,
                         message: t(
@@ -183,7 +183,7 @@ export default function Register() {
                     label={t("Last Name")}
                     name='lastname'
                     inputRef={register({
-                      required: t("You must provide your lastname!"),
+                      required: t("You must provide your lastname !"),
                       pattern: {
                         value: /^[a-zA-Z- ]{3,30}$/,
                         message: t(
@@ -212,11 +212,11 @@ export default function Register() {
                     label={t("username")}
                     name='username'
                     inputRef={register({
-                      required: t("You must provide your username!"),
+                      required: t("You must provide your username !"),
                       pattern: {
                         value: /^[a-z]+(([-_.]?[a-z0-9])?)+$/,
                         message: t(
-                          "The username must contain between 3 and 20 letters or numbers"
+                          "The username must contain between 3 and 20 letters or numbers !"
                         ),
                       },
                     })}
@@ -240,7 +240,7 @@ export default function Register() {
                     name='email'
                     autoComplete='email'
                     inputRef={register({
-                      required: t("You must provide your email!"),
+                      required: t("You must provide your email !"),
                       pattern: {
                         value: /[a-zA-Z0-9-_.]{1,50}@[a-zA-Z0-9-_.]{1,50}\.[a-z0-9]{2,10}$/,
                         message: t("Invalid email address !"),
@@ -266,7 +266,7 @@ export default function Register() {
                     type='password'
                     id='password'
                     inputRef={register({
-                      required: t("You must provide your password!"),
+                      required: t("You must provide your password !"),
                       pattern: {
                         value: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*_-]).{8,}$/,
                         message: t(

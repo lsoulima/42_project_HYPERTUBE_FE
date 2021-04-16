@@ -152,7 +152,7 @@ export default function ForgetPwd() {
                 autoFocus
                 inputRef={register({
                   required:
-                    t("You must provide your email to reset you password!"),
+                    t("You must provide your email to reset you password !"),
                 })}
               />
               {errors.email && (
