@@ -67,7 +67,7 @@ export const logout = async (token, dispatch) => {
     },
   };
   try {
-    const res = await axios.post(API_URL + "logout", config);
+    const res = await axios.post(API_URL + "logout", "", config);
 
     if (res.data) return res.data;
   } catch (error) {
