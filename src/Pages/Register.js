@@ -98,7 +98,7 @@ export default function Register() {
     setOpen(false);
   };
 
-  //*SUBMIT DATA TO REGISTER
+  //* SUBMIT DATA TO REGISTER
   let history = useHistory();
   const onSubmit = async (data) => {
     const responce = await registerAction(data);
