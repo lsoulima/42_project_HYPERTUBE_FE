@@ -197,7 +197,7 @@ export default function Login() {
                 autoComplete="username"
                 autoFocus
                 inputRef={register({
-                  required: t("You must provide your username to login!"),
+                  required: t("You must provide your username to login !"),
                 })}
               />
               {errors.username && (
@@ -215,7 +215,7 @@ export default function Login() {
                 id="password"
                 autoComplete="current-password"
                 inputRef={register({
-                  required: t("You must provide your Password to login!"),
+                  required: t("You must provide your Password to login !"),
                 })}
               />
               {errors.password && (

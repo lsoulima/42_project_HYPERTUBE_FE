@@ -94,7 +94,7 @@ export default function Editpassword() {
               type='password'
               id='oldpassword'
               inputRef={register({
-                required: t("You must provide your oldpassword!"),
+                required: t("You must provide your oldpassword !"),
               })}
             />
             {errors.oldpassword && (
@@ -113,7 +113,7 @@ export default function Editpassword() {
               type='password'
               id='newpassword'
               inputRef={register({
-                required: t("You must provide your newpassword!"),
+                required: t("You must provide your newpassword !"),
                 pattern: {
                   value: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*_-]).{8,}$/,
                   message:
