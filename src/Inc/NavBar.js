@@ -169,7 +169,6 @@ function NavBar({ mytheme, settheme }) {
   const { t } = useTranslation();
 
   const { state, dispatch, userInfos, lng, setLng } = useContext(HyperContext);
-  console.log(lng);
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
@@ -376,7 +375,7 @@ function NavBar({ mytheme, settheme }) {
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
               {/* Traduction */}
-              {localStorage.getItem("i18nextLng") === "en" ? (
+              {lng === "en" ? (
                 <IconBtn onClick={() => changeLanguage("fr")}>
                   <FlagIcon code="FR" size={25} />
                 </IconBtn>
