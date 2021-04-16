@@ -108,7 +108,7 @@ export default function Verify() {
                 color: "#fff",
               }}
             >
-              {t("Failed to activate your account !")}
+              {t(state.message)}
             </Typography>
             <form className="form">
               <Button
