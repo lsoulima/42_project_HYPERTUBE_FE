@@ -18,6 +18,7 @@ export const HyperProvider = ({ children }) => {
     githubId: "",
     googleId: "",
   });
+  const [lng, setLng] = useState("en");
   const [authorized, setAuthorized] = useState(true);
   useEffect(() => {
     const getUserData = async () => {
@@ -47,7 +48,16 @@ export const HyperProvider = ({ children }) => {
 
   return (
     <HyperContext.Provider
-      value={{ state, dispatch, userInfos, authorized, setUserInfos }}>
+      value={{
+        state,
+        dispatch,
+        userInfos,
+        authorized,
+        setUserInfos,
+        lng,
+        setLng,
+      }}
+    >
       {children}
     </HyperContext.Provider>
   );
