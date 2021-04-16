@@ -364,11 +364,11 @@ function NavBar({ mytheme, settheme }) {
                   onClose={handleClose}
                   severity='success'
                   variant='filled'>
-                  {t("Logout successfully !")}
+                  {t(message.message)}
                 </Alert>
               ) : (
                 <Alert onClose={handleClose} severity='error' variant='filled'>
-                  {t("Your are not authorized !")}
+                  {t(message.error)}
                 </Alert>
               )}
             </Snackbar>

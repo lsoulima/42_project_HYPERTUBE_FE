@@ -135,11 +135,11 @@ export default function Register() {
                   onClose={handleClose}
                   severity='success'
                   variant='filled'>
-                  {t("Your account has been created successfully !")}
+                  {t(state.message)}
                 </Alert>
               ) : (
                 <Alert onClose={handleClose} severity='error' variant='filled'>
-                  {t("Failed to register !")}
+                  {t(state.error)}
                 </Alert>
               )}
             </Snackbar>

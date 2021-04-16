@@ -73,11 +73,11 @@ export default function Editpassword() {
         onClose={handleClose}>
         {message.success === true ? (
           <Alert onClose={handleClose} severity='success' variant='filled'>
-            {t("Your password has been changed successfully !")}
+            {t(message.message)}
           </Alert>
         ) : (
           <Alert onClose={handleClose} severity='error' variant='filled'>
-            {message.error === "Your are not authorized !" ? t("Your are not authorized !") : t("Failed to change your password !")}
+            {t(message.error)}
           </Alert>
         )}
       </Snackbar>

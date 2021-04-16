@@ -139,11 +139,11 @@ export default function NewPassword() {
                   severity="success"
                   variant="filled"
                 >
-                  {t("Your password has been changed !")}
+                  {t(message.message)}
                 </Alert>
               ) : (
                 <Alert onClose={handleClose} severity="error" variant="filled">
-                  {t("Failed to change your password !")}
+                  {t(message.error)}
                 </Alert>
               )}
             </Snackbar>

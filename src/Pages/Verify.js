@@ -90,11 +90,11 @@ export default function Verify() {
                   severity="success"
                   variant="filled"
                 >
-                  {t("Your account has been activated !")}
+                  {t(state.messge)}
                 </Alert>
               ) : (
                 <Alert onClose={handleClose} severity="error" variant="filled">
-                  {state.error}
+                  {t(state.error)}
                 </Alert>
               )}
             </Snackbar>

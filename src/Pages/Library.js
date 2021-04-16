@@ -590,7 +590,7 @@ export default function Library() {
             <div className='info_section'>
               <div className='movie_header'>
                 <img className='cover' src='./img/404.svg' alt='cover' />
-                <h1>{error.error === "Your are not authorized !" ? t("Your are not authorized !") : t("Failed to load movies list !")}</h1>
+                <h1>{t(error.error)}</h1>
               </div>
             </div>
           </MessageCard>
